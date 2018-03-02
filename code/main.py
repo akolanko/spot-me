@@ -54,6 +54,7 @@ def connect_to_cloudsql():
 @app.route('/')
 
 def index():
+<<<<<<< HEAD
     return "Hello, World! We're SPOT ME."
 
 
@@ -78,6 +79,9 @@ def server_error(e):
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
     """.format(e), 500
+=======
+    return "Hello, World! We're SpotMe!"
+>>>>>>> 7744e3a1dc3ca34ef23a7f296bd849f0917fac09
 
 if __name__ == '__main__':
      app.run()
