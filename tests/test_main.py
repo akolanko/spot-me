@@ -30,6 +30,19 @@ class MainTest(unittest.TestCase):
         rv = self.app.get('/')
         print(rv.data)
         assert("SPOT ME" in rv.data.lower())
+        
+    def test_home_page(request): 
+    
+        submitbutton= request.POST.get('Submit')
+
+        if submitbutton:
+            # execute this code
+
+        context= {'submitbutton': submitbutton}
+
+
+        return render(request, '/index.html', context)
+
 
 if __name__ == '__main__':
     unittest.main()
