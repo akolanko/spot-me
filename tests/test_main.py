@@ -29,7 +29,20 @@ class MainTest(unittest.TestCase):
     def test_hello_world(self):
         rv = self.app.get('/')
         print(rv.data)
-        assert("hello" in rv.data.lower())
+        assert("SPOT ME" in rv.data.lower())
+        
+    def test_home_page(request): 
+    
+        submitbutton= request.POST.get('Submit')
+
+        if submitbutton:
+            # execute this code
+
+        context= {'submitbutton': submitbutton}
+
+
+        return render(request, '/index.html', context)
+
 
 if __name__ == '__main__':
     unittest.main()

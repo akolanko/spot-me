@@ -9,13 +9,21 @@
 
 runtime: python27
 api_version: 1
-threadsafe: yes
+threadsafe: true
 
 # Handlers define how to route requests to your application.
 handlers:
 - url: .*  # This regex directs all routes to main.app
   script: code.main.app
 
-# temporary workaround around gcloud issue
-skip_files:
-- ^venv/.*$
+env_variables:
+    CLOUDSQL_CONNECTION_NAME: 'spot-me-ase:us-east1:library'
+    CLOUDSQL_USER: 'root'
+    CLOUDSQL_PASSWORD: os.environ.get('CLOUDSQL_PASSWORD')
+    GOOGLE_APPLICATION_CREDENTIALS: os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+ 
+libraries:
+- name: MySQLdb
+  version: "latest"
+- name: flask
+  version: "latest"
