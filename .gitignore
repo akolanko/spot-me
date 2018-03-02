@@ -1,2 +1,4 @@
 *__pycache__
 *.DS_Store
+code/__init__.pyc
+code/main.pyc
