@@ -18,7 +18,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 
 import main
 import unittest
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
 
 class MainTest(TestCase):
     """This class uses the Flask tests app to run an integration test against a
