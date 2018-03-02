@@ -26,10 +26,14 @@ class MainTest(unittest.TestCase):
     def setUp(self):
         self.app = main.app.test_client()
 
-    def test_hello_world(self):
-        rv = self.app.get('/')
-        print(rv.data)
-        assert("SPOT ME" in rv.data.lower())
+    # def test_hello_world(self):
+    #     rv = self.app.get('/')
+    #     print(rv.data)
+    #     assert("SPOT ME" in rv.data.lower())
+
+    def test_homepage(self):
+        self.app.get('/')
+        self.assert_template_used('index.html')
         
     def test_home_page(request): 
     
