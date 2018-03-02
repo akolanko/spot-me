@@ -19,18 +19,32 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.
 import main
 import unittest
 from flask_testing import TestCase
+from flask import Flask
 
-class MainTest(TestCase):
+class MainTest(unittest.TestCase):
     """This class uses the Flask tests app to run an integration test against a
     local instance of the server."""
+
+    # def create_app(self):
+    #     app = Flask(__name__)
+    #     app.config['TESTING'] = True
+    #     return app
+
+    # def test_homepage(self):
+    #     self.client.get('/')
+    #     self.assert_template_used('index.html')
+
+    #     def create_app(self):
+    #     app = Flask(__name__)
+    #     app.config['TESTING'] = True
+    #     return app
 
     def setUp(self):
         self.app = main.app.test_client()
 
     def test_homepage(self):
-        self.app.get('/')
-        self.assert_template_used('index.html')
-        self.assert_context('title', 'Home')
+    	rv = self.app.get('/')
+        self.assertIn('SPOT ME', rv.data)
 
 
 if __name__ == '__main__':
