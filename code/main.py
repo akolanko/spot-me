@@ -1,63 +1,75 @@
+import datetime
 import logging
 import os
-import MySQLdb
+import socket
 
-from google.appengine.ext import vendor
-vendor.add('lib')
-
-from flask import Flask, render_template, request
+from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
+import sqlalchemy
 
 app = Flask(__name__)
 
-# These environment variables are configured in app.yaml.
-CLOUDSQL_CONNECTION_NAME = os.environ.get('CLOUDSQL_CONNECTION_NAME')
-CLOUDSQL_USER = os.environ.get('CLOUDSQL_USER')
-CLOUDSQL_PASSWORD = os.environ.get('CLOUDSQL_PASSWORD')
+
+def is_ipv6(addr):
+    """Checks if a given address is an IPv6 address."""
+    try:
+        socket.inet_pton(socket.AF_INET6, addr)
+        return True
+    except socket.error:
+        return False
 
 
-def connect_to_cloudsql():
-    # When deployed to App Engine, the `SERVER_SOFTWARE` environment variable
-    # will be set to 'Google App Engine/version'.
-    if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
-        # Connect using the unix socket located at
-        # /cloudsql/cloudsql-connection-name.
-        cloudsql_unix_socket = os.path.join(
-            '/cloudsql', CLOUDSQL_CONNECTION_NAME)
+# [START example]
+# Environment variables are defined in app.yaml.
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-        db = MySQLdb.connect(
-            unix_socket=cloudsql_unix_socket,
-            user=CLOUDSQL_USER,
-            passwd=CLOUDSQL_PASSWORD)
+db = SQLAlchemy(app)
 
-    # If the unix socket is unavailable, then try to connect using TCP. This
-    # will work if you're running a local MySQL server or using the Cloud SQL
-    # proxy, for example:
-    #
-    #   $ cloud_sql_proxy -instances=your-connection-name=tcp:3306
-    #
-    else:
-        db = MySQLdb.connect(
-            host='127.0.0.1', user=CLOUDSQL_USER, passwd=CLOUDSQL_PASSWORD)
 
-    return db
+class Visit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime())
+    user_ip = db.Column(db.String(46))
+
+    def __init__(self, timestamp, user_ip):
+        self.timestamp = timestamp
+        self.user_ip = user_ip
+
 
 @app.route('/')
 def index():
-	return render_template('index.html', title='Home')
+    user_ip = request.remote_addr
+
+    # Keep only the first two octets of the IP address.
+    if is_ipv6(user_ip):
+        user_ip = ':'.join(user_ip.split(':')[:2])
+    else:
+        user_ip = '.'.join(user_ip.split('.')[:2])
+
+    visit = Visit(
+        user_ip=user_ip,
+        timestamp=datetime.datetime.utcnow()
+    )
+
+    db.session.add(visit)
+    db.session.commit()
+
+    visits = Visit.query.order_by(sqlalchemy.desc(Visit.timestamp)).limit(10)
+
+    results = [
+        'Time: {} Addr: {}'.format(x.timestamp, x.user_ip)
+        for x in visits]
+
+    output = 'Last 10 visits:\n{}'.format('\n'.join(results))
+
+    return output, 200, {'Content-Type': 'text/plain; charset=utf-8'}
+# [END example]
 
 
-# Code copied from: https://github.com/GoogleCloudPlatform/python-docs-samples
-
-def get(self):
-   # """Simple request handler that shows all of the MySQL variables."""
-    self.response.headers['Content-Type'] = 'text/plain'
-
-    db = connect_to_cloudsql()
-    cursor = db.cursor()
-    cursor.execute('SHOW VARIABLES')
-
-    for r in cursor.fetchall():
-        self.response.write('{}\n'.format(r))
+@app.route('/home')
+def home():
+    return render_template('index.html', title='Home')
 
 
 @app.errorhandler(500)
@@ -68,5 +80,8 @@ def server_error(e):
     See logs for full stacktrace.
     """.format(e), 500
 
+
 if __name__ == '__main__':
-     app.run()
+    # This is used when running locally. Gunicorn is used to run the
+    # application on Google App Engine. See entrypoint in app.yaml.
+    app.run(host='127.0.0.1', port=8080, debug=True)

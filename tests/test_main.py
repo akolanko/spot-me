@@ -34,11 +34,6 @@ class MainTest(unittest.TestCase):
     #     self.client.get('/')
     #     self.assert_template_used('index.html')
 
-    #     def create_app(self):
-    #     app = Flask(__name__)
-    #     app.config['TESTING'] = True
-    #     return app
-
     def setUp(self):
         self.app = main.app.test_client()
 
