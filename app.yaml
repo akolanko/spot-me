@@ -7,23 +7,30 @@
 # or implied. See the License for the specific language governing permissions and
 # limitations under the License.
 
-runtime: python27
-api_version: 1
-threadsafe: true
+runtime: python
+env: flex
+entrypoint: gunicorn -b :$PORT main:app
 
-# Handlers define how to route requests to your application.
+runtime_config:
+  python_version: 3
+
+
+#[START handlers]
 handlers:
 - url: .*  # This regex directs all routes to main.app
   script: code.main.app
+#[END handlers]
 
+#[START env]
 env_variables:
-    CLOUDSQL_CONNECTION_NAME: 'spot-me-ase:us-east1:library'
-    CLOUDSQL_USER: 'root'
+    CLOUDSQL_USERNAME: os.environ.get('CLOUDSQL_USERNAME')
     CLOUDSQL_PASSWORD: os.environ.get('CLOUDSQL_PASSWORD')
     GOOGLE_APPLICATION_CREDENTIALS: os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
- 
-libraries:
-- name: MySQLdb
-  version: "latest"
-- name: flask
-  version: "latest"
+    SQLALCHEMY_DATABASE_URI: >-
+      mysql+pymysql://CLOUDSQL_USERNAME:CLOUDSQL_PASSWORD@/spotme?unix_socket=/cloudsql/spot-me-ase:us-east1:library
+#[END env]
+
+#[START cloudsql_settings]
+beta_settings:
+    cloud_sql_instances: spot-me-ase:us-east1:library
+#[END cloudsql_settings] 
