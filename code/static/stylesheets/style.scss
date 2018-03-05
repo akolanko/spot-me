@@ -1,0 +1,35 @@
+*{
+	box-sizing: border-box;
+}
+
+body{
+	font-family: "Open Sans", sans-serif;
+	background-color: #F5F5F5;
+	font-weight: 300;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-weight: 400;
+}
+
+.clear{
+	clear: both;
+}
+
+.grey{
+	color: #C6C6C6;
+}
+
+.light{
+	font-weight: 300;
+}
+
+.page-title{
+	font-size: 1.4em;
+	font-weight: 300;
+	margin-top: 0;
+}
+
+@import 'links';
+@import 'forms';
+@import 'homepage';

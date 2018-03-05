@@ -1,0 +1,48 @@
+#home-title-block{
+	float: left;
+	width: 50%;
+	height: 100%;
+	position: relative;
+	text-align: right;
+}
+
+#home-title-block-inner{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100%;
+	padding-right: 9%;
+}
+
+
+#title-home{
+	text-transform: uppercase;
+	font-size: 3.3em;
+	margin: 0 0 .1em;
+	letter-spacing: .1em;
+}
+
+#catch{
+	text-transform: lowercase;
+	color: #8D8D8D;
+	font-weight: 300;
+	margin: 0;
+	letter-spacing: .1em;
+}
+
+#login-form-block{
+	float: left;
+	width: 50%;
+	height: 100%;
+	position: relative;
+}
+
+#login-form-block-inner{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	padding: 4.5% 5.5%;
+	width: 60%;
+	background-color: #fff;
+	margin-left: 3%;
+}
