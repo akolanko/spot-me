@@ -3,9 +3,10 @@ import logging
 import os
 import socket
 
-from flask import Flask, request, render_template
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import sqlalchemy
+
 
 app = Flask(__name__)
 
@@ -61,15 +62,10 @@ def index():
         'Time: {} Addr: {}'.format(x.timestamp, x.user_ip)
         for x in visits]
 
-    output = 'Last 10 visits:\n{}'.format('\n'.join(results))
+    output = 'SPOT ME : Last 10 visits:\n{}'.format('\n'.join(results))
 
     return output, 200, {'Content-Type': 'text/plain; charset=utf-8'}
 # [END example]
-
-
-@app.route('/home')
-def home():
-    return render_template('index.html', title='Home')
 
 
 @app.errorhandler(500)
