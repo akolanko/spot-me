@@ -18,7 +18,7 @@ runtime_config:
 #[START handlers]
 handlers:
 - url: .*  # This regex directs all routes to main.app
-  script: code.main.app
+  script: main.app
 #[END handlers]
 
 #[START env]
