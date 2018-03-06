@@ -27,7 +27,7 @@ env_variables:
     CLOUDSQL_PASSWORD: os.environ.get('CLOUDSQL_PASSWORD')
     GOOGLE_APPLICATION_CREDENTIALS: os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
     SQLALCHEMY_DATABASE_URI: >-
-      mysql+pymysql://CLOUDSQL_USERNAME:CLOUDSQL_PASSWORD@/spotme?unix_socket=/cloudsql/spot-me-ase:us-east1:library
+      mysql+pymysql://root:matchgL@dmemory@/spotme?unix_socket=/cloudsql/spot-me-ase:us-east1:library
 #[END env]
 
 #[START cloudsql_settings]
