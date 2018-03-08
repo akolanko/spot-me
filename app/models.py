@@ -4,21 +4,13 @@ from flask_login import UserMixin
 from app import login
 
 
-class Visit(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    timestamp = db.Column(db.DateTime())
-    user_ip = db.Column(db.String(46))
-
-    def __init__(self, timestamp, user_ip):
-        self.timestamp = timestamp
-        self.user_ip = user_ip
-
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), index=True, unique=True)
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
+    fname = db.Column(db.String(32))
+    lname = db.Column(db.String(32))
     profile = db.relationship('Profile', uselist=False, backref='owner')
 
     def __repr__(self):

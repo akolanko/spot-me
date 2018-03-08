@@ -5,31 +5,9 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 	font-size: 1em;
 	border: 1px solid $grey;
 	border-radius: 0px;
-	color: $med-grey;
+	color: $grey3;
 	width: 100%;
 	padding: 5px 10px;
-}
-
-input[type="submit"]{
-	font-family: inherit;
-	letter-spacing: .05em;
-	font-size: 1em;
-	background-color: $white;
-	color: $white;
-	border: 1px solid $blue-main;
-	border-radius: 0px;
-	text-transform: uppercase;
-	background-color: $blue-main;
-	font-weight: 600;
-	padding: 5px 10px;
-}
-
-input[type="submit"]:hover{
-	background-color: $white;
-	color: $blue-main;
-	cursor: pointer;
-	border: 1px solid $blue-main;
-	font-weight: 600;
 }
 
 form{
@@ -47,14 +25,14 @@ form{
 
 .form-left{
 	float: left;
-	width: 50%;
-	vertical-align: middle;
+	width: 60%;
+	vertical-align: bottom;
 }
 
 .form-right{
 	float: right;
-	width: 50%;
-	vertical-align: middle;
+	width: 40%;
+	vertical-align: bottom;
 	text-align: right;
 }
 

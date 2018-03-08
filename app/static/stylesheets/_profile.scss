@@ -39,7 +39,7 @@
 .profile-age{
 	display: inline-block;
 	width: 29%;
-	color: $med-grey;
+	color: $grey3;
 	text-align: right;
 }
 
@@ -54,4 +54,20 @@
 
 .profile-about{
 	
+}
+
+.profile-buttons{
+	margin-bottom: 1em;
+}
+
+.profile-buttons button{
+	padding: 5px 20px;
+}
+
+.profile-buttons button:first-of-type{
+	float: left;
+}
+
+.profile-buttons button:last-of-type{
+	float: right;
 }

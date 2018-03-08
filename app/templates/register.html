@@ -36,14 +36,28 @@
 						<div class="validation-error">{{ error }}</div>
 					{% endfor %}
 				</div>
+				<div class='form-field'>
+					{{ form.fname(placeholder="first name") }}
+					{% for error in form.fname.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
+				<div class='form-field'>
+					{{ form.lname(placeholder="last name") }}
+					{% for error in form.lname.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
 				<div class='form-field-submit'>
+					<div class='form-left'>
+						Already a Member? <a href='{{ url_for('login') }}'>Sign In</a>
+					</div>
 					<div class='form-right'>
-						{{ form.submit(id='login-submit', value="Submit") }}
+						{{ form.submit(id='login-submit', value="Submit", class='button-1') }}
 					</div>
 					<div class='clear'></div>
 				</div>
 			</form>
-			Already a Member? <a href='{{ url_for('login') }}'>Sign In</a>
 		</div>
 	</div>
 	<div class='clear'></div>
