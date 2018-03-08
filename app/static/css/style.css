@@ -1,3 +1,6 @@
+.grey {
+  color: #C6C6C6; }
+
 * {
   box-sizing: border-box; }
 
@@ -11,9 +14,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .clear {
   clear: both; }
-
-.grey {
-  color: #C6C6C6; }
 
 .light {
   font-weight: 300; }
@@ -37,7 +37,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   font-size: 1em;
   border: 1px solid #C6C6C6;
   border-radius: 0px;
-  color: #aaaaaa;
+  color: #aaa;
   width: 100%;
   padding: 5px 10px; }
 
@@ -131,5 +131,23 @@ form {
   width: 60%;
   background-color: #fff;
   margin-left: 3%; }
+
+#flash-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: 400;
+  color: #8BC8DB;
+  background-color: #F5F5F5; }
+
+.flash-list {
+  list-style: none;
+  padding: 0; }
+
+.nav-list {
+  list-style: none;
+  padding: 0; }
 
 /*# sourceMappingURL=style.css.map */

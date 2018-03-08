@@ -10,24 +10,31 @@
 	<div id='login-form-block'>
 		<div id='login-form-block-inner'>
 			<h3 class='page-title'>Log In</h3>
-			<form>
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
 				<div class='form-field'>
-					<input type="text" placeholder="username">
+					{{ form.username(placeholder="username") }}
+					{% for error in form.username.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
 				</div>
 				<div class='form-field'>
-					<input type="text" placeholder="password">
+					{{ form.password(placeholder="password") }}
+					{% for error in form.password.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
 				</div>
 				<div class='form-field-submit'>
 					<div class='form-left checkbox-field'>
-						<input type="checkbox"><span class='check-label'>Remember Me</span>
+						{{ form.remember_me() }} <span class='check-label'>{{ form.remember_me.label }}</span>
 					</div>
 					<div class='form-right'>
-						<input type="submit" id='login-submit' value="Submit">
+						{{ form.submit(id='login-submit', value="Submit") }}
 					</div>
 					<div class='clear'></div>
 				</div>
 			</form>
-			New to SPOT ME? <a href='/'>Sign Up</a>
+			New to SPOT ME? <a href='{{ url_for("register") }}'>Sign Up</a>
 		</div>
 	</div>
 	<div class='clear'></div>

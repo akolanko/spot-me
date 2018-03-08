@@ -1,10 +1,12 @@
+@import 'colors';
+
 *{
 	box-sizing: border-box;
 }
 
 body{
 	font-family: "Open Sans", sans-serif;
-	background-color: #F5F5F5;
+	background-color: $background;
 	font-weight: 300;
 }
 
@@ -14,10 +16,6 @@ h1,h2,h3,h4,h5,h6{
 
 .clear{
 	clear: both;
-}
-
-.grey{
-	color: #C6C6C6;
 }
 
 .light{
@@ -33,3 +31,5 @@ h1,h2,h3,h4,h5,h6{
 @import 'links';
 @import 'forms';
 @import 'homepage';
+@import 'flash';
+@import 'nav';

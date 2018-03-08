@@ -9,6 +9,30 @@
 		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
 	</head>
 	<body>
+		<div id='flash-container'>
+			{% with messages = get_flashed_messages() %}
+        	{% if messages %}
+        	<ul class='flash-list'>
+            	{% for message in messages %}
+            	<li class='flash-item'>{{ message }}</li>
+            	{% endfor %}
+        	</ul>
+        	{% endif %}
+        	{% endwith %}
+		</div>
+		<nav>
+			<ul class='nav-list'>
+				{% if current_user.is_anonymous %}
+				<li class='nav-item'>
+					<a href="{{ url_for('login') }}">Login</a>
+				</li>
+				{% else %}
+				<li class='nav-item'>
+					<a href="{{ url_for('logout') }}">Logout</a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
 		{% block content %}{% endblock %}
 	</body>
 </html>

@@ -13,10 +13,10 @@
 # limitations under the License.
 import sys
 import os.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'code')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
 
 
-import main
+from main import app
 import unittest
 from flask_testing import TestCase
 from flask import Flask
@@ -35,7 +35,7 @@ class MainTest(unittest.TestCase):
     #     self.assert_template_used('index.html')
 
     def setUp(self):
-        self.app = main.app.test_client()
+        self.app = app.test_client()
 
     def test_homepage(self):
     	rv = self.app.get('/')

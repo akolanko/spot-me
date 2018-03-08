@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div id='home-title-block'>
+		<div id='home-title-block-inner'>
+			<h1 id='title-home'>Spot <span class='grey light'>Me</span></h1>
+			<h2 id='catch'>Find your next workout partner</h2>
+		</div>
+	</div>
+	<div id='login-form-block'>
+		<div id='login-form-block-inner'>
+			<h3 class='page-title'>Sign Up</h3>
+			<form action="" method="post">
+				{{ form.hidden_tag() }}
+				<div class='form-field'>
+					{{ form.username(placeholder="username") }}
+					{% for error in form.username.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
+				<div class='form-field'>
+					{{ form.email(placeholder="email") }}
+					{% for error in form.email.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
+				<div class='form-field'>
+					{{ form.password(placeholder="password") }}
+					{% for error in form.password.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
+				<div class='form-field'>
+					{{ form.password_repeat(placeholder="repeat password") }}
+					{% for error in form.password_repeat.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
+				<div class='form-field-submit'>
+					<div class='form-right'>
+						{{ form.submit(id='login-submit', value="Submit") }}
+					</div>
+					<div class='clear'></div>
+				</div>
+			</form>
+			Already a Member? <a href='{{ url_for('login') }}'>Sign In</a>
+		</div>
+	</div>
+	<div class='clear'></div>
+{% endblock %}
