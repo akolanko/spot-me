@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class='content'>
+		<div class='col profile-left-col'>
+			<div class='block profile-cover'>
+				<img src="../static/img/cover.jpg" />
+			</div>
+			<div class='block profile-basic'>
+				<div class='profile-name'>{{ user.username }}</div>
+				<div class='profile-age'>20</div>
+			</div>
+		</div>
+		<div class='col profile-right-col'>
+			<div class='block profile-info'>
+				<div class='profile-about'>
+					<div class='profile-label'>About</div>
+					<div class='profile-text'>{{ profile.about }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

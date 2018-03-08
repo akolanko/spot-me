@@ -20,19 +20,43 @@
         	{% endif %}
         	{% endwith %}
 		</div>
-		<nav>
-			<ul class='nav-list'>
-				{% if current_user.is_anonymous %}
-				<li class='nav-item'>
-					<a href="{{ url_for('login') }}">Login</a>
-				</li>
-				{% else %}
-				<li class='nav-item'>
-					<a href="{{ url_for('logout') }}">Logout</a>
-				</li>
-				{% endif %}
-			</ul>
-		</nav>
+		{% if (request.path != "{{ url_for('login') }}" and request.path != "{{ url_for('registration') }}") %}
+			<nav>
+				<div id='nav-left'>
+					<h1 id='nav-title'>
+						<span id='nav-title-1'>Spot</span>
+						<span id='nav-title-2'>Me</span>
+					</h1>
+				</div>
+				<div id='nav-right'>
+					<ul class='nav-list'>
+						<li class='nav-item'>
+							<img src="../static/img/message.png" />
+						</li>
+						<li class='nav-item'>
+							<a href="{{ url_for('user', username=current_user.username) }}">
+								<img src="../static/img/person.png" />
+							</a>
+						</li>
+						<li class='nav-item'>
+							<img src="../static/img/notifications.png" />
+						</li>
+						<li class='nav-item'>
+							<img src="../static/img/search.png" />
+						</li>
+						{% if current_user.is_anonymous %}
+						<li class='nav-item'>
+							<a href="{{ url_for('login') }}">Login</a>
+						</li>
+						{% else %}
+						<li class='nav-item'>
+							<a href="{{ url_for('logout') }}">Logout</a>
+						</li>
+						{% endif %}
+					</ul>
+				</div>
+			</nav>
+		{% endif %}
 		{% block content %}{% endblock %}
 	</body>
 </html>

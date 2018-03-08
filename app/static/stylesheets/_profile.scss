@@ -1,0 +1,57 @@
+.col{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.profile-left-col{
+	width: 29%;
+	padding-right: 5%;
+}
+
+.profile-right-col{
+	width: 70%;
+}
+
+.profile-cover{
+	width: 100%;
+}
+
+.profile-cover img{
+	width: 100%;
+}
+
+.block{
+	background-color: $white;
+	padding: 10px;
+	margin-bottom: 1em;
+}
+
+.profile-basic{
+	font-weight: 400;
+}
+
+.profile-name{
+	display: inline-block;
+	width: 69%;
+	text-transform: uppercase;
+}
+
+.profile-age{
+	display: inline-block;
+	width: 29%;
+	color: $med-grey;
+	text-align: right;
+}
+
+.profile-info{
+}
+
+.profile-label{
+	font-weight: 400;
+	text-transform: uppercase;
+	color: $black;
+}
+
+.profile-about{
+	
+}
