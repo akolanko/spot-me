@@ -4,7 +4,7 @@
 	<div class='content'>
 		<div class='col profile-left-col'>
 			<div class='block profile-cover'>
-				<img src="../static/img/cover.jpg" />
+				<img src="{{ user.avatar(128) }}" />
 			</div>
 			<div class='block profile-basic'>
 				<div class='profile-name'>{{ user.username }}</div>
