@@ -20,7 +20,7 @@
         	{% endif %}
         	{% endwith %}
 		</div>
-		{% if (request.path != "/login" and request.path != "/register") %}
+		{% if (request.path != "/" and request.path != "/login" and request.path != "/register") %}
 			<nav>
 				<div id='nav-left'>
 					<h1 id='nav-title'>
@@ -55,5 +55,7 @@
 			</nav>
 		{% endif %}
 		{% block content %}{% endblock %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		{% block javascript %}{% endblock %}
 	</body>
 </html>

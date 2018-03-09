@@ -10,9 +10,24 @@
 				<div class='profile-name'>{{ user.fname }} {{ user.lname }}</div>
 				<div class='profile-age'>20</div>
 			</div>
-			<div class='profile-buttons'>
-				<button class='button button-2'>Connect</button>
-				<button class='button button-2'>Message</button>
+			{% if session.current_user.id != user.id %}
+				<div class='profile-buttons'>
+					{% if friends %}
+						<button class='button button-2 disabled'>Friends</button>
+					{% elif pending_request %}
+						<button class='button button-2 disabled'>Pending</button>
+					{% else %}
+						<form id="add-friend-form" action="/add_friend" method="post">
+							<input type="hidden" name="user_id" value="{{ user.id }}">
+							<button type="submit" class='button button-2' id="connect-btn">Connect</button>
+						</form>
+					{% endif %}
+					<button class='button button-2'>Message</button>
+					<div class='clear'></div>
+				</div>
+			{% endif %}
+			<div class='block profile-friends'>
+				<div class='connections-count'>{{ total_friends }} connections</div>
 			</div>
 		</div>
 		<div class='col profile-right-col'>
@@ -24,4 +39,7 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascript %}
+	<script src="/static/js/add-friend.js"></script>
 {% endblock %}

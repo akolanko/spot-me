@@ -44,7 +44,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   width: 100%;
   padding: 5px 10px; }
 
-form {
+.login {
   width: 100%;
   margin-bottom: 1em; }
 
@@ -204,6 +204,10 @@ nav {
   color: #aaa;
   text-align: right; }
 
+.connections-count {
+  color: #8BC8DB;
+  font-size: 0.9em; }
+
 .profile-label {
   font-weight: 400;
   text-transform: uppercase;
@@ -215,7 +219,7 @@ nav {
 .profile-buttons button {
   padding: 5px 20px; }
 
-.profile-buttons button:first-of-type {
+#add-friend-form {
   float: left; }
 
 .profile-buttons button:last-of-type {
@@ -236,7 +240,7 @@ input[type="submit"], button {
 input[type="submit"]:hover, button:hover {
   cursor: pointer; }
 
-.button-1 {
+.button-1, .button-1.disabled:hover {
   background-color: #8BC8DB;
   color: #fff;
   border: 1px solid #8BC8DB;
@@ -247,7 +251,7 @@ input[type="submit"]:hover, button:hover {
   color: #8BC8DB;
   border: 1px solid #8BC8DB; }
 
-.button-2 {
+.button-2, .button-2.disabled:hover {
   background-color: #C6C6C6;
   color: #555555;
   border: 1px solid #C6C6C6; }
@@ -256,5 +260,8 @@ input[type="submit"]:hover, button:hover {
   background-color: #D8D8D8;
   color: #555555;
   border: 1px solid #D8D8D8; }
+
+.disabled:hover {
+  cursor: auto; }
 
 /*# sourceMappingURL=style.css.map */

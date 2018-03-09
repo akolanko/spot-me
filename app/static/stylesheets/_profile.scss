@@ -43,6 +43,11 @@
 	text-align: right;
 }
 
+.connections-count{
+	color: $blue-main;
+	font-size: 0.9em;
+}
+
 .profile-info{
 }
 
@@ -64,7 +69,7 @@
 	padding: 5px 20px;
 }
 
-.profile-buttons button:first-of-type{
+#add-friend-form{
 	float: left;
 }
 

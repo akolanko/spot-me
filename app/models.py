@@ -2,10 +2,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from flask_login import UserMixin
 from app import login
+import enum
 
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(32), index=True, unique=True)
     email = db.Column(db.String(64), index=True, unique=True)
     password_hash = db.Column(db.String(128))
@@ -29,6 +30,24 @@ def load_user(id):
 
 
 class Profile(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     about = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class FriendStatus(enum.Enum):
+    requested = 0
+    accepted = 1
+
+
+class Friends(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    status = db.Column(db.Enum(FriendStatus), nullable=False)
+
+    user_1 = db.relationship("User", foreign_keys=[user_id_1], backref=db.backref("sent_connections"))
+    user_2 = db.relationship("User", foreign_keys=[user_id_2], backref=db.backref("received_connections"))
+
+    def __repr__(self):
+        return "<Friends id=%s user_id_1=%s user_id_2=%s status=%s>" % (self.id, self.user_id_1, self.user_id_2, self.status)
