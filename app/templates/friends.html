@@ -1,5 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Friends:
+	Friends:
+	<div class='friends'>
+		<ul>
+			<li>
+				{% for friend in friends %}
+				<a href="{{ url_for('user', username=friend.id) }}">
+					<div class='friend-thumb'>
+						{{friend.username}}	
+					</div>
+				</a>
+					{% endfor %}
+			</li>
+		</ul>
+	</div>
 {% endblock %}

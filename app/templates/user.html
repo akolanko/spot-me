@@ -12,10 +12,15 @@
 			</div>
 			{% if session.current_user.id != user.id %}
 				<div class='profile-buttons'>
-					{% if friends %}
+					{% if are_friends %}
 						<button class='button button-2 disabled'>Friends</button>
-					{% elif pending_request %}
+					{% elif is_pending_sent %}
 						<button class='button button-2 disabled'>Pending</button>
+					{% elif is_pending_recieved %}
+						<form id="accept-friend-form" action="/accept_friend" method="post">
+							<input type="hidden" name="user_id" value="{{ user.id }}">
+							<button type="submit" class='button button-2' id="connect-btn">Accept</button>
+						</form>
 					{% else %}
 						<form id="add-friend-form" action="/add_friend" method="post">
 							<input type="hidden" name="user_id" value="{{ user.id }}">
@@ -27,7 +32,24 @@
 				</div>
 			{% endif %}
 			<div class='block profile-friends'>
-				<div class='connections-count'>{{ total_friends }} connections</div>
+				<div class='connections-count'>
+					<a href="{{ url_for('friends', user_id=current_user.id) }}">
+						{{ total_friends }} connections
+					</a>
+				</div>
+				<div class='profile-friends'>
+					<ul>
+						<li>
+							{% for friend in friends %}
+							<a href="{{ url_for('user', username=friend.username) }}">
+								<div class='friend-thumb'>
+									
+								</div>
+							</a>
+							{% endfor %}
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 		<div class='col profile-right-col'>

@@ -69,10 +69,30 @@
 	padding: 5px 20px;
 }
 
-#add-friend-form{
+#add-friend-form, #accept-friend-form{
 	float: left;
 }
 
 .profile-buttons button:last-of-type{
 	float: right;
+}
+
+.profile-friends{
+
+	margin-top: 15px;
+
+	ul{
+		list-style: none;
+		padding: 0;
+	}
+
+	.friend-thumb{
+		width: 65px;
+		height: 65px;
+		display: inline-block;
+		background-color: $grey;
+		margin: 3%;
+		border-radius: 100%;
+		text-align: center;
+	}
 }

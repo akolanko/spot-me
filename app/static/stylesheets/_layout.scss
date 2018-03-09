@@ -1,3 +1,15 @@
 .content{
 	margin: 50px;
 }
+
+.left, .middle{
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.right{
+	display: inline-block;
+	text-align: right;
+	vertical-align: middle;
+}

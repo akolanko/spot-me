@@ -39,8 +39,27 @@ nav{
 .nav-item{
 	display: inline-block;
 	margin-left: 25px;
+	position: relative;
 }
 
 .nav-item img{
 	height: 22px;
+}
+
+.nav-item:hover{
+	cursor: pointer;
+}
+
+.notification-count{
+	position: absolute;
+	background-color: $blue-main;
+	border-radius: 100%;
+	font-size: 0.8em;
+	color: $white;
+	font-weight: 600;
+	width: 1.6em;
+	height: 1.6em;
+	top: -50%;
+	right: -20%;
+	text-align: center;
 }

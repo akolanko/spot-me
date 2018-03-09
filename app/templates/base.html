@@ -23,10 +23,12 @@
 		{% if (request.path != "/" and request.path != "/login" and request.path != "/register") %}
 			<nav>
 				<div id='nav-left'>
-					<h1 id='nav-title'>
-						<span id='nav-title-1'>Spot</span>
-						<span id='nav-title-2'>Me</span>
-					</h1>
+					<a href="{{ url_for('home') }}">
+						<h1 id='nav-title'>
+							<span id='nav-title-1'>Spot</span>
+							<span id='nav-title-2'>Me</span>
+						</h1>
+					</a>
 				</div>
 				<div id='nav-right'>
 					<ul class='nav-list'>
@@ -35,7 +37,46 @@
 							<img src="../static/img/message.png" />
 						</li>
 						<li class='nav-item'>
+							{% if notifications['pending_recieved'] %}
+							<div class='notification-count'>
+								{{ notifications['total_pending_recieved'] }}
+							</div>
+							{% endif %}
 							<img src="../static/img/person.png" />
+							{% if notifications['pending_recieved'] %}
+								<div class='drop-down' id='drop-down-friends'>
+									<ul>
+										{% for friend in notifications['received_friend_requests'] %}
+											<li>
+												<a href="{{ url_for('user', username=friend.username) }}">
+													<div class='left'>
+														<div class='friend-thumb'>
+														</div>
+													</div>
+													<div class='middle'>
+														{{ friend.fname }} {{ friend.lname }}
+													</div>
+												</a>
+												<div class='right'>
+													<form id="accept-friend-form" action="/accept_friend" method="post">
+														<input type="hidden" name="user_id" value="{{ friend.id }}">
+														<button type="submit">
+															<div class='action-icon accept'>
+																<div class='line' id='accept-line-1'></div>
+																<div class='line' id='accept-line-2'></div>
+															</div>
+														</button>
+													</form>
+													<div class='action-icon reject'>
+														<div class='line' id='reject-line-1'></div>
+														<div class='line' id='reject-line-2'></div>
+													</div>
+												</div>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</li>
 						<li class='nav-item'>
 							<img src="../static/img/notifications.png" />
@@ -56,6 +97,7 @@
 		{% endif %}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/static/js/main.js"></script>
 		{% block javascript %}{% endblock %}
 	</body>
 </html>

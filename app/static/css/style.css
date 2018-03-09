@@ -28,7 +28,8 @@ h1, h2, h3, h4, h5, h6 {
 
 a:link, a:visited {
   color: #8BC8DB;
-  font-weight: 400; }
+  font-weight: 400;
+  text-decoration: none; }
 
 a:hover, a:active {
   color: #8D8D8D; }
@@ -163,10 +164,27 @@ nav {
 
 .nav-item {
   display: inline-block;
-  margin-left: 25px; }
+  margin-left: 25px;
+  position: relative; }
 
 .nav-item img {
   height: 22px; }
+
+.nav-item:hover {
+  cursor: pointer; }
+
+.notification-count {
+  position: absolute;
+  background-color: #8BC8DB;
+  border-radius: 100%;
+  font-size: 0.8em;
+  color: #fff;
+  font-weight: 600;
+  width: 1.6em;
+  height: 1.6em;
+  top: -50%;
+  right: -20%;
+  text-align: center; }
 
 .col {
   display: inline-block;
@@ -219,16 +237,44 @@ nav {
 .profile-buttons button {
   padding: 5px 20px; }
 
-#add-friend-form {
+#add-friend-form, #accept-friend-form {
   float: left; }
 
 .profile-buttons button:last-of-type {
   float: right; }
 
+.profile-friends {
+  margin-top: 15px; }
+  .profile-friends ul {
+    list-style: none;
+    padding: 0; }
+  .profile-friends .friend-thumb {
+    width: 65px;
+    height: 65px;
+    display: inline-block;
+    background-color: #C6C6C6;
+    margin: 3%;
+    border-radius: 100%;
+    text-align: center; }
+
 .content {
   margin: 50px; }
 
-input[type="submit"], button {
+.left, .middle {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle; }
+
+.right {
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle; }
+
+button {
+  background: transparent;
+  border: none; }
+
+.button {
   font-family: inherit;
   letter-spacing: .05em;
   font-size: 1em;
@@ -237,7 +283,7 @@ input[type="submit"], button {
   padding: 5px 10px;
   border: none; }
 
-input[type="submit"]:hover, button:hover {
+.button:hover {
   cursor: pointer; }
 
 .button-1, .button-1.disabled:hover {
@@ -263,5 +309,100 @@ input[type="submit"]:hover, button:hover {
 
 .disabled:hover {
   cursor: auto; }
+
+.drop-down {
+  position: absolute;
+  background-color: #fff;
+  top: 2.75em;
+  transform: translateX(-50%);
+  display: none; }
+
+.line {
+  position: absolute;
+  height: 2px;
+  background-color: #8BC8DB; }
+
+#drop-down-friends {
+  width: 300px; }
+  #drop-down-friends ul {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    border-left: 1px solid #E2E2E2;
+    border-right: 1px solid #E2E2E2; }
+    #drop-down-friends ul a:link, #drop-down-friends ul a:visited, #drop-down-friends ul a:hover, #drop-down-friends ul a:active {
+      color: #000; }
+    #drop-down-friends ul li {
+      position: relative;
+      padding: 10px 15px;
+      border-bottom: 1px solid #E2E2E2;
+      text-align: left;
+      font-size: 0.9em;
+      font-weight: 400; }
+      #drop-down-friends ul li .left {
+        position: relative;
+        width: 50px; }
+        #drop-down-friends ul li .left .friend-thumb {
+          width: 50px;
+          height: 50px;
+          border-radius: 100%;
+          background-color: #8D8D8D; }
+          #drop-down-friends ul li .left .friend-thumb img {
+            width: 100%; }
+      #drop-down-friends ul li .middle {
+        padding: 0 0 0 20px;
+        width: 125px; }
+      #drop-down-friends ul li .right {
+        position: relative;
+        width: 85px; }
+        #drop-down-friends ul li .right .action-icon {
+          position: relative;
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+          vertical-align: middle;
+          margin-left: 10px; }
+          #drop-down-friends ul li .right .action-icon #accept-line-1 {
+            width: 12px;
+            -moz-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            bottom: 36%;
+            left: 0; }
+          #drop-down-friends ul li .right .action-icon #accept-line-2 {
+            width: 25px;
+            -moz-transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            bottom: 50%;
+            left: 6px; }
+          #drop-down-friends ul li .right .action-icon #reject-line-1 {
+            width: 28px;
+            -moz-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
+            -o-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            bottom: 50%;
+            left: 0;
+            background-color: #C6C6C6; }
+          #drop-down-friends ul li .right .action-icon #reject-line-2 {
+            width: 28px;
+            -moz-transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            bottom: 50%;
+            left: 0;
+            background-color: #C6C6C6; }
+        #drop-down-friends ul li .right .action-icon:hover {
+          cursor: pointer; }
+          #drop-down-friends ul li .right .action-icon:hover .line {
+            opacity: 0.7; }
 
 /*# sourceMappingURL=style.css.map */

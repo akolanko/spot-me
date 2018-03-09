@@ -1,0 +1,127 @@
+.drop-down{
+	position: absolute;
+	background-color: $white;
+	top: 2.75em;
+	transform: translateX(-50%);
+	display: none;
+}
+
+.line{
+	position: absolute;
+	height: 2px;
+	background-color: $blue-main;
+}
+
+#drop-down-friends{
+	width: 300px;
+	ul{
+		position: relative;
+		list-style: none;
+		padding: 0;
+		border-left: 1px solid $grey4;
+		border-right: 1px solid $grey4;
+
+		a:link, a:visited, a:hover, a:active{
+			color: $black;
+		}
+
+		li{
+			position: relative;
+			padding: 10px 15px;
+			border-bottom: 1px solid $grey4;
+			text-align: left;
+			font-size: 0.9em;
+			font-weight: 400;
+
+			.left{
+				position: relative;
+				width: 50px;
+
+				.friend-thumb{
+					width: 50px;
+					height: 50px;
+					border-radius: 100%;
+					background-color: $grey1;
+
+					img{
+						width: 100%;
+					}
+				}
+			}
+
+			.middle{
+				padding: 0 0 0 20px;
+				width: 125px;
+			}
+
+			.right{
+				position: relative;
+				width: 85px;
+
+				.action-icon{
+					position: relative;
+					display: inline-block;
+					width: 28px;
+					height: 28px;
+					vertical-align: middle;
+					margin-left: 10px;
+
+					#accept-line-1{
+						width: 12px;
+						-moz-transform: rotate(45deg);
+						-webkit-transform: rotate(45deg);
+						-o-transform: rotate(45deg);
+						-ms-transform: rotate(45deg);
+						transform: rotate(45deg);
+						bottom: 36%;
+						left: 0;
+					}
+
+					#accept-line-2{
+						width: 25px;
+						-moz-transform: rotate(-45deg);
+						-webkit-transform: rotate(-45deg);
+						-o-transform: rotate(-45deg);
+						-ms-transform: rotate(-45deg);
+						transform: rotate(-45deg);
+						bottom: 50%;
+						left: 6px;
+						
+					}
+
+					#reject-line-1{
+						width: 28px;
+						-moz-transform: rotate(45deg);
+						-webkit-transform: rotate(45deg);
+						-o-transform: rotate(45deg);
+						-ms-transform: rotate(45deg);
+						transform: rotate(45deg);
+						bottom: 50%;
+						left: 0;
+						background-color: $grey;
+					}
+
+					#reject-line-2{
+						width: 28px;
+						-moz-transform: rotate(-45deg);
+						-webkit-transform: rotate(-45deg);
+						-o-transform: rotate(-45deg);
+						-ms-transform: rotate(-45deg);
+						transform: rotate(-45deg);
+						bottom: 50%;
+						left: 0;
+						background-color: $grey;
+					}
+				}
+
+				.action-icon:hover{
+					cursor: pointer;
+
+					.line{
+						opacity: 0.7;
+					}
+				}
+			}
+		}
+	}
+}

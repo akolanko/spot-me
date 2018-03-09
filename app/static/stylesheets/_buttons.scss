@@ -1,4 +1,9 @@
-input[type="submit"], button{
+button{
+	background: transparent;
+	border: none;
+}
+
+.button{
 	font-family: inherit;
 	letter-spacing: .05em;
 	font-size: 1em;
@@ -8,7 +13,7 @@ input[type="submit"], button{
 	border: none;
 }
 
-input[type="submit"]:hover, button:hover{
+.button:hover{
 	cursor: pointer;
 }
 

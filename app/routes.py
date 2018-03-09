@@ -11,11 +11,13 @@ from werkzeug.urls import url_parse
 from app import db
 from app.forms import RegistrationForm
 from friends import are_friends_or_pending, get_friend_requests, get_friends
+from notifications import get_notifications
 
 
 @app.route('/home')
 def home():
-    return render_template('home.html', title='Home')
+    notifications = get_notifications(session["current_user"]["id"])
+    return render_template('home.html', title='Home', notifications=notifications)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -77,30 +79,30 @@ def user(username):
     profile = user.profile
 
     total_friends = len(get_friends(user.id))
+    friends = get_friends(user.id)
     user_id_1 = session["current_user"]["id"]
     user_id_2 = user.id
 
     # Check connection status between user_id_1 and user_id_2
-    are_friends, is_pending = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
 
-    return render_template('user.html', user=user, profile=profile, total_friends=total_friends, friends=are_friends, pending_request=is_pending)
+    notifications = get_notifications(user_id_1)
+
+    return render_template('user.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications)
 
 
 @app.route("/add_friend", methods=["POST"])
 def add_friend():
-    """Send a friend request to another user."""
+    """Send a friend request to another user"""
     user_id_1 = session["current_user"]["id"]
-    # user_id_2 = request.form.get("user_id_2")
     user_id_2 = request.form["user_id"]
 
     # Check connection status between user_id_1 and user_id_2
-    are_friends, is_pending = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
 
     if user_id_1 == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
-        return "You are already friends."
-    elif is_pending:
         return "Your friend request is pending."
     else:
         friend_request = Friends(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.requested)
@@ -110,11 +112,33 @@ def add_friend():
         return "Request Sent"
 
 
-@app.route("/friends")
-def friends():
+@app.route("/accept_friend", methods=["POST"])
+def accept_friend():
+    """Accept a friend request from another user"""
+    user_id_1 = session["current_user"]["id"]
+    user_id_2 = request.form["user_id"]
+
+    # Check connection status between user_id_1 and user_id_2
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
+
+    if user_id_1 == user_id_2:
+        return "You cannot add yourself as a friend."
+    elif are_friends:
+        return "You are already friends."
+    elif is_pending_recieved:
+        friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first_or_404()
+        friend_request.status = FriendStatus.accepted
+        db.session.commit()
+        print "User ID %s and User ID %s are now friends" % (user_id_1, user_id_2)
+        return "Accepted Friend Request"
+
+
+@app.route("/friends/<user_id>")
+def friends(user_id):
     """Show all friends"""
-    friends = get_friends(session["current_user"]["id"]).all()
-    return render_template("friends.html", friends=friends)
+    friends = get_friends(user_id)
+    notifications = get_notifications(session["current_user"]["id"])
+    return render_template("friends.html", friends=friends, notifications=notifications)
 
 
 @app.route("/friend_requests")
