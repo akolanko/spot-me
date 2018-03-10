@@ -28,6 +28,10 @@
 
 .profile-basic{
 	font-weight: 400;
+
+	a:link, a:visited, a:hover, a:active{
+		color: $black;
+	}
 }
 
 .profile-name{
@@ -69,7 +73,8 @@
 	padding: 5px 20px;
 }
 
-#add-friend-form, #accept-friend-form{
+#connect-btn{
+	display: inline-block;
 	float: left;
 }
 
@@ -84,15 +89,14 @@
 	ul{
 		list-style: none;
 		padding: 0;
+		// text-align: center;
+		margin-top: 1em;
 	}
 
 	.friend-thumb{
 		width: 65px;
 		height: 65px;
 		display: inline-block;
-		background-color: $grey;
 		margin: 3%;
-		border-radius: 100%;
-		text-align: center;
 	}
 }

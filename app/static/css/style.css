@@ -26,6 +26,10 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 1em; }
 
+.block-title {
+  font-size: 1.2em;
+  text-transform: uppercase; }
+
 a:link, a:visited {
   color: #8BC8DB;
   font-weight: 400;
@@ -210,6 +214,8 @@ nav {
 
 .profile-basic {
   font-weight: 400; }
+  .profile-basic a:link, .profile-basic a:visited, .profile-basic a:hover, .profile-basic a:active {
+    color: #000; }
 
 .profile-name {
   display: inline-block;
@@ -237,7 +243,8 @@ nav {
 .profile-buttons button {
   padding: 5px 20px; }
 
-#add-friend-form, #accept-friend-form {
+#connect-btn {
+  display: inline-block;
   float: left; }
 
 .profile-buttons button:last-of-type {
@@ -247,15 +254,13 @@ nav {
   margin-top: 15px; }
   .profile-friends ul {
     list-style: none;
-    padding: 0; }
+    padding: 0;
+    margin-top: 1em; }
   .profile-friends .friend-thumb {
     width: 65px;
     height: 65px;
     display: inline-block;
-    background-color: #C6C6C6;
-    margin: 3%;
-    border-radius: 100%;
-    text-align: center; }
+    margin: 3%; }
 
 .content {
   margin: 50px; }
@@ -307,6 +312,13 @@ button {
   color: #555555;
   border: 1px solid #D8D8D8; }
 
+.button-3 {
+  background-color: #fff;
+  color: #8BC8DB;
+  border: 1px solid #8BC8DB;
+  font-size: 0.9em;
+  font-weight: 600; }
+
 .disabled:hover {
   cursor: auto; }
 
@@ -344,11 +356,7 @@ button {
         width: 50px; }
         #drop-down-friends ul li .left .friend-thumb {
           width: 50px;
-          height: 50px;
-          border-radius: 100%;
-          background-color: #8D8D8D; }
-          #drop-down-friends ul li .left .friend-thumb img {
-            width: 100%; }
+          height: 50px; }
       #drop-down-friends ul li .middle {
         padding: 0 0 0 20px;
         width: 125px; }
@@ -404,5 +412,35 @@ button {
           cursor: pointer; }
           #drop-down-friends ul li .right .action-icon:hover .line {
             opacity: 0.7; }
+  #drop-down-friends #delete-friend-request-form, #drop-down-friends #accept-friend-notification {
+    float: left; }
+
+.friend-thumb {
+  border-radius: 100%;
+  overflow: hidden; }
+  .friend-thumb img {
+    width: 100%;
+    height: 100%;
+    background-color: #C6C6C6; }
+
+.friends .block-title {
+  margin: 10px 30px; }
+.friends .message {
+  margin: 10px 30px; }
+.friends ul li {
+  display: inline-block;
+  margin: 30px; }
+  .friends ul li .left {
+    margin-right: 20px; }
+    .friends ul li .left .friend-thumb {
+      display: inline-block;
+      width: 100px;
+      height: 100px; }
+  .friends ul li .right {
+    text-align: left; }
+    .friends ul li .right .friends-action {
+      margin-top: 1em; }
+  .friends ul li a:link, .friends ul li a:visited, .friends ul li a:hover, .friends ul li a:active {
+    color: #555555; }
 
 /*# sourceMappingURL=style.css.map */

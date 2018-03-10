@@ -38,7 +38,7 @@
 						</li>
 						<li class='nav-item'>
 							{% if notifications['pending_recieved'] %}
-							<div class='notification-count'>
+							<div id='friend-request-count' class='notification-count'>
 								{{ notifications['total_pending_recieved'] }}
 							</div>
 							{% endif %}
@@ -48,9 +48,10 @@
 									<ul>
 										{% for friend in notifications['received_friend_requests'] %}
 											<li>
-												<a href="{{ url_for('user', username=friend.username) }}">
+												<a href="{{ url_for('user', user_id=friend.id) }}">
 													<div class='left'>
 														<div class='friend-thumb'>
+															<img src="{{ friend.avatar(75) }}" />
 														</div>
 													</div>
 													<div class='middle'>
@@ -58,8 +59,8 @@
 													</div>
 												</a>
 												<div class='right'>
-													<form id="accept-friend-form" action="/accept_friend" method="post">
-														<input type="hidden" name="user_id" value="{{ friend.id }}">
+													<form id="accept-friend-notification" action="/accept_friend" method="post">
+														<input type="hidden" name="friend_id" class='accept-hidden' value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon accept'>
 																<div class='line' id='accept-line-1'></div>
@@ -67,10 +68,15 @@
 															</div>
 														</button>
 													</form>
-													<div class='action-icon reject'>
-														<div class='line' id='reject-line-1'></div>
-														<div class='line' id='reject-line-2'></div>
-													</div>
+													<form id="delete-friend-request-form" action="/delete_friend_request" method="post">
+														<input type="hidden" name="friend_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
+														<button type="submit">
+															<div class='action-icon reject'>
+																<div class='line' id='reject-line-1'></div>
+																<div class='line' id='reject-line-2'></div>
+															</div>
+														</button>
+													</form>
 												</div>
 											</li>
 										{% endfor %}
@@ -78,14 +84,14 @@
 								</div>
 							{% endif %}
 						</li>
-						<li class='nav-item'>
+						<li class='nav-item' id='notifications'>
 							<img src="../static/img/notifications.png" />
 						</li>
 						<li class='nav-item'>
 							<img src="../static/img/search.png" />
 						</li>
 						<li class='nav-item'>
-							<a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+							<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
 						</li>
 						<li class='nav-item'>
 							<a href="{{ url_for('logout') }}">Logout</a>

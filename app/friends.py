@@ -7,7 +7,10 @@ from models import db
 def are_friends_or_pending(user_id_1, user_id_2):
 	are_friends_sent = Friends.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.accepted).first()
 	are_friends_recieved = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.accepted).first()
-	are_friends = False
+	if are_friends_sent:
+		are_friends = are_friends_sent
+	else:
+		are_friends = are_friends_recieved
 	if are_friends_sent is not None or are_friends_recieved is not None:
 		are_friends = True
 	is_pending_sent = Friends.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.requested).first()

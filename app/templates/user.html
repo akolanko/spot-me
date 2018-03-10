@@ -1,67 +1,63 @@
-{% extends 'base.html' %}
+{% include 'base.html' %}
 
 {% block content %}
 	<div class='content'>
+		<div id="user-info" data-userid="{{ user.id }}">
 		<div class='col profile-left-col'>
 			<div class='block profile-cover'>
 				<img src="{{ user.avatar(75) }}" />
 			</div>
 			<div class='block profile-basic'>
-				<div class='profile-name'>{{ user.fname }} {{ user.lname }}</div>
-				<div class='profile-age'>20</div>
+				<a href="{{ url_for('user', user_id=user.id) }}">
+					<div class='profile-name'>{{ user.fname }} {{ user.lname }}</div>
+					<div class='profile-age'>20</div>
+				</a>
 			</div>
 			{% if session.current_user.id != user.id %}
 				<div class='profile-buttons'>
-					{% if are_friends %}
-						<button class='button button-2 disabled'>Friends</button>
-					{% elif is_pending_sent %}
-						<button class='button button-2 disabled'>Pending</button>
-					{% elif is_pending_recieved %}
-						<form id="accept-friend-form" action="/accept_friend" method="post">
-							<input type="hidden" name="user_id" value="{{ user.id }}">
-							<button type="submit" class='button button-2' id="connect-btn">Accept</button>
-						</form>
-					{% else %}
-						<form id="add-friend-form" action="/add_friend" method="post">
-							<input type="hidden" name="user_id" value="{{ user.id }}">
-							<button type="submit" class='button button-2' id="connect-btn">Connect</button>
-						</form>
-					{% endif %}
+					<div id ='connect-btn'>
+						{% if are_friends %}
+							<button class='button button-2 disabled'>Friends</button>
+						{% elif is_pending_sent %}
+							<button class='button button-2 disabled'>Pending</button>
+						{% elif is_pending_recieved %}
+							<form id="accept-friend-form" action="/accept_friend" method="post">
+								<button type="submit" class='button button-2'>Accept</button>
+							</form>
+						{% else %}
+							<form id="add-friend-form" action="/add_friend" method="post">
+								<button type="submit" class='button button-2'>Connect</button>
+							</form>
+						{% endif %}
+					</div>
 					<button class='button button-2'>Message</button>
 					<div class='clear'></div>
 				</div>
 			{% endif %}
 			<div class='block profile-friends'>
 				<div class='connections-count'>
-					<a href="{{ url_for('friends', user_id=current_user.id) }}">
-						{{ total_friends }} connections
+					<a href="{{ url_for('friends', user_id=user.id) }}">
+						{{ total_friends }}
+						{% if total_friends == 1 %}
+							connection
+						{% else %}
+							connections
+						{% endif %}
 					</a>
 				</div>
-				<div class='profile-friends'>
-					<ul>
-						<li>
-							{% for friend in friends %}
-							<a href="{{ url_for('user', username=friend.username) }}">
-								<div class='friend-thumb'>
-									
-								</div>
-							</a>
-							{% endfor %}
-						</li>
-					</ul>
-				</div>
+				<ul>
+					<li>
+						{% for friend in friends %}
+						<a href="{{ url_for('user', user_id=friend.id) }}">
+							<div class='friend-thumb'>
+								<img src="{{ friend.avatar(75) }}" />
+							</div>
+						</a>
+						{% endfor %}
+					</li>
+				</ul>
 			</div>
 		</div>
-		<div class='col profile-right-col'>
-			<div class='block profile-info'>
-				<div class='profile-about'>
-					<div class='profile-label'>About</div>
-					<div class='profile-text'>{{ profile.about }}</div>
-				</div>
-			</div>
-		</div>
+{% block right %}{% endblock %}
 	</div>
-{% endblock %}
-{% block javascript %}
-	<script src="/static/js/add-friend.js"></script>
 {% endblock %}

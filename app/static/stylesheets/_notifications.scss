@@ -40,12 +40,6 @@
 				.friend-thumb{
 					width: 50px;
 					height: 50px;
-					border-radius: 100%;
-					background-color: $grey1;
-
-					img{
-						width: 100%;
-					}
 				}
 			}
 
@@ -123,5 +117,9 @@
 				}
 			}
 		}
+	}
+
+	#delete-friend-request-form, #accept-friend-notification{
+		float: left;
 	}
 }

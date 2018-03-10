@@ -1,18 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'user.html' %}
 
-{% block content %}
-	Friends:
-	<div class='friends'>
-		<ul>
-			<li>
-				{% for friend in friends %}
-				<a href="{{ url_for('user', username=friend.id) }}">
-					<div class='friend-thumb'>
-						{{friend.username}}	
-					</div>
-				</a>
+{% block right %}
+	<div class='col profile-right-col'>
+		<div class='friends block'>
+			<h2 class='block-title'>Connections</h2>
+			{% if total_friends == 0 %}
+				<div class='message'>
+					{{ user.fname }} does not have any connections
+				</div>
+			{% else %}
+				<ul>
+					{% for friend in friends %}
+					<li>
+						<a href="{{ url_for('user', user_id=friend.id) }}">
+							<div class='left'>
+								<div class='friend-thumb'>
+									<img src="{{ friend.avatar(75) }}" />
+								</div>
+							</div>
+						</a>
+						<div class='right'>
+							<a href="{{ url_for('user', user_id=friend.id) }}">
+								<div class='friends-name'>
+									{{ friend.fname }} {{ friend.lname }}
+								</div>
+							</a>
+							<div class='friends-action'>
+								{% if current_user.id == user.id %}
+									<form id="unfriend-form" action="/unfriend" method="post">
+										<input type="hidden" name="user_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
+										<button type="submit" class='button button-3' id="unfriend-btn">Unfriend</button>
+									</form>
+								{% endif %}
+							</div>
+						</div>
+					</li>
 					{% endfor %}
-			</li>
-		</ul>
+				</ul>
+			{% endif %}
+		</div>
 	</div>
 {% endblock %}
