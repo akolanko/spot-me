@@ -141,13 +141,6 @@ def friends(user_id):
     return render_template("friends.html", friends=friends, notifications=notifications)
 
 
-@app.route("/friend_requests")
-def friend_requests():
-    """Show friend requests"""
-    received_friend_requests, sent_friend_requests = get_friend_requests(session["current_user"]["id"])
-    return render_template("friend_requests.html", received_friend_requests=received_friend_requests, sent_friend_requests=sent_friend_requests)
-
-
 @app.errorhandler(500)
 def server_error(e):
     logging.exception('An error occurred during a request.')
