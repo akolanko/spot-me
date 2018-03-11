@@ -412,7 +412,7 @@ button {
           cursor: pointer; }
           #drop-down-friends ul li .right .action-icon:hover .line {
             opacity: 0.7; }
-  #drop-down-friends #delete-friend-request-form, #drop-down-friends #accept-friend-notification {
+  #drop-down-friends .delete-friend-request-form, #drop-down-friends .accept-friend-notification {
     float: left; }
 
 .friend-thumb {

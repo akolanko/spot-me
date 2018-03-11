@@ -30,7 +30,7 @@ $(document).ready( function() {
 	//Unfriending
 
 
-	$("#unfriend-form").submit(function(e) {
+	$(".unfriend-form").submit(function(e) {
 
 		var friend = $(this).closest("li");
 
@@ -71,7 +71,7 @@ $(document).ready( function() {
 
 	$("#accept-friend-form").on("submit", acceptFriendRequest);
 
-	$("#accept-friend-notification").submit(function(e) {
+	$(".accept-friend-notification").submit(function(e) {
 
 		var friend = $(this).closest("li");
 
@@ -92,7 +92,7 @@ $(document).ready( function() {
 
 	//Deleting friend requests
 
-	$("#delete-friend-request-form").submit(function(e) {
+	$(".delete-friend-request-form").submit(function(e) {
 
 		var friend = $(this).closest("li");
 

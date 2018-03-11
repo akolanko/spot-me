@@ -59,7 +59,7 @@
 													</div>
 												</a>
 												<div class='right'>
-													<form id="accept-friend-notification" action="/accept_friend" method="post">
+													<form class="accept-friend-notification" action="/accept_friend" method="post">
 														<input type="hidden" name="friend_id" class='accept-hidden' value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon accept'>
@@ -68,7 +68,7 @@
 															</div>
 														</button>
 													</form>
-													<form id="delete-friend-request-form" action="/delete_friend_request" method="post">
+													<form class="delete-friend-request-form" action="/delete_friend_request" method="post">
 														<input type="hidden" name="friend_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon reject'>
@@ -89,6 +89,9 @@
 						</li>
 						<li class='nav-item'>
 							<img src="../static/img/search.png" />
+						</li>
+						<li class='nav-item'>
+							Hello {{ current_user.fname }}
 						</li>
 						<li class='nav-item'>
 							<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
