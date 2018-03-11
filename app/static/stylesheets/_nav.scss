@@ -74,3 +74,24 @@ nav{
 	right: -20%;
 	text-align: center;
 }
+
+#drop-down-menu{
+	display: block;
+	background-color: $white;
+	width: 200px;
+	right: 0;
+	transform: translateX(0%);
+
+	ul{
+		list-style: none;
+		padding: 0;
+
+		li{
+			border-bottom: 1px solid $grey4;
+			text-align: center;
+			padding: 1em;
+			text-transform: uppercase;
+			font-size: 1.1em;
+		}
+	}
+}

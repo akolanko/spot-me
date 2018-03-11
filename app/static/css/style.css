@@ -36,7 +36,8 @@ a:link, a:visited {
   text-decoration: none; }
 
 a:hover, a:active {
-  color: #8D8D8D; }
+  color: #8D8D8D;
+  font-weight: 400; }
 
 input[type="text"], input[type="email"], input[type="password"], input[type="password" i] {
   font-family: inherit;
@@ -200,6 +201,22 @@ nav {
   right: -20%;
   text-align: center; }
 
+#drop-down-menu {
+  display: block;
+  background-color: #fff;
+  width: 200px;
+  right: 0;
+  transform: translateX(0%); }
+  #drop-down-menu ul {
+    list-style: none;
+    padding: 0; }
+    #drop-down-menu ul li {
+      border-bottom: 1px solid #E2E2E2;
+      text-align: center;
+      padding: 1em;
+      text-transform: uppercase;
+      font-size: 1.1em; }
+
 .col {
   display: inline-block;
   vertical-align: top; }
@@ -337,7 +354,9 @@ button {
   background-color: #fff;
   top: 2.75em;
   transform: translateX(-50%);
-  display: none; }
+  display: none;
+  border-left: 1px solid #E2E2E2;
+  border-right: 1px solid #E2E2E2; }
 
 .line {
   position: absolute;
@@ -349,9 +368,7 @@ button {
   #drop-down-friends ul {
     position: relative;
     list-style: none;
-    padding: 0;
-    border-left: 1px solid #E2E2E2;
-    border-right: 1px solid #E2E2E2; }
+    padding: 0; }
     #drop-down-friends ul a:link, #drop-down-friends ul a:visited, #drop-down-friends ul a:hover, #drop-down-friends ul a:active {
       color: #000; }
     #drop-down-friends ul li {
@@ -451,5 +468,45 @@ button {
       margin-top: 1em; }
   .friends ul li a:link, .friends ul li a:visited, .friends ul li a:hover, .friends ul li a:active {
     color: #555555; }
+
+#menu-btn {
+  height: 22px;
+  width: 28px;
+  position: relative; }
+  #menu-btn .menu-line {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    transition: all .2s ease-out; }
+  #menu-btn #menu-line-1 {
+    top: 0;
+    left: 0; }
+  #menu-btn #menu-line-1.active {
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 50%; }
+  #menu-btn #menu-line-2 {
+    top: 10px;
+    left: 0; }
+  #menu-btn #menu-line-2.active {
+    opacity: 0; }
+  #menu-btn #menu-line-3 {
+    top: 20px;
+    left: 0; }
+  #menu-btn #menu-line-3.active {
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 50%; }
 
 /*# sourceMappingURL=style.css.map */

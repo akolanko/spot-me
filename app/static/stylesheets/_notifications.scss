@@ -4,6 +4,8 @@
 	top: 2.75em;
 	transform: translateX(-50%);
 	display: none;
+	border-left: 1px solid $grey4;
+	border-right: 1px solid $grey4;
 }
 
 .line{
@@ -18,8 +20,6 @@
 		position: relative;
 		list-style: none;
 		padding: 0;
-		border-left: 1px solid $grey4;
-		border-right: 1px solid $grey4;
 
 		a:link, a:visited, a:hover, a:active{
 			color: $black;

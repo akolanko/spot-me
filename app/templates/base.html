@@ -91,14 +91,25 @@
 						<li class='nav-item' id='search-icon'>
 							<img class='nav-icon' src="../static/img/search.png" />
 						</li>
-						<li class='nav-item'>
-							Hello {{ current_user.fname }}
-						</li>
-						<li class='nav-item'>
-							<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
-						</li>
-						<li class='nav-item'>
-							<a href="{{ url_for('logout') }}">Logout</a>
+						<li class='nav-item' id='menu'>
+							<div id='menu-btn'>
+								<div class='menu-line' id='menu-line-1'>
+								</div>
+								<div class='menu-line' id='menu-line-2'>
+								</div>
+								<div class='menu-line' id='menu-line-3'>
+								</div>
+							</div>
+							<div class='drop-down' id='drop-down-menu'>
+								<ul>
+									<li>
+										<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
+									</li>
+									<li>
+										<a href="{{ url_for('logout') }}">Logout</a>
+									</li>
+								</ul>
+							</div>
 						</li>
 						{% endif %}
 					</ul>
