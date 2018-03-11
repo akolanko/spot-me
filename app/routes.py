@@ -11,7 +11,7 @@ from werkzeug.urls import url_parse
 from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends
-from notifications import get_notifications
+from app.notifications import get_notifications
 
 
 @app.route('/home')
