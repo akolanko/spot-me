@@ -49,7 +49,7 @@ class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    status = db.Column(db.Enum(FriendStatus), nullable=False)
+    status = db.Column(db.Enum(FriendStatus))
 
     user_1 = db.relationship("User", foreign_keys=[user_id_1], backref=db.backref("sent_connections"))
     user_2 = db.relationship("User", foreign_keys=[user_id_2], backref=db.backref("received_connections"))
