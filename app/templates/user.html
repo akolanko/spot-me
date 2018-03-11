@@ -47,7 +47,7 @@
 				</div>
 				<ul>
 					<li>
-						{% for friend in friends %}
+						{% for friend in limited_friends %}
 						<a href="{{ url_for('user', user_id=friend.id) }}">
 							<div class='friend-thumb'>
 								<img src="{{ friend.avatar(75) }}" />

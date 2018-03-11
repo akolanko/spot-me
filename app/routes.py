@@ -79,13 +79,14 @@ def user(user_id):
     profile = user.profile
     total_friends = len(get_friends(user.id))
     friends = get_friends(user.id)
+    limited_friends = friends[:6]
 
     user_id_1 = session["current_user"]["id"]
     notifications = get_notifications(user_id_1)
 
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends)
 
 
 @app.route("/add_friend", methods=["POST"])
@@ -172,9 +173,10 @@ def friends(user_id):
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
     friends = get_friends(user_id)
+    limited_friends = friends[:6]
     total_friends = len(friends)
     notifications = get_notifications(session["current_user"]["id"])
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends)
 
 
 @app.errorhandler(500)

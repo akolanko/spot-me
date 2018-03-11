@@ -33,16 +33,16 @@
 				<div id='nav-right'>
 					<ul class='nav-list'>
 						{% if current_user.is_authenticated %}
-						<li class='nav-item'>
-							<img src="../static/img/message.png" />
+						<li class='nav-item' id='message-notifictions'>
+							<img class='nav-icon' src="../static/img/message.png" />
 						</li>
-						<li class='nav-item'>
+						<li class='nav-item' id='friend-notifications'>
 							{% if notifications['pending_recieved'] %}
 							<div id='friend-request-count' class='notification-count'>
 								{{ notifications['total_pending_recieved'] }}
 							</div>
 							{% endif %}
-							<img src="../static/img/person.png" />
+							<img class='nav-icon' src="../static/img/person.png" />
 							{% if notifications['pending_recieved'] %}
 								<div class='drop-down' id='drop-down-friends'>
 									<ul>
@@ -83,12 +83,13 @@
 									</ul>
 								</div>
 							{% endif %}
+							<div class='notification-overlay' id='friend-notification-overlay'></div>
 						</li>
 						<li class='nav-item' id='notifications'>
-							<img src="../static/img/notifications.png" />
+							<img class='nav-icon' src="../static/img/notifications.png" />
 						</li>
-						<li class='nav-item'>
-							<img src="../static/img/search.png" />
+						<li class='nav-item' id='search-icon'>
+							<img class='nav-icon' src="../static/img/search.png" />
 						</li>
 						<li class='nav-item'>
 							Hello {{ current_user.fname }}

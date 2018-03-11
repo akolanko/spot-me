@@ -42,8 +42,19 @@ nav{
 	position: relative;
 }
 
-.nav-item img{
+.notification-overlay{
+	position: absolute;
+	width: 150%;
+	height: 150%;
+	z-index: 500;
+	background: transparent;
+	top: -50%;
+	left: 0;
+}
+
+.nav-icon{
 	height: 22px;
+	width: auto;
 }
 
 .nav-item:hover{

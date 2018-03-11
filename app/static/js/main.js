@@ -1,37 +1,46 @@
 $(document).ready( function() {
 
-	$('.nav-item').click(function(){
-		$(this).find('.drop-down').slideToggle(500);
+	//Navigation menu
+
+	$('.notification-overlay').click(function(){
+		$(this).siblings('.drop-down').slideToggle(500);
 	});
 
 
 	//Adding friends
 
-	function updateButton(result) {
-		$("#connect-btn").html("<button class='button button-2 disabled'>Pending</button>");
-	}
-
-	function sendFriendRequest(e) {
+	$("#add-friend-form").submit(function(e) {
 		e.preventDefault();
-
+		
 		var formInput = {
 			"user_id_2": $("#user-info").data("userid")
 		};
 
 		$.post("/add_friend",
 			formInput,
-			updateButton
+			function() {
+				$("#connect-btn").html("<button class='button button-2 disabled'>Pending</button>");
+			}
 		);
-	}
+	});
 
-	$("#add-friend-form").on("submit", sendFriendRequest);
+
+	//Update friend notification count
+
+	function updateFriendRequestCount(){
+		var count = parseInt($('#friend-request-count').html());
+		count = count - 1;
+		if (count === 0) {
+			$('#friend-request-count').hide();
+		} else {
+			$('#friend-request-count').html(count);
+		}
+	}
 
 
 	//Unfriending
 
-
 	$(".unfriend-form").submit(function(e) {
-
 		var friend = $(this).closest("li");
 
 		formInput = {
@@ -41,22 +50,17 @@ $(document).ready( function() {
 		$.post("/unfriend",
 			formInput,
 			function() {
-				friend.fadeOut();
+				friend.hide();
 			}
 		);
 
 		e.preventDefault();
-
 	});
 
 
 	//Accepting friends
 
-	function updateBtn(result) {
-		$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
-	}
-
-	function acceptFriendRequest(e) {
+	$("#accept-friend-form").submit(function(e) {
 		e.preventDefault();
 
 		var formInput = {
@@ -65,14 +69,15 @@ $(document).ready( function() {
 
 		$.post("/accept_friend",
 			formInput,
-			updateBtn
+			function() {
+				$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
+				updateFriendRequestCount();
+			}
 		);
-	}
+	});
 
-	$("#accept-friend-form").on("submit", acceptFriendRequest);
 
 	$(".accept-friend-notification").submit(function(e) {
-
 		var friend = $(this).closest("li");
 
 		formInput = {
@@ -82,18 +87,18 @@ $(document).ready( function() {
 		$.post("/accept_friend",
 			formInput,
 			function() {
-				friend.fadeOut();
+				friend.hide();
+				updateFriendRequestCount();
 			}
 		);
 
 		e.preventDefault();
-
 	});
+
 
 	//Deleting friend requests
 
 	$(".delete-friend-request-form").submit(function(e) {
-
 		var friend = $(this).closest("li");
 
 		formInput = {
@@ -103,11 +108,11 @@ $(document).ready( function() {
 		$.post("/delete_friend_request",
 			formInput,
 			function() {
-				friend.fadeOut();
+				friend.hide();
+				updateFriendRequestCount();
 			}
 		);
 
 		e.preventDefault();
-
 	});
 });
