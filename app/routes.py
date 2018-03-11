@@ -10,7 +10,7 @@ from flask import request
 from werkzeug.urls import url_parse
 from app import db
 from app.forms import RegistrationForm
-from friends import are_friends_or_pending, get_friends
+from app.friends import are_friends_or_pending, get_friends
 from notifications import get_notifications
 
 

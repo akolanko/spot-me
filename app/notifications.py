@@ -1,4 +1,4 @@
-from friends import get_friend_requests, have_pending_requests
+from app.friends import get_friend_requests, have_pending_requests
 
 
 def get_notifications(user_id):
