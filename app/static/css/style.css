@@ -202,7 +202,7 @@ nav {
   text-align: center; }
 
 #drop-down-menu {
-  display: block;
+  display: none;
   background-color: #fff;
   width: 200px;
   right: 0;
