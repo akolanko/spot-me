@@ -1,7 +1,7 @@
 """Functions for the connection/relationship between users"""
 
-from models import Friends, User, FriendStatus
-from models import db
+from app.models import Friends, User, FriendStatus
+from app.models import db
 
 
 def are_friends_or_pending(user_id_1, user_id_2):
