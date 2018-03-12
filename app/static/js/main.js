@@ -126,4 +126,27 @@ $(document).ready( function() {
 
 		e.preventDefault();
 	});
+
+
+	$('#new-message-body').keypress(function(e) {
+		var code = e.keyCode || e.which;
+		if (code == 13) {
+
+			var body = $("#new-message-body").val();
+
+			formInput = {
+				"conversation_id": $("#conversation-id").data("conversation"),
+				"body": body
+			};
+
+			$.post("/new_message",
+				formInput,
+				function() {
+					$('.conversation-inner').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
+				}
+			);
+
+			$("#new-message-body").val('');
+		}
+	});
 });

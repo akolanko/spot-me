@@ -12,7 +12,7 @@ from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends
 from app.notifications import get_notifications
-from app.messages import get_conversations
+from app.messages import get_conversations, update_read_messages
 from sqlalchemy import desc
 
 
@@ -199,7 +199,20 @@ def conversation(id):
     messages_query = conversation.messages.order_by(desc(Message.timestamp)).limit(10).all()
     messages = messages_query[::-1]
     conversations = get_conversations(cur_user_id)
+    update_read_messages(conversation.id, user_2.id)
+
     return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications)
+
+
+@app.route("/new_message", methods=["POST"])
+def new_message():
+    sender = session["current_user"]["id"]
+    conversation_id = request.form.get("conversation_id")
+    body = request.form.get("body")
+    message = Message(sender=sender, conversation_id=conversation_id, body=body)
+    db.session.add(message)
+    db.session.commit()
+    return "Message sent"
 
 
 @app.errorhandler(500)

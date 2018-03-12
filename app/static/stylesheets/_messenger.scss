@@ -26,10 +26,11 @@
 			.message-outer{
 
 				.message{
-					border-radius: 5px;
+					border-radius: 10px;
 					padding: 15px;
-					width: 40%;
+					width: 55%;
 					margin: 10px 0;
+					font-size: 0.95em;
 				}
 
 				.message-1{
@@ -50,6 +51,14 @@
 
 	.compose-message{
 		height: 150px;
+
+		#new-message-body{
+			height: 100%;
+			border: none;
+			padding: 10px 20px;
+			font-size: 0.95em;
+			resize: none;
+		}
 	}
 }
 

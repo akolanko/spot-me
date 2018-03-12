@@ -9,7 +9,11 @@
 				<div class='conversation-inner'>
 					{% for message in messages %}
 						<div class='message-outer'>
+						{% if message.sender == current_user.id %}
 							<div class='message message-1'>
+						{% else %}
+							<div class='message message-2'>
+						{% endif %}
 								{{ message.body }}
 							</div>
 							<div class='clear'></div>
@@ -18,6 +22,10 @@
 				</div>
 			</div>
 			<div class='compose-message'>
+				<form id='new-message' action="/new_message" method="post">
+					<input type="hidden" id='conversation-id' data-conversation="{{ conversation.id }}">
+					<textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea>
+				</form>
 			</div>
 		</div>
 		<div class='block conversation-details'>
