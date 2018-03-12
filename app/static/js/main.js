@@ -15,6 +15,11 @@ $(document).ready( function() {
 		$('#menu-line-1').toggleClass('active');
 		$('#menu-line-3').toggleClass('active');
 	});
+	
+
+	// Messenger scroll
+
+	$('.conversation-messages').scrollTop($('.conversation-messages')[0].scrollHeight);
 
 
 	//Adding friends
@@ -128,6 +133,8 @@ $(document).ready( function() {
 	});
 
 
+	//Send new message
+
 	$('#new-message-body').keypress(function(e) {
 		var code = e.keyCode || e.which;
 		if (code == 13) {
@@ -142,11 +149,12 @@ $(document).ready( function() {
 			$.post("/new_message",
 				formInput,
 				function() {
-					$('.conversation-inner').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
+					$('.conversation-messages').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
 				}
 			);
 
 			$("#new-message-body").val('');
 		}
 	});
+
 });

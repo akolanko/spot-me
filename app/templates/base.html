@@ -34,7 +34,13 @@
 					<ul class='nav-list'>
 						{% if current_user.is_authenticated %}
 						<li class='nav-item' id='message-notifictions'>
+							
+							<div id='unread-msgs-count' class='notification-count'>
+								<!-- {{ notifications['unread_msgs_count'] }} -->
+							</div>
+							
 							<img class='nav-icon' src="../static/img/message.png" />
+							<div class='notification-overlay' id='msg-notification-overlay'></div>
 						</li>
 						<li class='nav-item' id='friend-notifications'>
 							{% if notifications['pending_recieved'] %}
@@ -103,7 +109,11 @@
 							<div class='drop-down' id='drop-down-menu'>
 								<ul>
 									<li>
-										Messages
+										{% if notifications['recent_conversation'] %}
+											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
+										{% else %}
+											Messages
+										{% endif %}
 									</li>
 									<li>
 										<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
@@ -119,6 +129,7 @@
 				</div>
 			</nav>
 		{% endif %}
+		{{ notifications['unread_msgs_count'] }}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="/static/js/main.js"></script>

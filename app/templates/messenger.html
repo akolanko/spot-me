@@ -3,23 +3,44 @@
 {% block content %}
 	<div class='content'>
 		<div class='block conversations'>
+			<ul>
+				{% for conversation in conversations %}
+					<a class='link-2' href="{{ url_for('conversation', id=conversation['Conversation'].id) }}">
+						<li>
+							<div class='left friend-thumb'>
+								<img src='{{ conversation["User"].avatar(75) }}' />
+							</div>
+							<div class='right'>
+								<div class='name'>
+									{{ conversation["User"].fname }}
+								</div>
+								<div class='recent-msg'>
+									{% set msgs = conversation["Conversation"].messages %}
+									{% set rev_msgs = msgs[::-1] %}
+									{% if rev_msgs[0] %}
+										{{ rev_msgs[0].body }}
+									{% endif %}
+								</div>
+							</div>
+						</li>
+					</a>
+				{% endfor %}
+			<ul>
 		</div>
 		<div class='block conversation'>
 			<div class='conversation-messages'>
-				<div class='conversation-inner'>
-					{% for message in messages %}
-						<div class='message-outer'>
-						{% if message.sender == current_user.id %}
-							<div class='message message-1'>
-						{% else %}
-							<div class='message message-2'>
-						{% endif %}
-								{{ message.body }}
-							</div>
-							<div class='clear'></div>
+				{% for message in messages %}
+					<div class='message-outer'>
+					{% if message.sender == current_user.id %}
+						<div class='message message-1'>
+					{% else %}
+						<div class='message message-2'>
+					{% endif %}
+							{{ message.body }}
 						</div>
-					{% endfor %}
-				</div>
+						<div class='clear'></div>
+					</div>
+				{% endfor %}
 			</div>
 			<div class='compose-message'>
 				<form id='new-message' action="/new_message" method="post">
@@ -29,6 +50,16 @@
 			</div>
 		</div>
 		<div class='block conversation-details'>
+			<div class='friend-details'>
+				<div class='left friend-thumb'>
+					<img src='{{ user_2.avatar(75) }}' />
+				</div>
+				<div class='right'>
+					<div class='name'>
+						{{ user_2.fname }}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

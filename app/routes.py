@@ -13,7 +13,7 @@ from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends
 from app.notifications import get_notifications
 from app.messages import get_conversations, update_read_messages
-from sqlalchemy import desc
+from sqlalchemy import asc
 
 
 @app.route('/home')
@@ -196,8 +196,7 @@ def conversation(id):
     else:
         return redirect(url_for('home'))
 
-    messages_query = conversation.messages.order_by(desc(Message.timestamp)).limit(10).all()
-    messages = messages_query[::-1]
+    messages = conversation.messages.order_by(asc(Message.timestamp)).all()
     conversations = get_conversations(cur_user_id)
     update_read_messages(conversation.id, user_2.id)
 
