@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from app import login
 import enum
 from hashlib import md5
+from datetime import datetime
 
 
 class User(UserMixin, db.Model):
@@ -50,9 +51,24 @@ class Friends(db.Model):
     user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     status = db.Column(db.Enum(FriendStatus))
-
     user_1 = db.relationship("User", foreign_keys=[user_id_1], backref=db.backref("sent_connections"))
     user_2 = db.relationship("User", foreign_keys=[user_id_2], backref=db.backref("received_connections"))
 
     def __repr__(self):
         return "<Friends id=%s user_id_1=%s user_id_2=%s status=%s>" % (self.id, self.user_id_1, self.user_id_2, self.status)
+
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    read = db.Column(db.Boolean, default=False, nullable=False)
+    conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
+
+
+class Conversation(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    messages = db.relationship('Message', backref='author', lazy='dynamic')

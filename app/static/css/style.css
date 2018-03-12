@@ -509,4 +509,47 @@ button {
     transform: rotate(-45deg);
     top: 50%; }
 
+.conversations {
+  display: inline-block;
+  vertical-align: top;
+  width: 20%; }
+
+.conversation {
+  padding: 0;
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  margin: 0 4%; }
+  .conversation .conversation-messages {
+    height: 450px;
+    border-bottom: 2px solid #F5F5F5;
+    overflow: hidden;
+    position: relative; }
+    .conversation .conversation-messages .conversation-inner {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      padding: 0 20px; }
+      .conversation .conversation-messages .conversation-inner .message-outer .message {
+        border-radius: 5px;
+        padding: 15px;
+        width: 40%;
+        margin: 10px 0; }
+      .conversation .conversation-messages .conversation-inner .message-outer .message-1 {
+        background-color: #8BC8DB;
+        color: #fff;
+        font-weight: 400;
+        float: right; }
+      .conversation .conversation-messages .conversation-inner .message-outer .message-2 {
+        background-color: #E2E2E2;
+        color: #000;
+        float: left; }
+  .conversation .compose-message {
+    height: 150px; }
+
+.conversation-details {
+  display: inline-block;
+  vertical-align: top;
+  width: 20%; }
+
 /*# sourceMappingURL=style.css.map */
