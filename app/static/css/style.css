@@ -1,512 +1,59 @@
-.grey {
-  color: #C6C6C6; }
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0; }
-
-body {
-  font-family: "Open Sans", sans-serif;
-  background-color: #F5F5F5;
-  font-weight: 300; }
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 400; }
-
-.clear {
-  clear: both; }
-
-.light {
-  font-weight: 300; }
-
-.page-title {
-  font-size: 1.4em;
-  font-weight: 300;
-  margin-top: 0;
-  margin-bottom: 1em; }
-
-.block-title {
-  font-size: 1.2em;
-  text-transform: uppercase; }
-
-a:link, a:visited {
-  color: #8BC8DB;
-  font-weight: 400;
-  text-decoration: none; }
-
-a:hover, a:active {
-  color: #8D8D8D;
-  font-weight: 400; }
-
-input[type="text"], input[type="email"], input[type="password"], input[type="password" i] {
-  font-family: inherit;
-  letter-spacing: inherit;
-  font-weight: 300;
-  font-size: 1em;
-  border: 1px solid #C6C6C6;
-  border-radius: 0px;
-  color: #aaa;
-  width: 100%;
-  padding: 5px 10px; }
-
-.login {
-  width: 100%;
-  margin-bottom: 1em; }
-
-.form-field {
-  margin: 0.5em 0; }
-
-.form-field-submit {
-  margin-top: 1em; }
-
-.form-left {
-  float: left;
-  width: 60%;
-  vertical-align: bottom; }
-
-.form-right {
-  float: right;
-  width: 40%;
-  vertical-align: bottom;
-  text-align: right; }
-
-.checkbox-field {
-  margin-top: 10px; }
-
-.validation-error {
-  color: #8BC8DB;
-  font-weight: 400;
-  font-size: .9em;
-  marin-top: .3em; }
-
-#home-title-block {
-  float: left;
-  width: 50%;
-  height: 100%;
-  position: relative;
-  text-align: right; }
-
-#home-title-block-inner {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  padding-right: 9%; }
-
-#title-home {
-  text-transform: uppercase;
-  font-size: 3.3em;
-  margin: 0 0 .1em;
-  letter-spacing: .1em; }
-
-#catch {
-  text-transform: lowercase;
-  color: #8D8D8D;
-  font-weight: 300;
-  margin: 0;
-  letter-spacing: .1em; }
-
-#login-form-block {
-  float: left;
-  width: 50%;
-  height: 100%;
-  position: relative; }
-
-#login-form-block-inner {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 4.5% 5.5%;
-  width: 60%;
-  background-color: #fff;
-  margin-left: 3%; }
-
-#flash-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-weight: 400;
-  color: #8BC8DB;
-  background-color: #F5F5F5; }
-
-.flash-list {
-  list-style: none;
-  padding: 0; }
-
-nav {
-  border-bottom: 1px solid #C6C6C6;
-  padding: 1em 3%; }
-
-#nav-left {
-  width: 29%;
-  display: inline-block; }
-
-#nav-right {
-  width: 70%;
-  text-align: right;
-  vertical-align: bottom;
-  display: inline-block; }
-
-#nav-title {
-  font-size: 2em;
-  text-transform: uppercase;
-  display: inline-block; }
-
-#nav-title-1 {
-  font-weight: 400;
-  color: #000; }
-
-#nav-title-2 {
-  font-weight: 300;
-  color: #C6C6C6; }
-
-.nav-list {
-  list-style: none;
-  padding: 0; }
-
-.nav-item {
-  display: inline-block;
-  margin-left: 25px;
-  position: relative; }
-
-.notification-overlay {
-  position: absolute;
-  width: 150%;
-  height: 150%;
-  z-index: 500;
-  background: transparent;
-  top: -50%;
-  left: 0; }
-
-.nav-icon {
-  height: 22px;
-  width: auto; }
-
-.nav-item:hover {
-  cursor: pointer; }
-
-.notification-count {
-  position: absolute;
-  background-color: #8BC8DB;
-  border-radius: 100%;
-  font-size: 0.8em;
-  color: #fff;
-  font-weight: 600;
-  width: 1.6em;
-  height: 1.6em;
-  top: -50%;
-  right: -20%;
-  text-align: center; }
-
-#drop-down-menu {
-  display: none;
-  background-color: #fff;
-  width: 200px;
-  right: 0;
-  transform: translateX(0%); }
-  #drop-down-menu ul {
-    list-style: none;
-    padding: 0; }
-    #drop-down-menu ul li {
-      border-bottom: 1px solid #E2E2E2;
-      text-align: center;
-      padding: 1em;
-      text-transform: uppercase;
-      font-size: 1.1em; }
-
-.col {
-  display: inline-block;
-  vertical-align: top; }
-
-.profile-left-col {
-  width: 29%;
-  padding-right: 5%; }
-
-.profile-right-col {
-  width: 70%; }
-
-.profile-cover {
-  width: 100%; }
-
-.profile-cover img {
-  width: 100%; }
-
-.block {
-  background-color: #fff;
-  padding: 10px;
-  margin-bottom: 1em; }
-
-.profile-basic {
-  font-weight: 400; }
-  .profile-basic a:link, .profile-basic a:visited, .profile-basic a:hover, .profile-basic a:active {
-    color: #000; }
-
-.profile-name {
-  display: inline-block;
-  width: 69%;
-  text-transform: uppercase; }
-
-.profile-age {
-  display: inline-block;
-  width: 29%;
-  color: #aaa;
-  text-align: right; }
-
-.connections-count {
-  color: #8BC8DB;
-  font-size: 0.9em; }
-
-.profile-label {
-  font-weight: 400;
-  text-transform: uppercase;
-  color: #000; }
-
-.profile-buttons {
-  margin-bottom: 1em; }
-
-.profile-buttons button {
-  padding: 5px 20px; }
-
-#connect-btn {
-  display: inline-block;
-  float: left; }
-
-.profile-buttons button:last-of-type {
-  float: right; }
-
-.profile-friends {
-  margin-top: 15px; }
-  .profile-friends ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 1em; }
-  .profile-friends .friend-thumb {
-    width: 65px;
-    height: 65px;
-    display: inline-block;
-    margin: 3%; }
-
-.content {
-  margin: 50px; }
-
-.left, .middle {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle; }
-
-.right {
-  display: inline-block;
-  text-align: right;
-  vertical-align: middle; }
-
-button {
-  background: transparent;
-  border: none; }
-
-.button {
-  font-family: inherit;
-  letter-spacing: .05em;
-  font-size: 1em;
-  border-radius: 0px;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  border: none; }
-
-.button:hover {
-  cursor: pointer; }
-
-.button-1, .button-1.disabled:hover {
-  background-color: #8BC8DB;
-  color: #fff;
-  border: 1px solid #8BC8DB;
-  font-weight: 600; }
-
-.button-1:hover {
-  background-color: #fff;
-  color: #8BC8DB;
-  border: 1px solid #8BC8DB; }
-
-.button-2, .button-2.disabled:hover {
-  background-color: #C6C6C6;
-  color: #555555;
-  border: 1px solid #C6C6C6; }
-
-.button-2:hover {
-  background-color: #D8D8D8;
-  color: #555555;
-  border: 1px solid #D8D8D8; }
-
-.button-3 {
-  background-color: #fff;
-  color: #8BC8DB;
-  border: 1px solid #8BC8DB;
-  font-size: 0.9em;
-  font-weight: 600; }
-
-.disabled:hover {
-  cursor: auto; }
-
-.drop-down {
-  position: absolute;
-  background-color: #fff;
-  top: 2.75em;
-  transform: translateX(-50%);
-  display: none;
-  border-left: 1px solid #E2E2E2;
-  border-right: 1px solid #E2E2E2; }
-
-.line {
-  position: absolute;
-  height: 2px;
-  background-color: #8BC8DB; }
-
-#drop-down-friends {
-  width: 300px; }
-  #drop-down-friends ul {
-    position: relative;
-    list-style: none;
-    padding: 0; }
-    #drop-down-friends ul a:link, #drop-down-friends ul a:visited, #drop-down-friends ul a:hover, #drop-down-friends ul a:active {
-      color: #000; }
-    #drop-down-friends ul li {
-      position: relative;
-      padding: 10px 15px;
-      border-bottom: 1px solid #E2E2E2;
-      text-align: left;
-      font-size: 0.9em;
-      font-weight: 400; }
-      #drop-down-friends ul li .left {
-        position: relative;
-        width: 50px; }
-        #drop-down-friends ul li .left .friend-thumb {
-          width: 50px;
-          height: 50px; }
-      #drop-down-friends ul li .middle {
-        padding: 0 0 0 20px;
-        width: 125px; }
-      #drop-down-friends ul li .right {
-        position: relative;
-        width: 85px; }
-        #drop-down-friends ul li .right .action-icon {
-          position: relative;
-          display: inline-block;
-          width: 28px;
-          height: 28px;
-          vertical-align: middle;
-          margin-left: 10px; }
-          #drop-down-friends ul li .right .action-icon #accept-line-1 {
-            width: 12px;
-            -moz-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
-            bottom: 36%;
-            left: 0; }
-          #drop-down-friends ul li .right .action-icon #accept-line-2 {
-            width: 25px;
-            -moz-transform: rotate(-45deg);
-            -webkit-transform: rotate(-45deg);
-            -o-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            bottom: 50%;
-            left: 6px; }
-          #drop-down-friends ul li .right .action-icon #reject-line-1 {
-            width: 28px;
-            -moz-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
-            bottom: 50%;
-            left: 0;
-            background-color: #C6C6C6; }
-          #drop-down-friends ul li .right .action-icon #reject-line-2 {
-            width: 28px;
-            -moz-transform: rotate(-45deg);
-            -webkit-transform: rotate(-45deg);
-            -o-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            bottom: 50%;
-            left: 0;
-            background-color: #C6C6C6; }
-        #drop-down-friends ul li .right .action-icon:hover {
-          cursor: pointer; }
-          #drop-down-friends ul li .right .action-icon:hover .line {
-            opacity: 0.7; }
-  #drop-down-friends .delete-friend-request-form, #drop-down-friends .accept-friend-notification {
-    float: left; }
-
-.friend-thumb {
-  border-radius: 100%;
-  overflow: hidden; }
-  .friend-thumb img {
-    width: 100%;
-    height: 100%; }
-
-.friends .block-title {
-  margin: 10px 30px; }
-.friends .message {
-  margin: 10px 30px; }
-.friends ul li {
-  display: inline-block;
-  margin: 30px; }
-  .friends ul li .left {
-    margin-right: 20px; }
-    .friends ul li .left .friend-thumb {
-      display: inline-block;
-      width: 100px;
-      height: 100px; }
-  .friends ul li .right {
-    text-align: left; }
-    .friends ul li .right .friends-action {
-      margin-top: 1em; }
-  .friends ul li a:link, .friends ul li a:visited, .friends ul li a:hover, .friends ul li a:active {
-    color: #555555; }
-
-#menu-btn {
-  height: 22px;
-  width: 28px;
-  position: relative; }
-  #menu-btn .menu-line {
-    width: 100%;
-    height: 2px;
-    background-color: #000;
-    position: absolute;
-    -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    transition: all .2s ease-out; }
-  #menu-btn #menu-line-1 {
-    top: 0;
-    left: 0; }
-  #menu-btn #menu-line-1.active {
-    -moz-transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-    top: 50%; }
-  #menu-btn #menu-line-2 {
-    top: 10px;
-    left: 0; }
-  #menu-btn #menu-line-2.active {
-    opacity: 0; }
-  #menu-btn #menu-line-3 {
-    top: 20px;
-    left: 0; }
-  #menu-btn #menu-line-3.active {
-    -moz-transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
-    top: 50%; }
-
-/*# sourceMappingURL=style.css.map */
+/*
+Error: File to import not found or unreadable: menu_button.
+       Load path: /Users/Leksi/Documents/Columbia/Courses/Spring2018/AdvancedSoftwareEngineering/Project/spot-me/app/static/stylesheets
+        on line 49 of stylesheets/style.scss
+
+44: @import 'profile';
+45: @import 'layout';
+46: @import 'buttons';
+47: @import 'notifications';
+48: @import 'friends';
+49: @import 'menu_button';
+
+Backtrace:
+stylesheets/style.scss:49
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/import_node.rb:45:in `import'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/import_node.rb:28:in `imported_file'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/import_node.rb:37:in `css_import?'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:314:in `visit_import'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `block in visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:79:in `block in with_base'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:135:in `with_frame'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/stack.rb:79:in `with_base'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:162:in `visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `map'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:171:in `block in visit_children'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:183:in `with_environment'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:170:in `visit_children'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:190:in `visit_root'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/base.rb:36:in `visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:161:in `visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/visitors/perform.rb:10:in `visit'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/root_node.rb:36:in `css_tree'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:389:in `_render_with_sourcemap'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/engine.rb:307:in `render_with_sourcemap'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:462:in `update_stylesheet'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:209:in `each'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:443:in `on_file_changed'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-3.5.5/lib/sass/plugin/compiler.rb:320:in `block in watch'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/config.rb:23:in `call'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:115:in `_process_changes'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:19:in `block in loop_for'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:15:in `loop'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/processor.rb:15:in `loop_for'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/loop.rb:84:in `_wait_for_changes'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/event/loop.rb:42:in `block in setup'
+/usr/local/rvm/gems/ruby-2.3.0/gems/sass-listen-4.0.0/lib/sass-listen/internals/thread_pool.rb:6:in `block in add'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: menu_button.\A        Load path: /Users/Leksi/Documents/Columbia/Courses/Spring2018/AdvancedSoftwareEngineering/Project/spot-me/app/static/stylesheets\A         on line 49 of stylesheets/style.scss\A \A 44: @import 'profile';\A 45: @import 'layout';\A 46: @import 'buttons';\A 47: @import 'notifications';\A 48: @import 'friends';\A 49: @import 'menu_button';"; }
