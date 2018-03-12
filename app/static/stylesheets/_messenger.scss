@@ -1,0 +1,60 @@
+.conversations{
+	display: inline-block;
+	vertical-align: top;
+	width: 20%;
+}
+
+.conversation{
+	padding: 0;
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	margin: 0 4%;
+
+	.conversation-messages{
+		height: 450px;
+		border-bottom: 2px solid $background;
+		overflow: hidden;
+		position: relative;
+
+		.conversation-inner{
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+			padding: 0 20px;
+
+			.message-outer{
+
+				.message{
+					border-radius: 5px;
+					padding: 15px;
+					width: 40%;
+					margin: 10px 0;
+				}
+
+				.message-1{
+					background-color: $blue-main;
+					color: $white;
+					font-weight: 400;
+					float: right;
+				}
+
+				.message-2{
+					background-color: $grey4;
+					color: $black;
+					float: left;
+				}
+			}
+		}
+	}
+
+	.compose-message{
+		height: 150px;
+	}
+}
+
+.conversation-details{
+	display: inline-block;
+	vertical-align: top;
+	width: 20%;
+}

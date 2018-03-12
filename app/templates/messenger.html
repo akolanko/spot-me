@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class='content'>
+		<div class='block conversations'>
+		</div>
+		<div class='block conversation'>
+			<div class='conversation-messages'>
+				<div class='conversation-inner'>
+					{% for message in messages %}
+						<div class='message-outer'>
+							<div class='message message-1'>
+								{{ message.body }}
+							</div>
+							<div class='clear'></div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class='compose-message'>
+			</div>
+		</div>
+		<div class='block conversation-details'>
+		</div>
+	</div>
+{% endblock %}

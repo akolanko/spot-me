@@ -3,7 +3,7 @@ from flask import render_template, flash, redirect, url_for, session
 from app import app
 from app.forms import LoginForm
 from flask_login import current_user, login_user
-from app.models import User, Profile, Friends, FriendStatus
+from app.models import User, Profile, Friends, FriendStatus, Conversation, Message
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
@@ -12,6 +12,8 @@ from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends
 from app.notifications import get_notifications
+from app.messages import get_conversations
+from sqlalchemy import desc
 
 
 @app.route('/home')
@@ -166,6 +168,7 @@ def delete_friend_request():
 
 
 @app.route("/friends/<user_id>")
+@login_required
 def friends(user_id):
     """Show all friends"""
     user = User.query.filter_by(id=user_id).first_or_404()
@@ -177,6 +180,26 @@ def friends(user_id):
     total_friends = len(friends)
     notifications = get_notifications(session["current_user"]["id"])
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends)
+
+
+@app.route("/conversation/<id>")
+@login_required
+def conversation(id):
+    conversation = Conversation.query.filter_by(id=id).first_or_404()
+    cur_user_id = session["current_user"]["id"]
+    notifications = get_notifications(cur_user_id)
+
+    if cur_user_id == conversation.user_id_1:
+        user_2 = User.query.filter_by(id=conversation.user_id_2).first()
+    elif cur_user_id == conversation.user_id_2:
+        user_2 = User.query.filter_by(id=conversation.user_id_1).first()
+    else:
+        return redirect(url_for('home'))
+
+    messages_query = conversation.messages.order_by(desc(Message.timestamp)).limit(10).all()
+    messages = messages_query[::-1]
+    conversations = get_conversations(cur_user_id)
+    return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications)
 
 
 @app.errorhandler(500)
