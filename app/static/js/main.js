@@ -160,4 +160,26 @@ $(document).ready( function() {
 			$("#new-message-body").val('');
 		}
 	});
+
+
+	//Create new conversation
+
+	$('#new-conversation-input').keypress(function(e) {
+		var code = e.keyCode || e.which;
+		if (code == 13) {
+
+			var username = $("#new-conversation-input").val();
+
+			formInput = {
+				"username": username
+			};
+
+			$.post("/create_conversation",
+				formInput,
+				function() {
+					$("#new-conversation-input").val('');
+				}
+			);
+		}
+	});
 });

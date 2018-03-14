@@ -23,22 +23,18 @@
 			</form>
 		</div>
 	</div>
-	<div class='block conversation-details'>
-		<div class='friend-details'>
-			<a href="{{ url_for('user', user_id=user_2.id) }}">
-				<div class='left friend-thumb'>
-					<img src='{{ user_2.avatar(75) }}' />
-				</div>
-			</a>
-			<div class='right'>
-				<div class='name'>
-					{{ user_2.fname }}
-				</div>
-			</div>
-		</div>
-		<a href="{{ url_for('new_conversation') }}">
-			<div class='compose-msg'>
+{% endblock %}
+{% block details %}
+	<div class='friend-details'>
+		<a href="{{ url_for('user', user_id=user_2.id) }}">
+			<div class='left friend-thumb'>
+				<img src='{{ user_2.avatar(75) }}' />
 			</div>
 		</a>
+		<div class='right'>
+			<div class='name'>
+				{{ user_2.fname }}
+			</div>
+		</div>
 	</div>
 {% endblock %}

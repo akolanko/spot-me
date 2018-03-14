@@ -12,7 +12,7 @@ from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends, find_friend
 from app.notifications import get_notifications
-from app.messages import get_conversations, update_read_messages, conversation_exists
+from app.messages import get_conversations, update_read_messages, conversation_exists, build_conversation
 from sqlalchemy import asc
 
 
@@ -221,25 +221,38 @@ def new_message():
 @app.route("/new_conversation")
 def new_conversation():
     cur_user_id = session["current_user"]["id"]
-
     notifications = get_notifications(cur_user_id)
-
     conversations = get_conversations(cur_user_id)
-
     return render_template("new_conversation.html", conversations=conversations, notifications=notifications)
 
 
 @app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
 def create_conversation(user_id):
     cur_user_id = session["current_user"]["id"]
-    conversation = Conversation(user_id_1=cur_user_id, user_id_2=user_id)
-    db.session.add(conversation)
-    db.session.commit()
-    conversation_id = conversation_exists(cur_user_id, user_id)
+    conversation_id = build_conversation(cur_user_id, user_id)
     if conversation_id:
-        return redirect(url_for('conversation', id=conversation.id))
+        return redirect(url_for('conversation', id=conversation_id))
     else:
         return "An error occurred"
+
+
+@app.route("/create_conversation", methods=["POST"])
+def create_new_conversation():
+    cur_user_id = session["current_user"]["id"]
+    username = request.form.get("username")
+    user_id_2 = find_friend(username)
+    if user_id_2 is None:
+        return "Your search did not return any results"
+    else:
+        conversation_id = conversation_exists(cur_user_id, user_id_2)
+        if conversation_id:
+            return redirect(url_for('conversation', id=conversation_id))
+        else:
+            c_id = build_conversation(cur_user_id, user_id_2)
+            if c_id:
+                return "Conversation created"
+            else:
+                return "An error occurred"
 
 
 @app.errorhandler(500)

@@ -4,7 +4,7 @@
 	<div class='block conversation'>
 		<div class='search friend-search'>
 			<form id='new-conversation' action="/create_conversation" method="post">
-				<input type="text" id="new-conversation-input" placeholder='Search for friend by username'>
+				<input type="text" name='username' id="new-conversation-input" placeholder='Search for friend by username'>
 			</form>
 		</div>
 		<div id='conversation-messages-2' class='conversation-messages'>
@@ -16,12 +16,6 @@
 			</form>
 		</div>
 	</div>
-	<div class='block conversation-details'>
-		<a href="{{ url_for('new_conversation') }}">
-			<div class='compose-msg'>
-				<div class='line plus-line plus-line-1'></div>
-				<div class='line plus-line plus-line-2'></div>
-			</div>
-		</a>
-	</div>
+{% endblock %}
+{% block details %}
 {% endblock %}
