@@ -35,3 +35,11 @@ def get_friends(user_id):
 	f2 = db.session.query(User).filter(Friends.user_id_2 == user_id, Friends.status == FriendStatus.accepted).join(Friends, Friends.user_id_1 == User.id)
 	friends = f1.union(f2).all()
 	return friends
+
+
+def find_friend(username):
+	friend = User.query.filter_by(username=username).first()
+	if friend:
+		return friend.id
+	else:
+		return None

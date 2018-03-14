@@ -17,8 +17,14 @@ h1, h2, h3, h4, h5, h6 {
 .clear {
   clear: both; }
 
-.light {
+.weight-light {
   font-weight: 300; }
+
+.weight-med {
+  font-weight: 400; }
+
+.weight-bold {
+  font-weight: 600; }
 
 .page-title {
   font-size: 1.4em;
@@ -209,10 +215,15 @@ nav {
   background-color: #fff;
   width: 200px;
   right: 0;
-  transform: translateX(0%); }
+  transform: translateX(0%);
+  z-index: 500; }
   #drop-down-menu ul {
     list-style: none;
     padding: 0; }
+    #drop-down-menu ul a:link, #drop-down-menu ul a:visited {
+      color: #8BC8DB; }
+    #drop-down-menu ul a:hover, #drop-down-menu ul a:active {
+      color: #8D8D8D; }
     #drop-down-menu ul li {
       border-bottom: 1px solid #E2E2E2;
       text-align: center;
@@ -359,89 +370,104 @@ button {
   transform: translateX(-50%);
   display: none;
   border-left: 1px solid #E2E2E2;
-  border-right: 1px solid #E2E2E2; }
-
-.line {
-  position: absolute;
-  height: 2px;
-  background-color: #8BC8DB; }
-
-#drop-down-friends {
-  width: 300px; }
-  #drop-down-friends ul {
+  border-right: 1px solid #E2E2E2;
+  width: 250px; }
+  .drop-down ul {
     position: relative;
+    text-align: left;
     list-style: none;
     padding: 0; }
-    #drop-down-friends ul a:link, #drop-down-friends ul a:visited, #drop-down-friends ul a:hover, #drop-down-friends ul a:active {
+    .drop-down ul a:link, .drop-down ul a:visited, .drop-down ul a:hover, .drop-down ul a:active {
       color: #000; }
-    #drop-down-friends ul li {
+    .drop-down ul li {
       position: relative;
       padding: 10px 15px;
       border-bottom: 1px solid #E2E2E2;
       text-align: left;
       font-size: 0.9em;
       font-weight: 400; }
-      #drop-down-friends ul li .left {
-        position: relative;
-        width: 50px; }
-        #drop-down-friends ul li .left .friend-thumb {
+      .drop-down ul li .left {
+        position: relative; }
+        .drop-down ul li .left .friend-thumb {
           width: 50px;
           height: 50px; }
-      #drop-down-friends ul li .middle {
-        padding: 0 0 0 20px;
-        width: 125px; }
-      #drop-down-friends ul li .right {
-        position: relative;
-        width: 85px; }
-        #drop-down-friends ul li .right .action-icon {
-          position: relative;
-          display: inline-block;
-          width: 28px;
-          height: 28px;
-          vertical-align: middle;
-          margin-left: 10px; }
-          #drop-down-friends ul li .right .action-icon #accept-line-1 {
-            width: 12px;
-            -moz-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
-            bottom: 36%;
-            left: 0; }
-          #drop-down-friends ul li .right .action-icon #accept-line-2 {
-            width: 25px;
-            -moz-transform: rotate(-45deg);
-            -webkit-transform: rotate(-45deg);
-            -o-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            bottom: 50%;
-            left: 6px; }
-          #drop-down-friends ul li .right .action-icon #reject-line-1 {
-            width: 28px;
-            -moz-transform: rotate(45deg);
-            -webkit-transform: rotate(45deg);
-            -o-transform: rotate(45deg);
-            -ms-transform: rotate(45deg);
-            transform: rotate(45deg);
-            bottom: 50%;
-            left: 0;
-            background-color: #C6C6C6; }
-          #drop-down-friends ul li .right .action-icon #reject-line-2 {
-            width: 28px;
-            -moz-transform: rotate(-45deg);
-            -webkit-transform: rotate(-45deg);
-            -o-transform: rotate(-45deg);
-            -ms-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-            bottom: 50%;
-            left: 0;
-            background-color: #C6C6C6; }
-        #drop-down-friends ul li .right .action-icon:hover {
-          cursor: pointer; }
-          #drop-down-friends ul li .right .action-icon:hover .line {
-            opacity: 0.7; }
+      .drop-down ul li .right {
+        position: relative; }
+
+.line {
+  position: absolute;
+  height: 2px;
+  background-color: #8BC8DB; }
+
+#drop-down-messages ul li .left {
+  width: 50px; }
+#drop-down-messages ul li .right {
+  padding: 0 0 0 20px;
+  width: 160px;
+  text-align: left; }
+  #drop-down-messages ul li .right .recent-msg {
+    color: #717171;
+    height: 1.4em;
+    overflow: hidden; }
+
+#drop-down-friends {
+  width: 300px; }
+  #drop-down-friends ul li .left {
+    width: 50px; }
+  #drop-down-friends ul li .middle {
+    padding: 0 0 0 20px;
+    width: 125px; }
+  #drop-down-friends ul li .right {
+    width: 85px; }
+    #drop-down-friends ul li .right .action-icon {
+      position: relative;
+      display: inline-block;
+      width: 28px;
+      height: 28px;
+      vertical-align: middle;
+      margin-left: 10px; }
+      #drop-down-friends ul li .right .action-icon #accept-line-1 {
+        width: 12px;
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        bottom: 36%;
+        left: 0; }
+      #drop-down-friends ul li .right .action-icon #accept-line-2 {
+        width: 25px;
+        -moz-transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        bottom: 50%;
+        left: 6px; }
+      #drop-down-friends ul li .right .action-icon #reject-line-1 {
+        width: 28px;
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        bottom: 50%;
+        left: 0;
+        background-color: #C6C6C6; }
+      #drop-down-friends ul li .right .action-icon #reject-line-2 {
+        width: 28px;
+        -moz-transform: rotate(-45deg);
+        -webkit-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        bottom: 50%;
+        left: 0;
+        background-color: #C6C6C6; }
+    #drop-down-friends ul li .right .action-icon:hover {
+      cursor: pointer; }
+      #drop-down-friends ul li .right .action-icon:hover .line {
+        opacity: 0.7; }
   #drop-down-friends .delete-friend-request-form, #drop-down-friends .accept-friend-notification {
     float: left; }
 
@@ -570,7 +596,7 @@ button {
       float: left; }
   .conversation .compose-message {
     height: 150px; }
-    .conversation .compose-message #new-message-body {
+    .conversation .compose-message #new-message-body, .conversation .compose-message #new-message-body-2 {
       height: 100%;
       border: none;
       padding: 10px 20px;
@@ -578,9 +604,11 @@ button {
       resize: none; }
 
 .conversation-details {
+  position: relative;
   display: inline-block;
   vertical-align: top;
-  width: 22%; }
+  width: 22%;
+  height: 600px; }
   .conversation-details .friend-details .friend-thumb {
     width: 60px;
     height: 60px; }
@@ -590,5 +618,33 @@ button {
     width: 60%; }
     .conversation-details .friend-details .right .name {
       font-weight: 400; }
+  .conversation-details .compose-msg {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    border: 2px solid #8BC8DB;
+    position: absolute;
+    bottom: 10px;
+    right: 10px; }
+    .conversation-details .compose-msg .plus-line {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+    .conversation-details .compose-msg .plus-line-1 {
+      width: 30px; }
+    .conversation-details .compose-msg .plus-line-2 {
+      width: 2px;
+      height: 30px; }
+
+#new-conversation-input {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid #F5F5F5;
+  padding: 10px 20px;
+  font-size: 0.95em;
+  height: 40px; }
+
+#conversation-messages-2 {
+  height: 410px; }
 
 /*# sourceMappingURL=style.css.map */

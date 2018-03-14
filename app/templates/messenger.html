@@ -1,65 +1,44 @@
-{% extends 'base.html' %}
+{% extends 'message_base.html' %}
 
-{% block content %}
-	<div class='content'>
-		<div class='block conversations'>
-			<ul>
-				{% for conversation in conversations %}
-					<a class='link-2' href="{{ url_for('conversation', id=conversation['Conversation'].id) }}">
-						<li>
-							<div class='left friend-thumb'>
-								<img src='{{ conversation["User"].avatar(75) }}' />
-							</div>
-							<div class='right'>
-								<div class='name'>
-									{{ conversation["User"].fname }}
-								</div>
-								<div class='recent-msg'>
-									{% set msgs = conversation["Conversation"].messages %}
-									{% set rev_msgs = msgs[::-1] %}
-									{% if rev_msgs[0] %}
-										{{ rev_msgs[0].body }}
-									{% endif %}
-								</div>
-							</div>
-						</li>
-					</a>
-				{% endfor %}
-			<ul>
-		</div>
-		<div class='block conversation'>
-			<div class='conversation-messages'>
-				{% for message in messages %}
-					<div class='message-outer'>
-					{% if message.sender == current_user.id %}
-						<div class='message message-1'>
-					{% else %}
-						<div class='message message-2'>
-					{% endif %}
-							{{ message.body }}
-						</div>
-						<div class='clear'></div>
+{% block right %}
+	<div class='block conversation'>
+		<div class='conversation-messages'>
+			{% for message in messages %}
+				<div class='message-outer'>
+				{% if message.sender == current_user.id %}
+					<div class='message message-1'>
+				{% else %}
+					<div class='message message-2'>
+				{% endif %}
+						{{ message.body }}
 					</div>
-				{% endfor %}
-			</div>
-			<div class='compose-message'>
-				<form id='new-message' action="/new_message" method="post">
-					<input type="hidden" id='conversation-id' data-conversation="{{ conversation.id }}">
-					<textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea>
-				</form>
-			</div>
+					<div class='clear'></div>
+				</div>
+			{% endfor %}
 		</div>
-		<div class='block conversation-details'>
-			<div class='friend-details'>
+		<div class='compose-message'>
+			<form id='new-message' action="/new_message" method="post">
+				<input type="hidden" id='conversation-id' data-conversation="{{ conversation.id }}">
+				<textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea>
+			</form>
+		</div>
+	</div>
+	<div class='block conversation-details'>
+		<div class='friend-details'>
+			<a href="{{ url_for('user', user_id=user_2.id) }}">
 				<div class='left friend-thumb'>
 					<img src='{{ user_2.avatar(75) }}' />
 				</div>
-				<div class='right'>
-					<div class='name'>
-						{{ user_2.fname }}
-					</div>
+			</a>
+			<div class='right'>
+				<div class='name'>
+					{{ user_2.fname }}
 				</div>
 			</div>
 		</div>
+		<a href="{{ url_for('new_conversation') }}">
+			<div class='compose-msg'>
+			</div>
+		</a>
 	</div>
 {% endblock %}

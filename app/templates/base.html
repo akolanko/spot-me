@@ -34,13 +34,38 @@
 					<ul class='nav-list'>
 						{% if current_user.is_authenticated %}
 						<li class='nav-item' id='message-notifictions'>
-							
+							{% if notifications['unread_msgs_count'] %}
 							<div id='unread-msgs-count' class='notification-count'>
-								<!-- {{ notifications['unread_msgs_count'] }} -->
+								{{ notifications['unread_msgs_count'] }}
 							</div>
-							
+							{% endif %}
 							<img class='nav-icon' src="../static/img/message.png" />
 							<div class='notification-overlay' id='msg-notification-overlay'></div>
+							{% if notifications['unread_conversations'] %}
+								<div class='drop-down' id='drop-down-messages'>
+									<ul>
+										{% for conversation in notifications['unread_conversations'] %}
+											<li>
+												<a href="{{ url_for('conversation', id=conversation['Conversation'].id) }}">
+													<div class='left'>
+														<div class='friend-thumb'>
+															<img src="{{ conversation['User'].avatar(75) }}" />
+														</div>
+													</div>
+													<div class='right'>
+														<div class='name'>
+															{{ conversation['User'].fname }}
+														</div>
+														<div class='recent-msg'>
+															{{ conversation['Message'].body }}
+														</div>
+													</div>
+												</a>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</li>
 						<li class='nav-item' id='friend-notifications'>
 							{% if notifications['pending_recieved'] %}
@@ -49,6 +74,7 @@
 							</div>
 							{% endif %}
 							<img class='nav-icon' src="../static/img/person.png" />
+							<div class='notification-overlay' id='friend-notification-overlay'></div>
 							{% if notifications['pending_recieved'] %}
 								<div class='drop-down' id='drop-down-friends'>
 									<ul>
@@ -89,7 +115,6 @@
 									</ul>
 								</div>
 							{% endif %}
-							<div class='notification-overlay' id='friend-notification-overlay'></div>
 						</li>
 						<li class='nav-item' id='notifications'>
 							<img class='nav-icon' src="../static/img/notifications.png" />
@@ -112,7 +137,7 @@
 										{% if notifications['recent_conversation'] %}
 											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
 										{% else %}
-											Messages
+											<a href="{{ url_for('new_conversation') }}">Messages</a>
 										{% endif %}
 									</li>
 									<li>
@@ -129,7 +154,6 @@
 				</div>
 			</nav>
 		{% endif %}
-		{{ notifications['unread_msgs_count'] }}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="/static/js/main.js"></script>

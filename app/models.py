@@ -48,8 +48,8 @@ class FriendStatus(enum.Enum):
 
 class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     status = db.Column(db.Enum(FriendStatus))
     user_1 = db.relationship("User", foreign_keys=[user_id_1], backref=db.backref("sent_connections"))
     user_2 = db.relationship("User", foreign_keys=[user_id_2], backref=db.backref("received_connections"))
@@ -60,7 +60,7 @@ class Friends(db.Model):
 
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    sender = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     body = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     read = db.Column(db.Boolean, default=False, nullable=False)
@@ -69,6 +69,6 @@ class Message(db.Model):
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    messages = db.relationship('Message', backref='author', lazy='dynamic')
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    messages = db.relationship('Message', backref='message', lazy='dynamic')

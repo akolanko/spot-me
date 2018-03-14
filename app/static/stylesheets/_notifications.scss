@@ -6,18 +6,11 @@
 	display: none;
 	border-left: 1px solid $grey4;
 	border-right: 1px solid $grey4;
-}
+	width: 250px;
 
-.line{
-	position: absolute;
-	height: 2px;
-	background-color: $blue-main;
-}
-
-#drop-down-friends{
-	width: 300px;
 	ul{
 		position: relative;
+		text-align: left;
 		list-style: none;
 		padding: 0;
 
@@ -35,12 +28,60 @@
 
 			.left{
 				position: relative;
-				width: 50px;
 
 				.friend-thumb{
 					width: 50px;
 					height: 50px;
 				}
+			}
+
+			.right{
+				position: relative;
+			}
+		}
+	}
+}
+
+.line{
+	position: absolute;
+	height: 2px;
+	background-color: $blue-main;
+}
+
+#drop-down-messages{
+	ul{
+
+		li{
+
+			.left{
+				width: 50px;
+			}
+
+			.right{
+				padding: 0 0 0 20px;
+				width: 160px;
+				text-align: left;
+
+				.recent-msg{
+					color: $grey6;
+					height: 1.4em;
+					overflow: hidden;
+				}
+			}
+
+
+		}
+	}
+}
+
+#drop-down-friends{
+	width: 300px;
+	ul{
+
+		li{
+
+			.left{
+				width: 50px;
 			}
 
 			.middle{
@@ -49,7 +90,6 @@
 			}
 
 			.right{
-				position: relative;
 				width: 85px;
 
 				.action-icon{

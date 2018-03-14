@@ -13,6 +13,6 @@ def get_notifications(user_id):
 	else:
 		recent_conversation = None
 
-	unread_msgs_count = unread_messages(user_id)
+	unread_msgs_count, unread_conversations = unread_messages(user_id)
 
-	return {'received_friend_requests': received_friend_requests, 'sent_friend_requests': sent_friend_requests, 'pending_recieved': pending_recieved, 'pending_sent': pending_sent, 'total_pending_recieved': total_pending_recieved, 'recent_conversation': recent_conversation, 'unread_msgs_count': unread_msgs_count}
+	return {'received_friend_requests': received_friend_requests, 'sent_friend_requests': sent_friend_requests, 'pending_recieved': pending_recieved, 'pending_sent': pending_sent, 'total_pending_recieved': total_pending_recieved, 'recent_conversation': recent_conversation, 'unread_msgs_count': unread_msgs_count, 'unread_conversations': unread_conversations}

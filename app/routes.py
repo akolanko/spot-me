@@ -10,9 +10,9 @@ from flask import request
 from werkzeug.urls import url_parse
 from app import db
 from app.forms import RegistrationForm
-from app.friends import are_friends_or_pending, get_friends
+from app.friends import are_friends_or_pending, get_friends, find_friend
 from app.notifications import get_notifications
-from app.messages import get_conversations, update_read_messages
+from app.messages import get_conversations, update_read_messages, conversation_exists
 from sqlalchemy import asc
 
 
@@ -88,7 +88,25 @@ def user(user_id):
 
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends)
+    conversation_id = conversation_exists(user.id, user_id_1)
+
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
+
+
+@app.route("/friends/<user_id>")
+@login_required
+def friends(user_id):
+    """Show all friends"""
+    user = User.query.filter_by(id=user_id).first_or_404()
+    user_id_1 = session["current_user"]["id"]
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
+
+    friends = get_friends(user_id)
+    limited_friends = friends[:6]
+    total_friends = len(friends)
+    notifications = get_notifications(session["current_user"]["id"])
+    conversation_id = conversation_exists(user.id, user_id_1)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
 
 
 @app.route("/add_friend", methods=["POST"])
@@ -167,27 +185,11 @@ def delete_friend_request():
         return "You cannot remove this request"
 
 
-@app.route("/friends/<user_id>")
-@login_required
-def friends(user_id):
-    """Show all friends"""
-    user = User.query.filter_by(id=user_id).first_or_404()
-    user_id_1 = session["current_user"]["id"]
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
-
-    friends = get_friends(user_id)
-    limited_friends = friends[:6]
-    total_friends = len(friends)
-    notifications = get_notifications(session["current_user"]["id"])
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends)
-
-
 @app.route("/conversation/<id>")
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
     cur_user_id = session["current_user"]["id"]
-    notifications = get_notifications(cur_user_id)
 
     if cur_user_id == conversation.user_id_1:
         user_2 = User.query.filter_by(id=conversation.user_id_2).first()
@@ -196,9 +198,11 @@ def conversation(id):
     else:
         return redirect(url_for('home'))
 
+    update_read_messages(conversation.id, user_2.id)
+    notifications = get_notifications(cur_user_id)
+
     messages = conversation.messages.order_by(asc(Message.timestamp)).all()
     conversations = get_conversations(cur_user_id)
-    update_read_messages(conversation.id, user_2.id)
 
     return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications)
 
@@ -212,6 +216,30 @@ def new_message():
     db.session.add(message)
     db.session.commit()
     return "Message sent"
+
+
+@app.route("/new_conversation")
+def new_conversation():
+    cur_user_id = session["current_user"]["id"]
+
+    notifications = get_notifications(cur_user_id)
+
+    conversations = get_conversations(cur_user_id)
+
+    return render_template("new_conversation.html", conversations=conversations, notifications=notifications)
+
+
+@app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
+def create_conversation(user_id):
+    cur_user_id = session["current_user"]["id"]
+    conversation = Conversation(user_id_1=cur_user_id, user_id_2=user_id)
+    db.session.add(conversation)
+    db.session.commit()
+    conversation_id = conversation_exists(cur_user_id, user_id)
+    if conversation_id:
+        return redirect(url_for('conversation', id=conversation.id))
+    else:
+        return "An error occurred"
 
 
 @app.errorhandler(500)

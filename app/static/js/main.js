@@ -19,7 +19,10 @@ $(document).ready( function() {
 
 	// Messenger scroll
 
-	$('.conversation-messages').scrollTop($('.conversation-messages')[0].scrollHeight);
+	var elementExists = $(".conversation-messages").length > 0;
+	if (elementExists){
+		$('.conversation-messages').scrollTop($('.conversation-messages')[0].scrollHeight);
+	}
 
 
 	//Adding friends
@@ -150,11 +153,11 @@ $(document).ready( function() {
 				formInput,
 				function() {
 					$('.conversation-messages').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
+					$('.conversation-messages').scrollTop($('.conversation-messages')[0].scrollHeight);
 				}
 			);
 
 			$("#new-message-body").val('');
 		}
 	});
-
 });

@@ -1,0 +1,36 @@
+{% include 'base.html' %}
+
+{% block content %}
+	<div class='content'>
+		<div class='block conversations'>
+			<ul>
+				{% for conversation in conversations %}
+					<a class='link-2' href="{{ url_for('conversation', id=conversation['Conversation'].id) }}">
+						<li>
+							<div class='left friend-thumb'>
+								<img src='{{ conversation["User"].avatar(75) }}' />
+							</div>
+							<div class='right'>
+								<div class='name'>
+									{{ conversation["User"].fname }}
+								</div>
+								<div class='recent-msg'>
+									{% set msgs = conversation["Conversation"].messages %}
+									{% set rev_msg = msgs[::-1][0] %}
+									{% if rev_msg %}
+										{% if rev_msg.read == 0 and rev_msg.sender != current_user.id %}
+											<span class='weight-bold'>{{ rev_msg.body }}</span>
+										{% else %}
+											{{ rev_msg.body }}
+										{% endif %}
+									{% endif %}
+								</div>
+							</div>
+						</li>
+					</a>
+				{% endfor %}
+			<ul>
+		</div>
+{% block right %}{% endblock %}
+	</div>
+{% endblock %}

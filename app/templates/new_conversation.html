@@ -1,0 +1,27 @@
+{% extends 'message_base.html' %}
+
+{% block right %}
+	<div class='block conversation'>
+		<div class='search friend-search'>
+			<form id='new-conversation' action="/create_conversation" method="post">
+				<input type="text" id="new-conversation-input" placeholder='Search for friend by username'>
+			</form>
+		</div>
+		<div id='conversation-messages-2' class='conversation-messages'>
+		</div>
+		<div class='compose-message'>
+			<form id='new-message-2' action="/new_message" method="post">
+				<input type="hidden" id='conversation-id'>
+				<textarea name='body' id='new-message-body-2' placeholder='Write a message...'></textarea>
+			</form>
+		</div>
+	</div>
+	<div class='block conversation-details'>
+		<a href="{{ url_for('new_conversation') }}">
+			<div class='compose-msg'>
+				<div class='line plus-line plus-line-1'></div>
+				<div class='line plus-line plus-line-2'></div>
+			</div>
+		</a>
+	</div>
+{% endblock %}
