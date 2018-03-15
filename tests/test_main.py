@@ -29,6 +29,7 @@ class MainTest(unittest.TestCase):
 
     def test_homepage(self):
     	rv = self.app.get('/')
+    	self.assertEqual(rv.status_code, 200)
         self.assertIn('SPOT ME', rv.data)
 
 if __name__ == '__main__':

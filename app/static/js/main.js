@@ -174,10 +174,9 @@ $(document).ready( function() {
 				"username": username
 			};
 
-			$.post("/create_conversation",
+			$.post("/create_new_conversation",
 				formInput,
-				function(result) {
-					$('.flash-list').html("<li class='flash-item'>" +result + "</li>");
+				function() {
 					$("#new-conversation-input").val('');
 				}
 			);

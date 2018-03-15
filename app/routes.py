@@ -41,6 +41,7 @@ def login():
             "username": user.username,
             "id": user.id
         }
+        flash('You have successfully logged in')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -70,7 +71,7 @@ def register():
             "id": user.id
         }
         flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -230,29 +231,28 @@ def new_conversation():
 def create_conversation(user_id):
     cur_user_id = session["current_user"]["id"]
     conversation_id = build_conversation(cur_user_id, user_id)
+    print('test')
     if conversation_id:
         return redirect(url_for('conversation', id=conversation_id))
     else:
         return "An error occurred"
 
 
-@app.route("/create_conversation", methods=["POST"])
+@app.route("/create_new_conversation", methods=["POST"])
 def create_new_conversation():
     cur_user_id = session["current_user"]["id"]
     username = request.form.get("username")
     user_id_2 = find_friend(username)
     if user_id_2 is None:
         return "Your search did not return any results"
+    conversation_id = conversation_exists(cur_user_id, user_id_2)
+    if conversation_id:
+        return redirect(url_for('conversation', id=conversation_id))
+    c_id = build_conversation(cur_user_id, user_id_2)
+    if c_id:
+        return "Conversation created"
     else:
-        conversation_id = conversation_exists(cur_user_id, user_id_2)
-        if conversation_id:
-            return redirect(url_for('conversation', id=conversation_id))
-        else:
-            c_id = build_conversation(cur_user_id, user_id_2)
-            if c_id:
-                return "Conversation created"
-            else:
-                return "An error occurred"
+        return "An error occurred"
 
 
 @app.errorhandler(500)

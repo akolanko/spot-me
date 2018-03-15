@@ -49,8 +49,10 @@ def conversation_exists(user_id_1, user_id_2):
 
 
 def build_conversation(user_id_1, user_id_2):
-	conversation = Conversation(user_id_1=user_id_1, user_id_2=user_id_2)
-	db.session.add(conversation)
-	db.session.commit()
 	conversation_id = conversation_exists(user_id_1, user_id_2)
+	if conversation_id is None:
+		conversation = Conversation(user_id_1=user_id_1, user_id_2=user_id_2)
+		db.session.add(conversation)
+		db.session.commit()
+		conversation_id = conversation_exists(user_id_1, user_id_2)
 	return conversation_id
