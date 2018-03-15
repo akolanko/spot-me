@@ -176,7 +176,8 @@ $(document).ready( function() {
 
 			$.post("/create_conversation",
 				formInput,
-				function() {
+				function(result) {
+					$('.flash-list').html("<li class='flash-item'>" +result + "</li>");
 					$("#new-conversation-input").val('');
 				}
 			);
