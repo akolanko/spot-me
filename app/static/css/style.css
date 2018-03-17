@@ -579,6 +579,12 @@ button {
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 0 20px; }
+    .conversation .conversation-messages .message-date {
+      font-weight: 400;
+      color: #aaa;
+      font-size: 0.95em;
+      text-align: center;
+      margin: 1em 0; }
     .conversation .conversation-messages .message-outer .message {
       border-radius: 10px;
       padding: 15px;

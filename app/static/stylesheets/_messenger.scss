@@ -54,6 +54,14 @@
 		overflow-x: hidden;
 		padding: 0 20px;
 
+		.message-date{
+			font-weight: 400;
+			color: $grey3;
+			font-size: 0.95em;
+			text-align: center;
+			margin: 1em 0;
+		}
+
 		.message-outer{
 
 			.message{
