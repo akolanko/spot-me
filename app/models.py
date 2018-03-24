@@ -38,6 +38,7 @@ def load_user(id):
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     about = db.Column(db.Text)
+    work = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
