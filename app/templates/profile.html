@@ -1,12 +1,38 @@
 {% extends 'user.html' %}
 
 {% block right %}
-	<div class='col profile-right-col'>
-		<div class='block profile-info'>
+<div class='col profile-right-col'>
+	<div class='block profile-info'>
+		<div class='left'>
+			<div class='profile-skills'>
+				<div class='profile-label'>Skill Level</div>
+				<div class='profile-text'>{{ profile.skill }}</div>
+				<div class='profile-location'>
+					<div class='profile-label'>Location</div>
+					<div class='profile-text'>{{ profile.location }}</div>
+					<div class='profile-work'>
+						<div class='profile-label'>Work</div>
+						<div class='profile-text'>{{ profile.work }}</div>
+						<div class='profile-interests'>
+							<div class='profile-label'>Interests</div>
+							<div class='profile-text'>{{ profile.interests }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class='right'>
 			<div class='profile-about'>
 				<div class='profile-label'>About</div>
 				<div class='profile-text'>{{ profile.about }}</div>
+				<div class='profile-meet'>
+					<div class='profile-label'>Looking to meet</div>
+					<div class='profile-text'>{{ profile.meet }}</div>
+				</div>
 			</div>
 		</div>
+
 	</div>
+</div>
 {% endblock %}

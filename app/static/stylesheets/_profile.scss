@@ -53,6 +53,24 @@
 }
 
 .profile-info{
+	.left{
+			width: 50%;
+			text-align:left;
+			padding-left:10px;
+			width:70%;
+			display:inline-block;
+			box-sizing:border-box;
+	}
+
+	.right{
+			width: 50%;
+			text-align:left;
+		  padding-left:10px;
+			width:70%;
+			display:inline-block;
+		  box-sizing:border-box;
+	}
+
 }
 
 .profile-label{
@@ -62,7 +80,22 @@
 }
 
 .profile-about{
-	
+
+}
+.profile-meet{
+
+}
+.profile-skill{
+
+}
+.profile-location{
+
+}
+.profile-work{
+
+}
+.profile-interests{
+
 }
 
 .profile-buttons{

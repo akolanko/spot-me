@@ -15,7 +15,7 @@ $(document).ready( function() {
 		$('#menu-line-1').toggleClass('active');
 		$('#menu-line-3').toggleClass('active');
 	});
-	
+
 
 	// Messenger scroll
 
@@ -29,7 +29,7 @@ $(document).ready( function() {
 
 	$("#add-friend-form").submit(function(e) {
 		e.preventDefault();
-		
+
 		var formInput = {
 			"user_id_2": $("#user-info").data("userid")
 		};

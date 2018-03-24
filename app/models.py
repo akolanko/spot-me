@@ -38,8 +38,14 @@ def load_user(id):
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    about = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    about = db.Column(db.Text)
+    # interests = db.Column(db.Text)
+    # skills = db.Column(db.Text)
+    # location = db.Column(db.Text)
+    # work = db.Column(db.Text)
+    # interests = db.Column(db.Text)
+    # meet = db.Column(db.Text)
 
 
 class FriendStatus(enum.Enum):

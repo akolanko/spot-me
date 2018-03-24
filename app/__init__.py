@@ -19,7 +19,9 @@ def connect_to_db(app, db_uri=None):
     """Connect the database to our Flask app."""
     # Environment variables are defined in app.yaml.
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or os.environ['SQLALCHEMY_DATABASE_URI']
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:matchgL@dmemory@127.0.0.1:3399/spotme'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    print(app.config['SQLALCHEMY_DATABASE_URI'])
     db.app = app
     db.init_app(app)
 

@@ -4,6 +4,7 @@ from app import app
 from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models import User, Profile, Friends, FriendStatus, Conversation, Message
+# from app.forms import EditProfileForm
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
@@ -92,7 +93,6 @@ def user(user_id):
     conversation_id = conversation_exists(user.id, user_id_1)
 
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
-
 
 @app.route("/friends/<user_id>")
 @login_required
