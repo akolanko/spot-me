@@ -4,7 +4,7 @@ from app import app
 from app.forms import LoginForm
 from flask_login import current_user, login_user
 from app.models import User, Profile, Friends, FriendStatus, Conversation, Message
-# from app.forms import EditProfileForm
+from app.forms import EditProfileForm
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
@@ -93,6 +93,39 @@ def user(user_id):
     conversation_id = conversation_exists(user.id, user_id_1)
 
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        notifications = get_notifications(current_user.username)
+        current_user.profile.about = form.about.data
+        current_user.profile.meet = form.meet.data
+        current_user.profile.skills = form.skills.data
+        current_user.profile.location = form.location.data
+        current_user.profile.work = form.work.data
+        current_user.profile.interests = form.interests.data
+
+
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        notifications = get_notifications(form.username.data)
+        form.about.data = current_user.profile.about
+        form.meet.data = current_user.profile.meet
+        form.skills.data = current_user.profile.skills
+        form.location.data = current_user.profile.location
+        form.work.data = current_user.profile.work
+        form.interests.data = current_user.profile.interests
+
+    return render_template('edit_profile.html', title='Edit Profile', notifications=notifications,
+                           form=form)
+
 
 @app.route("/friends/<user_id>")
 @login_required
