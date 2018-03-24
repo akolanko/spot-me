@@ -1,11 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-from app import login, connect_to_db, db
+# from app import login, connect_to_db, db
+from app import db, login
 import enum
 from hashlib import md5
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-import os
 
 
 class User(UserMixin, db.Model):
