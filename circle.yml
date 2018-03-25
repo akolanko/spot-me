@@ -37,6 +37,7 @@ test:
   override:
     # run local unit tests
     - python -m tests.test_main
+    - python -m tests.test_db
 
 deployment:
     staging:
