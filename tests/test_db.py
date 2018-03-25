@@ -1,9 +1,13 @@
+import sys
+import os.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
 import unittest
 from main import app
 from app.models import *
 from sample_db import example_data
 from app.friends import *
 from app.messages import *
+from app import connect_to_db
 
 
 class FlaskTestDatabase(unittest.TestCase):
