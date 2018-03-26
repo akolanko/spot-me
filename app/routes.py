@@ -97,6 +97,9 @@ def user(user_id):
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
+    # enable editing
+    user = current_user
+    profile = user.profile
 
     form = EditProfileForm()
     if form.validate_on_submit():
@@ -123,8 +126,9 @@ def edit_profile():
         form.work.data = current_user.profile.work
         form.interests.data = current_user.profile.interests
 
-    return render_template('edit_profile.html', title='Edit Profile', notifications=notifications,
-                           form=form)
+
+    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile,
+    notifications=notifications, form = form)
 
 
 @app.route("/friends/<user_id>")
