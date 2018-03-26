@@ -1,6 +1,5 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-# from app import login, connect_to_db, db
 from app import db, login
 import enum
 from hashlib import md5
@@ -40,6 +39,17 @@ class Profile(db.Model):
     about = db.Column(db.Text)
     work = db.Column(db.String(32))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class Interest(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(32))
+
+
+class Profile_Interests(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'), index=True, nullable=False)
+    interest_id = db.Column(db.Integer, db.ForeignKey('interest.id'), index=True, nullable=False)
 
 
 class FriendStatus(enum.Enum):
