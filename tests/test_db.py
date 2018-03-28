@@ -59,7 +59,7 @@ class FlaskTestDatabase(unittest.TestCase):
 		friend_id = find_friend('dale')
 		self.assertEqual(friend_id.id, 2)
 		friend_id = find_friend('abc')
-		self.assertEqual(friend_id.id, None)
+		self.assertEqual(friend_id, None)
 
 
 	"""Test conversation functions"""
@@ -67,8 +67,8 @@ class FlaskTestDatabase(unittest.TestCase):
 	def test_conversation_exists(self):
 		self.assertEqual(conversation_exists(1, 2).id, 1)
 		self.assertEqual(conversation_exists(2, 1).id, 1)
-		self.assertEqual(conversation_exists(3, 2).id, None)
-		self.assertEqual(conversation_exists(7, 10).id, None)
+		self.assertEqual(conversation_exists(3, 2), None)
+		self.assertEqual(conversation_exists(7, 10), None)
 
 	def test_update_read_messages(self):
 		unread = Message.query.filter_by(conversation_id=1, read=False, sender=2).all()

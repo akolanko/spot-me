@@ -32,14 +32,13 @@
 							</a>
 							<div class='interests'>
 								Interests:
-								{% set ns = namespace(first = True) %}
+								{% set ns = namespace(len = user_interests[1]|length) %}
 								{% for interest in user_interests[1] %}
-									{% if ns.first == True %}
-										{% set ns.first = False %}
+									{% if ns.len - 1 == user_interests[1].index(interest) %}
+										<span class='lowercase'>{{ interest.name }}</span>
 									{% else %}
-										,
+										<span class='lowercase'>{{ interest.name }}, </span>
 									{% endif %}
-									<span class='lowercase'>{{ interest.name }}</span>
 								{% endfor %}
 							</div>
 						</div>

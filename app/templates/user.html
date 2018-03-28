@@ -30,8 +30,8 @@
 							</form>
 						{% endif %}
 					</div>
-					{% if conversation_id %}
-						<a href="{{ url_for('conversation', id=conversation_id) }}">
+					{% if conversation %}
+						<a href="{{ url_for('conversation', id=conversation.id) }}">
 					{% else %}
 						<a href="{{ url_for('create_conversation', user_id=user.id) }}">
 					{% endif %}

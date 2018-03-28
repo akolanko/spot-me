@@ -60,7 +60,7 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, fname=form.fname.data, lname=form.lname.data)
+        user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data)
         user.set_password(form.password.data)
         db.session.add(user)
         profile = Profile()
@@ -92,7 +92,7 @@ def user(user_id):
 
     conversation = conversation_exists(user.id, user_id_1)
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation.id)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation)
 
 
 @app.route("/friends/<user_id>")
@@ -108,7 +108,7 @@ def friends(user_id):
     total_friends = len(friends)
     notifications = get_notifications(session["current_user"]["id"])
     conversation = conversation_exists(user.id, user_id_1)
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation.id)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation)
 
 
 @app.route("/add_friend", methods=["POST"])
@@ -248,9 +248,8 @@ def create_new_conversation():
         return "Your search did not return any results."
     conversation = conversation_exists(cur_user_id, user_2.id)
     if conversation:
-        user = get_conversation_user(cur_user_id, conversation)
         messages = conversation.messages
-        return jsonify([conversation.serialize(), user.serialize(), [m.serialize() for m in messages], current_user.serialize()])
+        return jsonify([conversation.serialize(), user_2.serialize(), [m.serialize() for m in messages], current_user.serialize()])
     else:
         c_id = build_conversation(cur_user_id, user_2.id)
         if c_id:

@@ -200,7 +200,7 @@ $(document).ready( function() {
 				} else {
 					html += "<div class='message message-2'>";
 				}
-				html += result[2][i].body + "<div class='clear'></div></div>";
+				html += result[2][i].body + "</div><div class='clear'></div>";
 			}
 		}
 		$(".conversation-messages").html(html);
@@ -210,7 +210,7 @@ $(document).ready( function() {
 	//Create new conversation
 
 	$('#new-conversation').submit(function(e) {
-		var username = $("#new-conversation-input").val();
+		var username = $("#new-conversation-input").val().toLowerCase();
 
 		formInput = {
 			"username": username

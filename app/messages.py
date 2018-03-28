@@ -62,11 +62,3 @@ def get_conversation(conversation_id):
 	conversation = db.session.query(Conversation).filter(Conversation.id == conversation_id).first()
 	return conversation
 
-
-def get_conversation_user(cur_user_id, coversation):
-	if Conversation.user_id_1 == cur_user_id:
-		friend_id = Conversation.user_id_2
-	else:
-		friend_id = Conversation.user_id_1
-	friend = db.session.query(User).filter(User.id == friend_id).first()
-	return friend
