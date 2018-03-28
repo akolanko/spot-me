@@ -41,23 +41,32 @@ def unread_messages(user_id):
 def conversation_exists(user_id_1, user_id_2):
 	c1 = Conversation.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2).first()
 	if c1:
-		return c1.id
+		return c1
 	c2 = Conversation.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1).first()
 	if c2:
-		return c2.id
+		return c2
 	return None
 
 
 def build_conversation(user_id_1, user_id_2):
-	conversation_id = conversation_exists(user_id_1, user_id_2)
-	if conversation_id is None:
+	conversation = conversation_exists(user_id_1, user_id_2)
+	if conversation is None:
 		conversation = Conversation(user_id_1=user_id_1, user_id_2=user_id_2)
 		db.session.add(conversation)
 		db.session.commit()
-		conversation_id = conversation_exists(user_id_1, user_id_2)
-	return conversation_id
+		conversation = conversation_exists(user_id_1, user_id_2)
+	return conversation.id
 
 
 def get_conversation(conversation_id):
 	conversation = db.session.query(Conversation).filter(Conversation.id == conversation_id).first()
 	return conversation
+
+
+def get_conversation_user(cur_user_id, coversation):
+	if Conversation.user_id_1 == cur_user_id:
+		friend_id = Conversation.user_id_2
+	else:
+		friend_id = Conversation.user_id_1
+	friend = db.session.query(User).filter(User.id == friend_id).first()
+	return friend

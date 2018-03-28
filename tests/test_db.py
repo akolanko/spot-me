@@ -65,10 +65,10 @@ class FlaskTestDatabase(unittest.TestCase):
 	"""Test conversation functions"""
 
 	def test_conversation_exists(self):
-		self.assertEqual(conversation_exists(1, 2), 1)
-		self.assertEqual(conversation_exists(2, 1), 1)
-		self.assertEqual(conversation_exists(3, 2), None)
-		self.assertEqual(conversation_exists(7, 10), None)
+		self.assertEqual(conversation_exists(1, 2).id, 1)
+		self.assertEqual(conversation_exists(2, 1).id, 1)
+		self.assertEqual(conversation_exists(3, 2).id, None)
+		self.assertEqual(conversation_exists(7, 10).id, None)
 
 	def test_update_read_messages(self):
 		unread = Message.query.filter_by(conversation_id=1, read=False, sender=2).all()

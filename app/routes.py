@@ -12,7 +12,7 @@ from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends, find_friend
 from app.notifications import get_notifications
-from app.messages import get_conversations, update_read_messages, conversation_exists, build_conversation, get_conversation
+from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 
@@ -38,7 +38,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('home')
+            next_page = url_for('discover')
         session["current_user"] = {
             "username": user.username,
             "id": user.id
@@ -90,9 +90,9 @@ def user(user_id):
 
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
-    conversation_id = conversation_exists(user.id, user_id_1)
+    conversation = conversation_exists(user.id, user_id_1)
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation.id)
 
 
 @app.route("/friends/<user_id>")
@@ -107,8 +107,8 @@ def friends(user_id):
     limited_friends = friends[:6]
     total_friends = len(friends)
     notifications = get_notifications(session["current_user"]["id"])
-    conversation_id = conversation_exists(user.id, user_id_1)
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation_id)
+    conversation = conversation_exists(user.id, user_id_1)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation_id=conversation.id)
 
 
 @app.route("/add_friend", methods=["POST"])
@@ -246,14 +246,17 @@ def create_new_conversation():
     user_2 = find_friend(username)
     if user_2 is None:
         return "Your search did not return any results."
-    conversation_id = conversation_exists(cur_user_id, user_2.id)
-    if conversation_id:
-        return redirect(url_for('conversation', id=conversation_id))
-    c_id = build_conversation(cur_user_id, user_2.id)
-    if c_id:
-        return jsonify([(get_conversation(c_id)).serialize(), user_2.serialize()])
+    conversation = conversation_exists(cur_user_id, user_2.id)
+    if conversation:
+        user = get_conversation_user(cur_user_id, conversation)
+        messages = conversation.messages
+        return jsonify([conversation.serialize(), user.serialize(), [m.serialize() for m in messages], current_user.serialize()])
     else:
-        return "An error occurred."
+        c_id = build_conversation(cur_user_id, user_2.id)
+        if c_id:
+            return jsonify([(get_conversation(c_id)).serialize(), user_2.serialize()])
+        else:
+            return "An error occurred."
 
 
 @app.route("/discover")
