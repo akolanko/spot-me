@@ -37,9 +37,16 @@ def get_friends(user_id):
 	return friends
 
 
+def get_non_friends(user_id):
+	f1 = db.session.query(User).join(Friends, Friends.user_id_1 == User.id).filter(Friends.user_id_1 != user_id, Friends.user_id_2 != user_id)
+	f2 = db.session.query(User).join(Friends, Friends.user_id_2 == User.id).filter(Friends.user_id_1 != user_id, Friends.user_id_2 != user_id)
+	non_friends = f1.union(f2)
+	return non_friends
+
+
 def find_friend(username):
 	friend = User.query.filter_by(username=username).first()
 	if friend:
-		return friend.id
+		return friend
 	else:
 		return None

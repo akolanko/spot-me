@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class='content'>
+		<div class='discover block'>
+			<div class='heading-columns'>
+				<h1 class='page-block-title left-page-title'>Discover</h2>
+				<div class='search-bar inline-search'>
+					<form id='search-discover' action="/search_discover" method="post">
+						<input type="text" name='interest' id="search-discover-input" placeholder='Search by interest'>
+						<button type="submit" class='hidden'></button>
+					</form>
+				</div>
+				<div class='clear'></div>
+			</div>
+			<div class='users'>
+				<ul>
+					{% for user_interests in users_interests %}
+					<li>
+						<a class='link-2' href="{{ url_for('user', user_id=user_interests[0].id) }}">
+							<div class='left'>
+								<div class='friend-thumb'>
+									<img src="{{ user_interests[0].avatar(75) }}" />
+								</div>
+							</div>
+						</a>
+						<div class='right'>
+							<a class='link-2' href="{{ url_for('user', user_id=user_interests[0].id) }}">
+								<div class='friends-name'>
+									{{ user_interests[0].fname }} {{ user_interests[0].lname }}
+								</div>
+							</a>
+							<div class='interests'>
+								Interests:
+								{% set ns = namespace(first = True) %}
+								{% for interest in user_interests[1] %}
+									{% if ns.first == True %}
+										{% set ns.first = False %}
+									{% else %}
+										,
+									{% endif %}
+									<span class='lowercase'>{{ interest.name }}</span>
+								{% endfor %}
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}

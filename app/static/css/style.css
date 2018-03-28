@@ -26,15 +26,8 @@ h1, h2, h3, h4, h5, h6 {
 .weight-bold {
   font-weight: 600; }
 
-.page-title {
-  font-size: 1.4em;
-  font-weight: 300;
-  margin-top: 0;
-  margin-bottom: 1em; }
-
-.block-title {
-  font-size: 1.2em;
-  text-transform: uppercase; }
+.lowercase {
+  text-transform: lowercase; }
 
 a:link, a:visited {
   color: #8BC8DB;
@@ -89,6 +82,12 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   font-size: .9em;
   marin-top: .3em; }
 
+.hidden {
+  width: 0;
+  height: 0;
+  border: none;
+  padding: none; }
+
 #home-title-block {
   float: left;
   width: 50%;
@@ -137,13 +136,17 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   left: 0;
   width: 100%;
   text-align: center;
-  font-weight: 400;
-  color: #8BC8DB;
-  background-color: #F5F5F5; }
+  font-weight: 600;
+  color: #fff;
+  z-index: 600; }
 
 .flash-list {
   list-style: none;
-  padding: 0; }
+  padding: 10px 0;
+  background-color: #8BC8DB; }
+
+.result {
+  padding: 10px 20px; }
 
 nav {
   border-bottom: 1px solid #C6C6C6;
@@ -652,5 +655,71 @@ button {
 
 #conversation-messages-2 {
   height: 410px; }
+
+.discover {
+  padding: 10px 0; }
+  .discover .heading-columns {
+    padding: 0 10px 10px; }
+    .discover .heading-columns .page-block-title {
+      margin-left: 20px; }
+    .discover .heading-columns .left-page-title {
+      float: left; }
+    .discover .heading-columns .search-bar {
+      margin: 10px 20px;
+      float: right; }
+      .discover .heading-columns .search-bar #search-discover-input {
+        width: 350px; }
+  .discover .users {
+    padding: 10px; }
+    .discover .users ul {
+      list-style: none;
+      padding: 0; }
+      .discover .users ul li {
+        display: inline-block;
+        width: 28%;
+        margin: 30px 20px; }
+        .discover .users ul li a:link, .discover .users ul li a:visted, .discover .users ul li a:hover, .discover .users ul li a:active {
+          color: #000; }
+        .discover .users ul li .left {
+          vertical-align: top; }
+          .discover .users ul li .left .friend-thumb {
+            width: 120px;
+            height: 120px; }
+        .discover .users ul li .right {
+          vertical-align: top;
+          text-align: left;
+          margin: 0.5em 0 0.5em 20px;
+          width: 50%; }
+          .discover .users ul li .right a:link, .discover .users ul li .right a:visted, .discover .users ul li .right a:hover, .discover .users ul li .right a:active {
+            color: #000; }
+          .discover .users ul li .right .friends-name {
+            font-size: 1.1em;
+            margin-bottom: 0.5em; }
+          .discover .users ul li .right .interests {
+            color: #000;
+            font-weight: 300; }
+
+.page-title {
+  font-size: 1.4em;
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: 1em; }
+
+.block-title {
+  font-size: 1.2em;
+  text-transform: uppercase; }
+
+.page-block-title {
+  font-size: 2em;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-top: 5px; }
+
+.left-page-title {
+  display: inline-block; }
+
+.heading-columns {
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #F5F5F5; }
 
 /*# sourceMappingURL=style.css.map */

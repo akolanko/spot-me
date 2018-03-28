@@ -56,3 +56,8 @@ def build_conversation(user_id_1, user_id_2):
 		db.session.commit()
 		conversation_id = conversation_exists(user_id_1, user_id_2)
 	return conversation_id
+
+
+def get_conversation(conversation_id):
+	conversation = db.session.query(Conversation).filter(Conversation.id == conversation_id).first()
+	return conversation

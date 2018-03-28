@@ -1,5 +1,9 @@
 $(document).ready( function() {
 
+	//Hide flash
+
+	$('.flash-list').delay(1500).slideUp();
+
 	//Navigation menu
 
 	$('.notification-overlay').click(function(){
@@ -164,22 +168,109 @@ $(document).ready( function() {
 
 	//Create new conversation
 
-	$('#new-conversation-input').keypress(function(e) {
-		var code = e.keyCode || e.which;
-		if (code == 13) {
+	$('#new-conversation').submit(function(e) {
+		var username = $("#new-conversation-input").val();
 
-			var username = $("#new-conversation-input").val();
+		formInput = {
+			"username": username
+		};
 
-			formInput = {
-				"username": username
-			};
-
-			$.post("/create_new_conversation",
-				formInput,
-				function() {
+		$.post("/create_new_conversation",
+			formInput,
+			function(result) {
+				if(typeof result == "string"){
 					$("#new-conversation-input").val('');
+					$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + result + "</li></ul>");
+					$('.flash-list').delay(1500).slideUp();
+				} else {
+					$(".friend-search").hide();
+					$("#conversation-messages-2").removeAttr("id");
+					$(".compose-message").html("<form id='new-message' action='/new_message' method='post'><input type='hidden' id='conversation-id' data-conversation='" + result[0].id + "'><textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea><button type='submit' class='hidden'></button></form>");
+					$(".friend-details").html("<a href='/user/" + result[1].id + "'><div class='left friend-thumb'><img src='" + result[1].avatar + "' /></div></a><div class='right'><div class='name'>" + result[1].fname + "</div></div>");
+
+					$('#new-message-body').keypress(function(e) {
+						var code = e.keyCode || e.which;
+						if (code == 13) {
+							var body = $("#new-message-body").val();
+
+							formInput = {
+								"conversation_id": $("#conversation-id").data("conversation"),
+								"body": body
+							};
+
+							$.post("/new_message",
+								formInput,
+								function() {
+									$('.conversation-messages').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
+									$('.conversation-messages').scrollTop($('.conversation-messages')[0].scrollHeight);
+								}
+							);
+
+							$("#new-message-body").val('');
+						}
+					});
 				}
-			);
-		}
+			}
+		);
+
+		e.preventDefault();
 	});
+
+	// $('#new-conversation-input').keypress(function(e) {
+	// 	var code = e.keyCode || e.which;
+	// 	if (code == 13) {
+
+	// 		var username = $("#new-conversation-input").val();
+
+	// 		formInput = {
+	// 			"username": username
+	// 		};
+
+	// 		$.post("/create_new_conversation",
+	// 			formInput,
+	// 			function(result) {
+	// 				$("#new-conversation-input").val('');
+	// 				$('.flash-list').html("<li class='flash-item'>" +  result + "</li>");
+	// 			}
+	// 		);
+	// 	}
+	// });
+
+
+	//Discover search
+
+	$("#search-discover").submit(function(e) {
+		var interest = $("#search-discover-input").val().toLowerCase();
+
+		formInput = {
+			"interest": interest
+		};
+
+		$.post("/search_discover",
+			formInput,
+			function(result) {
+				var html = "";
+				$("#search-discover-input").val('');
+				if(typeof result == "string"){
+					html += "<div class='result'>" + result + "</div>";
+				} else{
+					for (i = 0; i < result.length; i++) {
+						html += "<li><a class='link-2' href='/user/" + result[i][0].id + "'><div class='left'><div class='friend-thumb'><img src=" + result[i][0].avatar + " /></div></div><div class='right'><a class='link-2' href='/user/" + result[i][0].id + "'><div class='friends-name'>" + result[i][0].fname + " " + result[i][0].lname + "</div></a><div class='interests'>Interests: ";
+						for (j = 0; j < result[i][1].length; j++) {
+							if (j > 0) {
+								html += ", ";
+							}
+							html += "<span class='lowercase'>" + result[i][1][j].name + "</span>";
+						}
+						html += "</div></div></a></li>";
+					}
+				}
+				$(".users ul").html(html);
+			}
+		);
+
+		e.preventDefault();
+	});
+
+
 });

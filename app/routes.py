@@ -1,9 +1,9 @@
 import logging
-from flask import render_template, flash, redirect, url_for, session
+from flask import render_template, flash, redirect, url_for, session, jsonify
 from app import app
 from app.forms import LoginForm
 from flask_login import current_user, login_user
-from app.models import User, Profile, Friends, FriendStatus, Conversation, Message
+from app.models import *
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
@@ -12,11 +12,13 @@ from app import db
 from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends, find_friend
 from app.notifications import get_notifications
-from app.messages import get_conversations, update_read_messages, conversation_exists, build_conversation
+from app.messages import get_conversations, update_read_messages, conversation_exists, build_conversation, get_conversation
+from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 
 
 @app.route('/home')
+@login_required
 def home():
     notifications = get_notifications(session["current_user"]["id"])
     return render_template('home.html', title='Home', notifications=notifications)
@@ -41,7 +43,6 @@ def login():
             "username": user.username,
             "id": user.id
         }
-        flash('You have successfully logged in')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -118,18 +119,18 @@ def add_friend():
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
 
     if user_id_1 == user_id_2:
-        return "You cannot add yourself as a friend"
+        return "You cannot add yourself as a friend."
     elif are_friends:
-        return "You are already friends"
+        return "You are already friends."
     elif is_pending_sent:
-        return "Your friend request is pending"
+        return "Your friend request is pending."
     elif is_pending_recieved:
-        return "You have already recieved a request from this user"
+        return "You have already recieved a request from this user."
     else:
         friend_request = Friends(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.requested)
         db.session.add(friend_request)
         db.session.commit()
-        return "Request sent"
+        return "Request sent."
 
 
 @app.route("/accept_friend", methods=["POST"])
@@ -140,16 +141,16 @@ def accept_friend():
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
 
     if user_id_1 == user_id_2:
-        return "You cannot add yourself as a friend"
+        return "You cannot add yourself as a friend."
     elif are_friends:
-        return "You are already friends"
+        return "You are already friends."
     elif is_pending_recieved:
         friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
-        return "Request accepted"
+        return "Request accepted."
     else:
-        return "An error occured"
+        return "An error occured."
 
 
 @app.route("/unfriend", methods=["POST"])
@@ -167,7 +168,7 @@ def unfriend():
         db.session.commit()
         return "Unfriend"
     else:
-        return "You cannot unfriend this user"
+        return "You cannot unfriend this user."
 
 
 @app.route("/delete_friend_request", methods=["POST"])
@@ -181,9 +182,9 @@ def delete_friend_request():
         relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
         db.session.delete(relationship)
         db.session.commit()
-        return "Request removed"
+        return "Request removed."
     else:
-        return "You cannot remove this request"
+        return "You cannot remove this request."
 
 
 @app.route("/conversation/<id>")
@@ -220,6 +221,7 @@ def new_message():
 
 
 @app.route("/new_conversation")
+@login_required
 def new_conversation():
     cur_user_id = session["current_user"]["id"]
     notifications = get_notifications(cur_user_id)
@@ -231,28 +233,47 @@ def new_conversation():
 def create_conversation(user_id):
     cur_user_id = session["current_user"]["id"]
     conversation_id = build_conversation(cur_user_id, user_id)
-    print('test')
     if conversation_id:
         return redirect(url_for('conversation', id=conversation_id))
     else:
-        return "An error occurred"
+        return "An error occurred."
 
 
 @app.route("/create_new_conversation", methods=["POST"])
 def create_new_conversation():
     cur_user_id = session["current_user"]["id"]
     username = request.form.get("username")
-    user_id_2 = find_friend(username)
-    if user_id_2 is None:
-        return "Your search did not return any results"
-    conversation_id = conversation_exists(cur_user_id, user_id_2)
+    user_2 = find_friend(username)
+    if user_2 is None:
+        return "Your search did not return any results."
+    conversation_id = conversation_exists(cur_user_id, user_2.id)
     if conversation_id:
         return redirect(url_for('conversation', id=conversation_id))
-    c_id = build_conversation(cur_user_id, user_id_2)
+    c_id = build_conversation(cur_user_id, user_2.id)
     if c_id:
-        return "Conversation created"
+        return jsonify([(get_conversation(c_id)).serialize(), user_2.serialize()])
     else:
-        return "An error occurred"
+        return "An error occurred."
+
+
+@app.route("/discover")
+@login_required
+def discover():
+    cur_user_id = session["current_user"]["id"]
+    notifications = get_notifications(cur_user_id)
+    users_interests = discover_friends(cur_user_id)
+    return render_template("discover.html", notifications=notifications, users_interests=users_interests)
+
+
+@app.route("/search_discover", methods=["POST"])
+def search_discover():
+    cur_user_id = session["current_user"]["id"]
+    interest = request.form.get("interest")
+    users = search_interests(interest, cur_user_id)
+    if len(users) == 0:
+        return "Your search did not return any results."
+    else:
+        return jsonify([[u.serialize(), [i.serialize() for i in get_interests(u.id)]] for u in users])
 
 
 @app.errorhandler(500)

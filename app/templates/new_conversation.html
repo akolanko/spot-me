@@ -5,6 +5,7 @@
 		<div class='search friend-search'>
 			<form id='new-conversation' action="/create_new_conversation" method="post">
 				<input type="text" name='username' id="new-conversation-input" placeholder='Search for friend by username'>
+				<button type="submit" class='hidden'></button>
 			</form>
 		</div>
 		<div id='conversation-messages-2' class='conversation-messages'>
@@ -18,4 +19,6 @@
 	</div>
 {% endblock %}
 {% block details %}
+	<div class='friend-details'>
+	</div>
 {% endblock %}

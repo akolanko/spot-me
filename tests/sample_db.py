@@ -20,5 +20,5 @@ def example_data():
     message2 = Message(sender=2, conversation_id=1, body='hey')
     message3 = Message(sender=2, conversation_id=1, body='how are you?')
 
-    db.session.add_all([karen, dale, matt, friendship1, friendship2, conversation1, conversation2, message1, message2, message3])
+    db.session.add_all([karen, dale, matt, jake, friendship1, friendship2, conversation1, conversation2, message1, message2, message3])
     db.session.commit()

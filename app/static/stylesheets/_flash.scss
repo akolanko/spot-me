@@ -4,16 +4,21 @@
 	left: 0;
 	width: 100%;
 	text-align: center;
-	font-weight: 400;
-	color: $blue-main;
-	background-color: $background;
+	font-weight: 600;
+	color: $white;
+	z-index: 600;
 }
 
 .flash-list{
 	list-style: none;
-	padding: 0;
+	padding: 10px 0;
+	background-color: $blue-main;
 }
 
 .flash-item{
 	
+}
+
+.result{
+	padding: 10px 20px;
 }

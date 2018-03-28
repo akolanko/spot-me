@@ -28,6 +28,16 @@ class User(UserMixin, db.Model):
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'fname': self.fname,
+            'lname': self.lname,
+            'avatar': self.avatar(75)
+        }
+
 
 @login.user_loader
 def load_user(id):
@@ -45,11 +55,19 @@ class Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(32))
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
 
-class Profile_Interests(db.Model):
+
+class User_Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'), index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     interest_id = db.Column(db.Integer, db.ForeignKey('interest.id'), index=True, nullable=False)
+    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("user"))
+    interest = db.relationship("Interest", foreign_keys=[interest_id], backref=db.backref("interest"))
 
 
 class FriendStatus(enum.Enum):
@@ -77,9 +95,26 @@ class Message(db.Model):
     read = db.Column(db.Boolean, default=False, nullable=False)
     conversation_id = db.Column(db.Integer, db.ForeignKey('conversation.id'))
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'sender': self.sender,
+            'body': self.body,
+            'timestamp': self.timestamp,
+            'read': self.read,
+            'conversation_id': self.conversation_id
+        }
+
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     messages = db.relationship('Message', backref='message', lazy='dynamic')
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id_1': self.user_id_1,
+            'user_id_2': self.user_id_2
+        }

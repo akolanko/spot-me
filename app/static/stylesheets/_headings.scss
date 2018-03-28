@@ -1,0 +1,27 @@
+.page-title{
+	font-size: 1.4em;
+	font-weight: 300;
+	margin-top: 0;
+	margin-bottom: 1em;
+}
+
+.block-title{
+	font-size: 1.2em;
+	text-transform: uppercase;
+}
+
+.page-block-title{
+	font-size: 2em;
+	font-weight: 400;
+	text-transform: uppercase;
+	margin-top: 5px;
+}
+
+.left-page-title{
+	display: inline-block;
+}
+
+.heading-columns{
+	margin-bottom: 0.5em;
+	border-bottom: 2px solid $background;
+}
