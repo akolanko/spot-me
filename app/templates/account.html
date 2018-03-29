@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class='content'>
+		<div class='block account'>
+			<div class='heading-columns'>
+				<h1 class='page-block-title'>Account</h2>
+			</div>
+			<div class='left'>
+				<div class='account-info'>
+					<div class='account-field'>
+						<div class='label'>
+							Name
+						</div>
+						<div class='field'>
+							{{ user.fname }} {{ user.lname }}
+						</div>
+					</div>
+					<div class='account-field'>
+						<div class='label'>
+							Username
+						</div>
+						<div class='field'>
+							{{ user.username }}
+						</div>
+					</div>
+					<div class='account-field'>
+						<div class='label'>
+							Email
+						</div>
+						<div class='field'>
+							{{ user.email }}
+						</div>
+					</div>
+					<div class='account-field'>
+						<div class='label'>
+							Birthday
+						</div>
+						<div class='field'>
+							{{ user.birthday.month }}/{{ user.birthday.day }}/{{ user.birthday.year }}
+						</div>
+					</div>
+				</div>
+				<div class='account-buttons'>
+					<button class='button button-1'>Edit</button>
+					<button class='button button-4'>Delete Account</button>
+				</div>
+			</div>
+			<div class='right'>
+				<h2 class='block-title'>Change Password</h2>
+				<div class='update-password'>
+					<form id='update-password' action="" method="post">
+					{{ form.hidden_tag() }}
+					<div class='form-field'>
+						{{ form.password(placeholder="new password") }}
+						{% for error in form.password.errors %}
+							<div class="validation-error">{{ error }}</div>
+						{% endfor %}
+					</div>
+					<div class='form-field'>
+						{{ form.password_repeat(placeholder="repeat password") }}
+						{% for error in form.password_repeat.errors %}
+							<div class="validation-error">{{ error }}</div>
+						{% endfor %}
+					</div>
+					{{ form.submit(id='update-password-submit', value="Update", class='button button-1') }}
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class='overlay' id='account-overlay'>
+	</div>
+	<div class='overlay-form' id='account-overlay-form'>
+		<h2 class='block-title'>Update Account</h2>
+		<form id='update-account-form' action="/update_account" method="post">
+			<div class='form-field'>
+				<label>First Name</label>
+				<input type="text" name='fname' id="update-fname" placeholder={{ user.fname }}>
+			</div>
+			<div class='form-field'>
+				<label>Last Name</label>
+				<input type="text" name='lname' id="update-lname" placeholder={{ user.lname }}>
+			</div>
+			<div class='form-field'>
+				<label>Username</label>
+				<input type="text" name='username' id="update-username" placeholder={{ user.username }}>
+			</div>
+			<div class='form-field'>
+				<label>Email</label>
+				<input type="text" name='email' id="update-email" placeholder={{ user.email }}>
+			</div>
+			<div class='form-field'>
+				<label>Birthday</label>
+				<input type="datetime" name='birthday' id="update-birthday" placeholder={{ user.birthday }}>
+			</div>
+			<button type="submit" class='button button-1'>Update</button>
+		</form>
+	</div>
+{% endblock %}

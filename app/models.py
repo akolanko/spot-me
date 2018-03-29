@@ -110,8 +110,8 @@ class Message(db.Model):
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
-    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    user_id_1 = db.Column(db.Integer,  index=True, nullable=False)
+    user_id_2 = db.Column(db.Integer,  index=True, nullable=False)
     messages = db.relationship('Message', backref='message', lazy='dynamic')
 
     def serialize(self):

@@ -6,6 +6,9 @@
   margin: 0;
   padding: 0; }
 
+html {
+  position: relative; }
+
 body {
   font-family: "Open Sans", sans-serif;
   background-color: #F5F5F5;
@@ -731,20 +734,71 @@ button {
   padding: 0 10px 10px; }
 
 .account {
-  padding: 10px 0; }
-  .account .account-info {
-    padding: 30px;
-    font-size: 1.2em; }
-    .account .account-info .account-field {
-      margin-bottom: 1em; }
-      .account .account-info .account-field .label {
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        display: inline-block;
-        margin-right: 1em; }
-      .account .account-info .account-field .field {
-        color: #8D8D8D;
-        display: inline-block; }
+  padding: 10px 0 0; }
+  .account .heading-columns {
+    margin-bottom: 0; }
+  .account .left {
+    vertical-align: top;
+    padding-top: 40px;
+    width: 49%; }
+    .account .left .account-info {
+      padding: 0 30px 10px;
+      font-size: 1.1em; }
+      .account .left .account-info .account-field {
+        margin-bottom: 1em; }
+        .account .left .account-info .account-field .label {
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          display: inline-block;
+          margin-right: 1em; }
+        .account .left .account-info .account-field .field {
+          color: #8D8D8D;
+          display: inline-block; }
+    .account .left .account-buttons {
+      padding: 0 30px 30px; }
+      .account .left .account-buttons .button:first-of-type {
+        margin-right: 20px; }
+  .account .right {
+    vertical-align: top;
+    padding: 40px 30px 30px 70px;
+    width: 49%;
+    text-align: left;
+    border-left: 2px solid #F5F5F5; }
+    .account .right .update-password {
+      width: 80%; }
+      .account .right .update-password form {
+        margin-bottom: 10px; }
+        .account .right .update-password form .form-field {
+          margin: 1.2em 0; }
+
+#account-overlay, #account-overlay-form {
+  display: none; }
+
+#update-account-form .form-field {
+  margin: 1em 0; }
+#update-account-form label {
+  margin-bottom: 0.3em;
+  font-weight: 400; }
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  z-index: 800;
+  background-color: #C6C6C6;
+  opacity: 0.55;
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.overlay-form {
+  background-color: #fff;
+  position: absolute;
+  z-index: 900;
+  width: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px; }
 
 /*# sourceMappingURL=style.css.map */

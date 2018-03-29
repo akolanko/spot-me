@@ -6,6 +6,10 @@
 	padding: 0;
 }
 
+html{
+	position: relative;
+}
+
 body{
 	font-family: "Open Sans", sans-serif;
 	background-color: $background;
@@ -51,3 +55,4 @@ h1,h2,h3,h4,h5,h6{
 @import 'discover';
 @import 'headings';
 @import 'account';
+@import 'overlay';

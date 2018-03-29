@@ -1,17 +1,13 @@
 import logging
-import calendar
-import datetime
 from flask import render_template, flash, redirect, url_for, session, jsonify
-from app import app
-from app.forms import LoginForm
+from app import app, db
+from app.forms import LoginForm, RegistrationForm, UpdatePasswordForm
 from flask_login import current_user, login_user
 from app.models import *
 from flask_login import logout_user
 from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
-from app import db
-from app.forms import RegistrationForm
 from app.friends import are_friends_or_pending, get_friends, find_friend
 from app.notifications import get_notifications
 from app.messages import *
@@ -280,11 +276,17 @@ def search_discover():
         return jsonify([[u.serialize(), [i.serialize() for i in get_interests(u.id)]] for u in users])
 
 
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
     notifications = get_notifications(current_user.id)
-    return render_template("account.html", notifications=notifications, user=current_user)
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        current_user.set_password(form.password.data)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Password Updated.')
+    return render_template("account.html", notifications=notifications, user=current_user, form=form)
 
 
 @app.errorhandler(500)

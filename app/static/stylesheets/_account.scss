@@ -1,28 +1,85 @@
 .account{
 
-	padding: 10px 0;
+	padding: 10px 0 0;
 
-	.account-info{
+	.heading-columns{
+		margin-bottom: 0;
+	}
 
-		padding: 30px;
-		font-size: 1.2em;
+	.left{
+		
+		vertical-align: top;
+		padding-top: 40px;
+		width: 49%;
 
-		.account-field{
+		.account-info{
 
-			margin-bottom: 1em;
+			padding: 0 30px 10px;
+			font-size: 1.1em;
 
-			.label{
-				font-weight: 400;
-				text-transform: uppercase;
-				letter-spacing: 0.1em;
-				display: inline-block;
-				margin-right: 1em;
-			}
+			.account-field{
 
-			.field{
-				color: $grey1;
-				display: inline-block;
+				margin-bottom: 1em;
+
+				.label{
+					font-weight: 400;
+					text-transform: uppercase;
+					letter-spacing: 0.1em;
+					display: inline-block;
+					margin-right: 1em;
+				}
+
+				.field{
+					color: $grey1;
+					display: inline-block;
+				}
 			}
 		}
+
+		.account-buttons{
+			padding: 0 30px 30px;
+
+			.button:first-of-type{
+				margin-right: 20px;
+			}
+
+		}
+	}
+
+	.right{
+		vertical-align: top;
+		padding: 40px 30px 30px 70px;
+		width: 49%;
+		text-align: left;
+		border-left: 2px solid $background;
+
+		.update-password{
+			width: 80%;
+
+			form{
+
+				.form-field{
+					margin: 1.2em 0;
+				}
+
+				margin-bottom: 10px;
+			}
+		}
+	}
+}
+
+#account-overlay, #account-overlay-form{
+	display: none;
+}
+
+#update-account-form{
+
+	.form-field{
+		margin: 1em 0;
+	}
+
+	label{
+		margin-bottom: 0.3em;
+		font-weight: 400;
 	}
 }

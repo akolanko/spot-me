@@ -276,4 +276,16 @@ $(document).ready( function() {
 
 		e.preventDefault();
 	});
+
+
+	//Overlay
+
+	var accountOverlayExists = $("#account-overlay").length > 0;
+	if (accountOverlayExists){
+		$('#account-overlay').click(function(){
+			$(this).hide();
+			$("#account-overlay-form").fadeOut(1000);
+		});
+	}
+
 });
