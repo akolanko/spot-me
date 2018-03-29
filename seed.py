@@ -1,6 +1,5 @@
 from app.models import *
 
-
 def example_data():
     karen = User(username='karen', email='karen@example.com', fname='Karen', lname='Smith')
     karen.set_password('karen')
@@ -16,6 +15,15 @@ def example_data():
     katie.set_password('katie')
     dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay')
     dan.set_password('dan')
+
+    profilekaren = Profile(user_id = 1)
+    profiledale = Profile(user_id = 2)
+    profilematt = Profile(user_id = 3)
+    profilejake = Profile(user_id = 4)
+    profileellen = Profile(user_id = 5)
+    profilekatie = Profile(user_id = 6)
+    profiledan = Profile(user_id = 7, about = "" )
+
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
     friendship2 = Friends(user_id_1=3, user_id_2=4, status=FriendStatus.requested)
@@ -46,5 +54,5 @@ def example_data():
     user_interest11 = User_Interest(user_id=6, interest_id=1)
     user_interest12 = User_Interest(user_id=7, interest_id=3)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12])
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, profilekaren, profiledale, profilematt, profilejake, profileellen, profilekatie, profiledan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12])
     db.session.commit()

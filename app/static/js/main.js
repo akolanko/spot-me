@@ -11,7 +11,11 @@ $(document).ready( function() {
 		$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + result + "</li></ul>");
 		$('.flash-list').delay(1500).slideUp();
 	}
-
+	// Profile edit
+	$('#info-edit-button').click(function(){
+		$('#profile-overlay').fadeIn();
+		$('#profile-overlay-form').fadeIn();
+	});
 
 	//Navigation menu
 
