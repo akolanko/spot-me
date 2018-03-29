@@ -772,9 +772,6 @@ button {
         .account .right .update-password form .form-field {
           margin: 1.2em 0; }
 
-#account-overlay, #account-overlay-form {
-  display: none; }
-
 #update-account-form .form-field {
   margin: 1em 0; }
 #update-account-form label {
