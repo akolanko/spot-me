@@ -1,8 +1,8 @@
 {% include 'base.html' %}
 
 {% block content %}
-	<div class='content'>
-		<div id="user-info" data-userid="{{ user.id }}">
+<div class='content'>
+	<div id="user-info" data-userid="{{ user.id }}">
 		<div class='col profile-left-col'>
 			<div class='block profile-cover'>
 				<img src="{{ user.avatar(75) }}" />
@@ -13,6 +13,10 @@
 					<div class='profile-age'>20</div>
 				</a>
 			</div>
+			{% if user == current_user %}
+			<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+		  {% endif %}
+
 			{% if session.current_user.id != user.id %}
 				<div class='profile-buttons'>
 					<div id ='connect-btn'>
@@ -33,37 +37,46 @@
 					{% if conversation %}
 						<a href="{{ url_for('conversation', id=conversation.id) }}">
 					{% else %}
-						<a href="{{ url_for('create_conversation', user_id=user.id) }}">
+					<form id="add-friend-form" action="/add_friend" method="post">
+						<button type="submit" class='button button-2'>Connect</button>
+					</form>
 					{% endif %}
+				</div>
+				{% if conversation_id %}
+				<a href="{{ url_for('conversation', id=conversation_id) }}">
+					{% else %}
+					<a href="{{ url_for('create_conversation', user_id=user.id) }}">
+						{% endif %}
 						<button class='button button-2'>Message</button>
 					</a>
 					<div class='clear'></div>
 				</div>
-			{% endif %}
-			<div class='block profile-friends'>
-				<div class='connections-count'>
-					<a href="{{ url_for('friends', user_id=user.id) }}">
-						{{ total_friends }}
-						{% if total_friends == 1 %}
+				{% endif %}
+				<div class='block profile-friends'>
+					<div class='connections-count'>
+						<a href="{{ url_for('friends', user_id=user.id) }}">
+							{{ total_friends }}
+							{% if total_friends == 1 %}
 							connection
-						{% else %}
+							{% else %}
 							connections
-						{% endif %}
-					</a>
-				</div>
-				<ul>
-					<li>
-						{% for friend in limited_friends %}
-						<a href="{{ url_for('user', user_id=friend.id) }}">
-							<div class='friend-thumb'>
-								<img src="{{ friend.avatar(75) }}" />
-							</div>
+							{% endif %}
 						</a>
-						{% endfor %}
-					</li>
-				</ul>
+					</div>
+					<ul>
+						<li>
+							{% for friend in limited_friends %}
+							<a href="{{ url_for('user', user_id=friend.id) }}">
+								<div class='friend-thumb'>
+									<img src="{{ friend.avatar(75) }}" />
+								</div>
+							</a>
+							{% endfor %}
+						</li>
+					</ul>
+				</div>
 			</div>
+			{% block right %}{% endblock %}
+
 		</div>
-{% block right %}{% endblock %}
-	</div>
-{% endblock %}
+		{% endblock %}

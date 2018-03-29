@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DateTimeField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
 
@@ -19,7 +19,6 @@ class RegistrationForm(FlaskForm):
 		'Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	fname = StringField('First Name', validators=[DataRequired()])
 	lname = StringField('Last Name', validators=[DataRequired()])
-	birthday = DateTimeField('Birthday', validators=[DataRequired()])
 	submit = SubmitField('Register')
 
 	def validate_username(self, username):
@@ -32,9 +31,22 @@ class RegistrationForm(FlaskForm):
 		if user is not None:
 			raise ValidationError('Please use a different email address.')
 
-
 class UpdatePasswordForm(FlaskForm):
 	password = PasswordField('Password', validators=[DataRequired()])
 	password_repeat = PasswordField(
 		'Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	submit = SubmitField('Update')
+
+class EditProfileForm(FlaskForm):
+	username  = StringField('Username', validators=[DataRequired()])
+	# left col
+	skills    = TextAreaField('Skill Level', validators=[Length(min=0, max=140)])
+	location  = TextAreaField('Location', validators=[Length(min=0, max=140)])
+	work      = TextAreaField('Work', validators=[Length(min=0, max=140)])
+	interests = TextAreaField('Interests', validators=[Length(min=0, max=140)])
+
+	# right col
+	about     = TextAreaField('About', validators=[Length(min=0, max=140)])
+	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=140)])
+
+	submit    = SubmitField('Submit')

@@ -92,6 +92,42 @@ def user(user_id):
 
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation)
 
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    # enable editing
+    user = current_user
+    profile = user.profile
+
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        notifications = get_notifications(current_user.username)
+        current_user.profile.about = form.about.data
+        current_user.profile.meet = form.meet.data
+        current_user.profile.skills = form.skills.data
+        current_user.profile.location = form.location.data
+        current_user.profile.work = form.work.data
+        current_user.profile.interests = form.interests.data
+
+
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        notifications = get_notifications(form.username.data)
+        form.about.data = current_user.profile.about
+        form.meet.data = current_user.profile.meet
+        form.skills.data = current_user.profile.skills
+        form.location.data = current_user.profile.location
+        form.work.data = current_user.profile.work
+        form.interests.data = current_user.profile.interests
+
+
+    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile,
+    notifications=notifications, form = form)
+
 
 @app.route("/friends/<user_id>")
 @login_required
