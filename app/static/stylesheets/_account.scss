@@ -1,0 +1,28 @@
+.account{
+
+	padding: 10px 0;
+
+	.account-info{
+
+		padding: 30px;
+		font-size: 1.2em;
+
+		.account-field{
+
+			margin-bottom: 1em;
+
+			.label{
+				font-weight: 400;
+				text-transform: uppercase;
+				letter-spacing: 0.1em;
+				display: inline-block;
+				margin-right: 1em;
+			}
+
+			.field{
+				color: $grey1;
+				display: inline-block;
+			}
+		}
+	}
+}

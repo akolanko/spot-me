@@ -1,4 +1,6 @@
 import logging
+import calendar
+import datetime
 from flask import render_template, flash, redirect, url_for, session, jsonify
 from app import app
 from app.forms import LoginForm
@@ -276,6 +278,13 @@ def search_discover():
         return "Your search did not return any results."
     else:
         return jsonify([[u.serialize(), [i.serialize() for i in get_interests(u.id)]] for u in users])
+
+
+@app.route("/account")
+@login_required
+def account():
+    notifications = get_notifications(current_user.id)
+    return render_template("account.html", notifications=notifications, user=current_user)
 
 
 @app.errorhandler(500)

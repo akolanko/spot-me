@@ -50,6 +50,18 @@ button{
 	font-weight: 600;
 }
 
+.button-4{
+	background-color: $red;
+	color: white;
+	border: 1px solid $red;
+	font-weight: 600;
+}
+
+.button-4:hover{
+	background-color: $white;
+	color: $red;
+}
+
 .disabled:hover{
 	cursor: auto;
 }

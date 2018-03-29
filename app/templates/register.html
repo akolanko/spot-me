@@ -48,6 +48,12 @@
 						<div class="validation-error">{{ error }}</div>
 					{% endfor %}
 				</div>
+				<div class='form-field'>
+					{{ form.birthday(placeholder="birthday") }}
+					{% for error in form.birthday.errors %}
+						<div class="validation-error">{{ error }}</div>
+					{% endfor %}
+				</div>
 				<div class='form-field-submit'>
 					<div class='form-left'>
 						Already a Member? <a href='{{ url_for('login') }}'>Sign In</a>

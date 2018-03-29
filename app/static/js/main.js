@@ -187,12 +187,13 @@ $(document).ready( function() {
 	function appendMessages(result) {
 		html = "";
 		if (result[2][0]) {
-			var day = (result[2][0].timestamp);
-			html += "<div class='message-date'>" + day + "</div>";
+			var date = new Date(result[2][0].timestamp);
+			html += "<div class='message-date'>" + date.getMonth() + "/" + date.getDay() + "/" + date.getFullYear() + "</div>";
 			for (i = 0; i < result[2].length; i++) {
-				if (day != result[2][i].timestamp) {
-					html += "<div class='message-date'>" + result[2][i].timestamp + "</div>";
-					day = result[2][i].timestamp;
+				var msgDate = new Date(result[2][i].timestamp);
+				if (date.getDay() != msgDate.getDay()) {
+					html += "<div class='message-date'>" + msgDate.getMonth() + "/" + msgDate.getDay() + "/" + msgDate.getFullYear() + "</div>";
+					date = msgDate;
 				}
 				html += "<div class='message-outer'>";
 				if (result[2][i].sender == result[3].id) {

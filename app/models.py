@@ -3,6 +3,7 @@ from flask_login import UserMixin
 from app import db, login
 import enum
 from hashlib import md5
+import time
 from datetime import datetime
 
 
@@ -13,6 +14,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     fname = db.Column(db.String(32))
     lname = db.Column(db.String(32))
+    birthday = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profile', uselist=False, backref='owner')
 
     def __repr__(self):
@@ -100,7 +102,7 @@ class Message(db.Model):
             'id': self.id,
             'sender': self.sender,
             'body': self.body,
-            'timestamp': self.timestamp,
+            'timestamp': int(time.mktime((self.timestamp).timetuple())) * 1000,
             'read': self.read,
             'conversation_id': self.conversation_id
         }

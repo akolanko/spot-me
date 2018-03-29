@@ -363,6 +363,16 @@ button {
   font-size: 0.9em;
   font-weight: 600; }
 
+.button-4 {
+  background-color: #ff6150;
+  color: white;
+  border: 1px solid #ff6150;
+  font-weight: 600; }
+
+.button-4:hover {
+  background-color: #fff;
+  color: #ff6150; }
+
 .disabled:hover {
   cursor: auto; }
 
@@ -658,17 +668,13 @@ button {
 
 .discover {
   padding: 10px 0; }
-  .discover .heading-columns {
-    padding: 0 10px 10px; }
-    .discover .heading-columns .page-block-title {
-      margin-left: 20px; }
-    .discover .heading-columns .left-page-title {
-      float: left; }
-    .discover .heading-columns .search-bar {
-      margin: 10px 20px;
-      float: right; }
-      .discover .heading-columns .search-bar #search-discover-input {
-        width: 350px; }
+  .discover .heading-columns .left-page-title {
+    float: left; }
+  .discover .heading-columns .search-bar {
+    margin: 10px 20px;
+    float: right; }
+    .discover .heading-columns .search-bar #search-discover-input {
+      width: 350px; }
   .discover .users {
     padding: 10px; }
     .discover .users ul {
@@ -713,13 +719,32 @@ button {
   font-size: 2em;
   font-weight: 400;
   text-transform: uppercase;
-  margin-top: 5px; }
+  margin-top: 5px;
+  margin-left: 20px; }
 
 .left-page-title {
   display: inline-block; }
 
 .heading-columns {
   margin-bottom: 0.5em;
-  border-bottom: 2px solid #F5F5F5; }
+  border-bottom: 2px solid #F5F5F5;
+  padding: 0 10px 10px; }
+
+.account {
+  padding: 10px 0; }
+  .account .account-info {
+    padding: 30px;
+    font-size: 1.2em; }
+    .account .account-info .account-field {
+      margin-bottom: 1em; }
+      .account .account-info .account-field .label {
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: inline-block;
+        margin-right: 1em; }
+      .account .account-info .account-field .field {
+        color: #8D8D8D;
+        display: inline-block; }
 
 /*# sourceMappingURL=style.css.map */
