@@ -285,10 +285,94 @@ $(document).ready( function() {
 	//Account Update
 
 	$('#edit-account-btn').click(function(){
-		$(this).hide();
 		$('#account-main').hide();
 		$('#account-btns-main').hide();
 		$('#account-form').show();
 		$('#account-btns-update').show();
+	});
+
+	function formatDate(date) {
+		var monthNames = [
+			"January", "February", "March",
+			"April", "May", "June", "July",
+			"August", "September", "October",
+			"November", "December"
+		];
+
+		var day = date.getDate() + 1;
+		var monthIndex = date.getMonth();
+		var year = date.getFullYear();
+
+		return monthNames[monthIndex] + ' ' + day + ', ' + year;
+	}
+
+	$('#update-account-form').submit(function (e) {
+		var url = "/update_account/";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#update-account-form').serialize(),
+			success: function(data) {
+				if (data[0] == "error") {
+					for (var key in data[1]){
+						var value = data[1][key];
+						var err = $("#"+key).parent().siblings(".error-container");
+						err.html("<div class='validation-error'>" + value + "</div>");
+					}
+					if (data[2] != false){
+						for (var key in data[2]){
+							var value = data[2][key];
+							if (value.length > 0) {
+								var err = $("#"+key).parent().siblings(".error-container");
+								err.html("<div class='validation-error'>" + value + "</div>");
+							}
+						}
+					}
+				} else {
+					$(".error-container").empty();
+					$('#account-form').hide();
+					$('#account-main').show();
+					$('#account-btns-update').hide();
+					$('#account-btns-main').show();
+					for (var key in data[1]){
+						if (key == 'birthday'){
+							var date = new Date(data[1][key]);
+							var value = formatDate(date);
+						} else {
+							var value = data[1][key];
+						}
+						$("#"+key+"-main").html(value);
+					}
+				}
+			}
+		});
+		e.preventDefault();
+	});
+
+
+	//Password Update
+
+	$('#update-password-form').submit(function (e) {
+		var url = "/update_password/";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#update-password-form').serialize(),
+			success: function(data) {
+				if(typeof data == "string"){
+					$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + data + "</li></ul>");
+					$('.flash-list').delay(1500).slideUp();
+					$("#update-password-form input[type='password']").val('');
+					$(".error-container").empty();
+				} else {
+					for (var key in data){
+						var value = data[key];
+						var err = $("#"+key).next();
+						err.html("<div class='validation-error'>" + value + "</div>");
+					}
+				}
+			}
+		});
+		e.preventDefault();
 	});
 });

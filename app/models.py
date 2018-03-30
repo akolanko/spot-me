@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     fname = db.Column(db.String(32))
     lname = db.Column(db.String(32))
-    birthday = db.Column(db.DateTime, default=datetime.utcnow)
+    birthday = db.Column(db.Date, default=datetime.utcnow)
     profile = db.relationship('Profile', uselist=False, backref='owner')
 
     def __repr__(self):

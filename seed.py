@@ -1,20 +1,21 @@
 from app.models import *
+import datetime
 
 
 def example_data():
-    karen = User(username='karen', email='karen@example.com', fname='Karen', lname='Smith')
+    karen = User(username='karen', email='karen@example.com', fname='Karen', lname='Smith', birthday=datetime.date(1990, 1, 1))
     karen.set_password('karen')
-    dale = User(username='dale', email='dale@example.com', fname='Dale', lname='Sue')
+    dale = User(username='dale', email='dale@example.com', fname='Dale', lname='Sue', birthday=datetime.date(1998, 5, 10))
     dale.set_password('dale')
-    matt = User(username='matt', email='matt@example.com', fname='Matt', lname='Anderson')
+    matt = User(username='matt', email='matt@example.com', fname='Matt', lname='Anderson', birthday=datetime.date(2000, 8, 13))
     matt.set_password('matt')
-    jake = User(username='jake', email='jake@example.com', fname='Jake', lname='Brown')
+    jake = User(username='jake', email='jake@example.com', fname='Jake', lname='Brown', birthday=datetime.date(1995, 12, 12))
     jake.set_password('jake')
-    ellen = User(username='ellen', email='ellen@example.com', fname='Ellen', lname='James')
+    ellen = User(username='ellen', email='ellen@example.com', fname='Ellen', lname='James', birthday=datetime.date(2000, 4, 7))
     ellen.set_password('ellen')
-    katie = User(username='katie', email='katie@example.com', fname='Katie', lname='Wolf')
+    katie = User(username='katie', email='katie@example.com', fname='Katie', lname='Wolf', birthday=datetime.date(1992, 11, 22))
     katie.set_password('katie')
-    dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay')
+    dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay', birthday=datetime.date(2002, 8, 4))
     dan.set_password('dan')
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)

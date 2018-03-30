@@ -44,7 +44,7 @@ a:hover, a:active {
 .link-2:link, .link-2:visited, .link-2:hover, .link-2:active {
   color: #000; }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea {
+input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea, input[type="date"] {
   font-family: inherit;
   letter-spacing: inherit;
   font-weight: 300;
@@ -771,6 +771,8 @@ button {
             padding: 0;
             border: none;
             border-bottom: 1px solid #E2E2E2; }
+        .account .left .account-info .account-field .validation-error {
+          font-size: .8em; }
     .account .left .account-buttons {
       padding: 0 30px 30px; }
       .account .left .account-buttons .button:first-of-type {

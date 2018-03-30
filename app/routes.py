@@ -13,6 +13,7 @@ from app.notifications import get_notifications
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
+from app.accounts import validate_account, calculate_age
 
 
 @app.route('/home')
@@ -58,7 +59,7 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data)
+        user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data, birthday=form.birthday.data)
         user.set_password(form.password.data)
         db.session.add(user)
         profile = Profile()
@@ -82,6 +83,7 @@ def user(user_id):
     total_friends = len(get_friends(user.id))
     friends = get_friends(user.id)
     limited_friends = friends[:6]
+    age = calculate_age(user.birthday)
 
     user_id_1 = session["current_user"]["id"]
     notifications = get_notifications(user_id_1)
@@ -90,7 +92,7 @@ def user(user_id):
 
     conversation = conversation_exists(user.id, user_id_1)
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
 @app.route("/friends/<user_id>")
@@ -106,7 +108,8 @@ def friends(user_id):
     total_friends = len(friends)
     notifications = get_notifications(session["current_user"]["id"])
     conversation = conversation_exists(user.id, user_id_1)
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation)
+    age = calculate_age(user.birthday)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
 @app.route("/add_friend", methods=["POST"])
@@ -285,23 +288,29 @@ def account():
     return render_template("account.html", notifications=notifications, user=current_user, pswform=pswform, accform=accform)
 
 
-@app.route("/update_account", methods=['POST'])
+@app.route("/update_account/", methods=['POST'])
 @login_required
 def update_account():
-    accform = AccountPasswordForm()
+    accform = UpdateAccountForm()
     if accform.validate_on_submit():
         current_user.fname = accform.fname.data
         current_user.lname = accform.lname.data
+
+        found_err, username_err, email_err = validate_account(current_user, accform.username.data, accform.email.data)
+        if found_err is True:
+            return jsonify(["error", accform.errors, {"username": username_err, "email": email_err}])
+
         current_user.username = accform.username.data
         current_user.email = accform.email.data
         current_user.birthday = accform.birthday.data
+
         db.session.add(current_user)
         db.session.commit()
-        return jsonify("Information updated.")
-    return jsonify(accform.errors)
+        return jsonify(["success", {"fname": accform.fname.data, "lname": accform.lname.data, "username": accform.username.data, "email": accform.email.data, "birthday": accform.birthday.data}])
+    return jsonify(["error", accform.errors, False])
 
 
-@app.route("/update_password", methods=['POST'])
+@app.route("/update_password/", methods=['POST'])
 @login_required
 def update_password():
     pswform = UpdatePasswordForm()

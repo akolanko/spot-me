@@ -10,7 +10,7 @@
 			<div class='block profile-basic'>
 				<a href="{{ url_for('user', user_id=user.id) }}">
 					<div class='profile-name'>{{ user.fname }} {{ user.lname }}</div>
-					<div class='profile-age'>20</div>
+					<div class='profile-age'>{{ age }}</div>
 				</a>
 			</div>
 			{% if session.current_user.id != user.id %}
