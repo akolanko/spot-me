@@ -1,7 +1,7 @@
 import logging
 from flask import render_template, flash, redirect, url_for, session, jsonify
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, UpdatePasswordForm, UpdateAccountForm
+from app.forms import *
 from flask_login import current_user, login_user
 from app.models import *
 from flask_login import logout_user
@@ -14,6 +14,7 @@ from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
+from app.events import create_event
 
 
 @app.route('/home')
@@ -91,7 +92,6 @@ def user(user_id):
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
     conversation = conversation_exists(user.id, user_id_1)
-
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
@@ -188,7 +188,7 @@ def delete_friend_request():
         return "You cannot remove this request."
 
 
-@app.route("/conversation/<id>")
+@app.route("/conversation/<id>", methods=['GET', "POST"])
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
@@ -203,11 +203,10 @@ def conversation(id):
 
     update_read_messages(conversation.id, user_2.id)
     notifications = get_notifications(cur_user_id)
-
     messages = conversation.messages.order_by(asc(Message.timestamp)).all()
     conversations = get_conversations(cur_user_id)
-
-    return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications)
+    eventform = NewEventForm()
+    return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications, eventform=eventform)
 
 
 @app.route("/new_message", methods=["POST"])
@@ -259,12 +258,21 @@ def create_new_conversation():
             return "An error occurred."
 
 
+@app.route("/new_event/<user_id>/", methods=["POST"])
+def new_event(user_id):
+    eventform = NewEventForm()
+    if eventform.validate_on_submit():
+        event = Event(title=eventform .title.data, date=eventform .date.data, start_time=eventform .start_time.data, end_time=eventform .end_time.data, location=eventform .location.data, notes=eventform .notes.data)
+        create_event(event, current_user.id, user_id)
+        return jsonify("Event Created.")
+    return jsonify(eventform.errors)
+
+
 @app.route("/discover")
 @login_required
 def discover():
-    cur_user_id = session["current_user"]["id"]
-    notifications = get_notifications(cur_user_id)
-    users_interests = discover_friends(cur_user_id)
+    notifications = get_notifications(current_user.id)
+    users_interests = discover_friends(current_user.id)
     return render_template("discover.html", notifications=notifications, users_interests=users_interests)
 
 
@@ -318,7 +326,7 @@ def update_password():
         current_user.set_password(pswform.password.data)
         db.session.add(current_user)
         db.session.commit()
-        return jsonify("Password Updated.")
+        return jsonify("Password updated.")
     return jsonify(pswform.errors)
 
 

@@ -375,4 +375,40 @@ $(document).ready( function() {
 		});
 		e.preventDefault();
 	});
+
+
+	//New event - messages page
+
+	$('#new-event-form .event-field').click(function(){
+		$(this).find("input").focus();
+	});
+
+	$('#new-event-form').submit(function (e) {
+		var user_id = $("#user_id").data("userid");
+		var url = "/new_event/" + user_id + "/";
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#new-event-form').serialize(),
+			success: function(data) {
+				if(typeof data == "string"){
+					flashResult(data);
+					$(".error-container").empty();
+					$('input[type="text"]').val('');
+					$('input[type="date"]').val('');
+					$('input[type="time"]').val('');
+					$('textarea').val('');
+				} else {
+					for (var key in data){
+						var value = data[key];
+						var err = $("#"+key).parent().siblings(".error-container");
+						err.html("<div class='validation-error'>" + value + "</div>");
+					}
+				}
+				console.log(data);
+			}
+		});
+		e.preventDefault();
+	});
+
 });

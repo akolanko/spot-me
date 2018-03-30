@@ -109,6 +109,12 @@
 
 	.friend-details{
 
+		height: 60px;
+
+		#user_id{
+			display: none;
+		}
+
 		.friend-thumb{
 			width: 60px;
 			height: 60px;

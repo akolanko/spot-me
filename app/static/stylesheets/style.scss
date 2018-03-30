@@ -6,6 +6,10 @@
 	padding: 0;
 }
 
+*:focus {
+	outline: none;
+}
+
 html{
 	position: relative;
 }
@@ -56,3 +60,4 @@ h1,h2,h3,h4,h5,h6{
 @import 'headings';
 @import 'account';
 @import 'overlay';
+@import 'sidebar';

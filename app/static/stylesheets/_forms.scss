@@ -1,4 +1,4 @@
-input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea, input[type="date"]{
+input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea, input[type="date"], input[type="time"]{
 	font-family: inherit;
 	letter-spacing: inherit;
 	font-weight: 300;
@@ -8,6 +8,10 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 	color: $grey3;
 	width: 100%;
 	padding: 5px 10px;
+}
+
+textarea{
+	resize: none;
 }
 
 .login{

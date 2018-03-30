@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 from wtforms.fields.html5 import DateField
+from wtforms_components import TimeField
 
 
 class LoginForm(FlaskForm):
@@ -48,3 +49,14 @@ class UpdatePasswordForm(FlaskForm):
 	password_repeat = PasswordField(
 		'Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	submit = SubmitField('Update')
+
+
+class NewEventForm(FlaskForm):
+	title = StringField('Title', validators=[DataRequired()])
+	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+	start_time = TimeField('Start Time', validators=[DataRequired()])
+	end_time = TimeField('End Time', validators=[DataRequired()])
+	location = StringField('Location')
+	notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
+	submit = SubmitField('Send')
+

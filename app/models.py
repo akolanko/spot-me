@@ -110,8 +110,10 @@ class Message(db.Model):
 
 class Conversation(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id_1 = db.Column(db.Integer,  index=True, nullable=False)
-    user_id_2 = db.Column(db.Integer,  index=True, nullable=False)
+    user_id_1 = db.Column(db.Integer, db.ForeignKey('user.id'),  index=True, nullable=False)
+    user_id_2 = db.Column(db.Integer, db.ForeignKey('user.id'),  index=True, nullable=False)
+    user_1 = db.relationship("User", foreign_keys=[user_id_1], backref=db.backref("user_1"))
+    user_2 = db.relationship("User", foreign_keys=[user_id_2], backref=db.backref("user_2"))
     messages = db.relationship('Message', backref='message', lazy='dynamic')
 
     def serialize(self):
@@ -120,3 +122,30 @@ class Conversation(db.Model):
             'user_id_1': self.user_id_1,
             'user_id_2': self.user_id_2
         }
+
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date = db.Column(db.Date, index=True, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
+    title = db.Column(db.String(32), nullable=False)
+    location = db.Column(db.String(32))
+    notes = db.Column(db.Text)
+
+
+class UserEvent(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), index=True, nullable=False)
+    accepted = db.Column(db.Boolean, default=False, nullable=False)
+    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("event_user"))
+    event = db.relationship("Event", foreign_keys=[event_id], backref=db.backref("user_event"))
+
+
+class EventInvitation(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
+    sender = db.relationship("User", foreign_keys=[sender_id], backref=db.backref("sent_invitations"))
+    receiver = db.relationship("User", foreign_keys=[receiver_id], backref=db.backref("received_invitations"))

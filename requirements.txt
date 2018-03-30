@@ -12,6 +12,7 @@ PyMySQL==0.8.0
 
 flask_wtf==0.14.2
 wtforms==2.1
+wtforms-components==0.10.3
 flask-script==2.0.6
 werkzeug==0.14.1
 flask_login==0.4.1

@@ -6,6 +6,9 @@
   margin: 0;
   padding: 0; }
 
+*:focus {
+  outline: none; }
+
 html {
   position: relative; }
 
@@ -44,7 +47,7 @@ a:hover, a:active {
 .link-2:link, .link-2:visited, .link-2:hover, .link-2:active {
   color: #000; }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea, input[type="date"] {
+input[type="text"], input[type="email"], input[type="password"], input[type="password" i], textarea, input[type="date"], input[type="time"] {
   font-family: inherit;
   letter-spacing: inherit;
   font-weight: 300;
@@ -54,6 +57,9 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   color: #aaa;
   width: 100%;
   padding: 5px 10px; }
+
+textarea {
+  resize: none; }
 
 .login {
   width: 100%;
@@ -638,15 +644,19 @@ button {
   vertical-align: top;
   width: 22%;
   height: 600px; }
-  .conversation-details .friend-details .friend-thumb {
-    width: 60px;
+  .conversation-details .friend-details {
     height: 60px; }
-  .conversation-details .friend-details .right {
-    margin-left: 15px;
-    text-align: left;
-    width: 60%; }
-    .conversation-details .friend-details .right .name {
-      font-weight: 400; }
+    .conversation-details .friend-details #user_id {
+      display: none; }
+    .conversation-details .friend-details .friend-thumb {
+      width: 60px;
+      height: 60px; }
+    .conversation-details .friend-details .right {
+      margin-left: 15px;
+      text-align: left;
+      width: 60%; }
+      .conversation-details .friend-details .right .name {
+        font-weight: 400; }
   .conversation-details .compose-msg {
     width: 50px;
     height: 50px;
@@ -819,5 +829,51 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 30px; }
+
+.sidebar {
+  padding: 10px 0; }
+  .sidebar .outer {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #F5F5F5; }
+    .sidebar .outer .inner {
+      padding: 0 10px; }
+      .sidebar .outer .inner h2 {
+        font-size: 1.2em; }
+    .sidebar .outer .side-bar-user-details .skill {
+      margin: 25px 0; }
+      .sidebar .outer .side-bar-user-details .skill label {
+        text-transform: uppercase;
+        font-weight: 400; }
+    .sidebar .outer .coming-up {
+      margin: 15px 0; }
+    .sidebar .outer .new-event {
+      margin: 15px 0 0; }
+      .sidebar .outer .new-event h2 {
+        color: #aaa;
+        margin-bottom: 0.8em; }
+      .sidebar .outer .new-event #new-event-form .event-field .label {
+        display: inline-block;
+        color: #aaa;
+        font-weight: 400; }
+      .sidebar .outer .new-event #new-event-form .event-field .field {
+        display: inline-block;
+        width: 60%;
+        margin-left: 10px; }
+        .sidebar .outer .new-event #new-event-form .event-field .field input, .sidebar .outer .new-event #new-event-form .event-field .field textarea {
+          padding: 0;
+          border: none;
+          border-bottom: 1px solid transparent; }
+        .sidebar .outer .new-event #new-event-form .event-field .field input:focus, .sidebar .outer .new-event #new-event-form .event-field .field textarea:focus {
+          border-bottom: 1px solid #E2E2E2; }
+      .sidebar .outer .new-event #new-event-form .event-field .error-container {
+        height: 1.1em; }
+      .sidebar .outer .new-event #new-event-form .event-field .block-field {
+        display: block;
+        width: 100%;
+        margin: 0; }
+        .sidebar .outer .new-event #new-event-form .event-field .block-field textarea {
+          height: 60px;
+          width: 100%;
+          margin-top: 5px; }
 
 /*# sourceMappingURL=style.css.map */
