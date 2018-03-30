@@ -59,8 +59,8 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
   width: 100%;
   margin-bottom: 1em; }
 
-.form-field {
-  margin: 0.5em 0; }
+form.login .form-field {
+  margin: 1em 0; }
 
 .form-field-submit {
   margin-top: 1em; }
@@ -82,14 +82,21 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 .validation-error {
   color: #8BC8DB;
   font-weight: 400;
-  font-size: .9em;
-  marin-top: .3em; }
+  font-size: .9em; }
 
 .hidden {
   width: 0;
   height: 0;
   border: none;
   padding: none; }
+
+.error-container {
+  height: 1.4em; }
+
+.field-inline {
+  display: inline-block;
+  width: 40%;
+  padding-right: 5%; }
 
 #home-title-block {
   float: left;
@@ -741,20 +748,29 @@ button {
     vertical-align: top;
     padding-top: 40px;
     width: 49%; }
+    .account .left #account-form {
+      display: none; }
+      .account .left #account-form .account-buttons {
+        padding: 0 0 30px; }
+      .account .left #account-form .account-buttons {
+        margin-top: 10px; }
     .account .left .account-info {
-      padding: 0 30px 10px;
-      font-size: 1.1em; }
+      padding: 0 30px 10px; }
       .account .left .account-info .account-field {
-        margin-bottom: 1em; }
+        font-size: 1.1em;
+        height: 40px; }
         .account .left .account-info .account-field .label {
           font-weight: 400;
           text-transform: uppercase;
-          letter-spacing: 0.1em;
           display: inline-block;
           margin-right: 1em; }
         .account .left .account-info .account-field .field {
           color: #8D8D8D;
           display: inline-block; }
+          .account .left .account-info .account-field .field input {
+            padding: 0;
+            border: none;
+            border-bottom: 1px solid #E2E2E2; }
     .account .left .account-buttons {
       padding: 0 30px 30px; }
       .account .left .account-buttons .button:first-of-type {
@@ -769,13 +785,17 @@ button {
       width: 80%; }
       .account .right .update-password form {
         margin-bottom: 10px; }
-        .account .right .update-password form .form-field {
-          margin: 1.2em 0; }
+        .account .right .update-password form .form-field:first-of-type {
+          margin-top: 1.2em; }
+
+#account-overlay, #account-overlay-form {
+  display: none; }
 
 #update-account-form .form-field {
   margin: 1em 0; }
 #update-account-form label {
-  margin-bottom: 0.3em;
+  margin-bottom: 0.5em;
+  display: block;
   font-weight: 400; }
 
 .overlay {

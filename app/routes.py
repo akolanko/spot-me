@@ -1,7 +1,7 @@
 import logging
 from flask import render_template, flash, redirect, url_for, session, jsonify
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, UpdatePasswordForm
+from app.forms import LoginForm, RegistrationForm, UpdatePasswordForm, UpdateAccountForm
 from flask_login import current_user, login_user
 from app.models import *
 from flask_login import logout_user
@@ -280,13 +280,37 @@ def search_discover():
 @login_required
 def account():
     notifications = get_notifications(current_user.id)
-    form = UpdatePasswordForm()
-    if form.validate_on_submit():
-        current_user.set_password(form.password.data)
+    accform = UpdateAccountForm()
+    pswform = UpdatePasswordForm()
+    return render_template("account.html", notifications=notifications, user=current_user, pswform=pswform, accform=accform)
+
+
+@app.route("/update_account", methods=['POST'])
+@login_required
+def update_account():
+    accform = AccountPasswordForm()
+    if accform.validate_on_submit():
+        current_user.fname = accform.fname.data
+        current_user.lname = accform.lname.data
+        current_user.username = accform.username.data
+        current_user.email = accform.email.data
+        current_user.birthday = accform.birthday.data
         db.session.add(current_user)
         db.session.commit()
-        flash('Password Updated.')
-    return render_template("account.html", notifications=notifications, user=current_user, form=form)
+        return jsonify("Information updated.")
+    return jsonify(accform.errors)
+
+
+@app.route("/update_password", methods=['POST'])
+@login_required
+def update_password():
+    pswform = UpdatePasswordForm()
+    if pswform.validate_on_submit():
+        current_user.set_password(pswform.password.data)
+        db.session.add(current_user)
+        db.session.commit()
+        return jsonify("Password Updated.")
+    return jsonify(pswform.errors)
 
 
 @app.errorhandler(500)

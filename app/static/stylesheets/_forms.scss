@@ -15,8 +15,8 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 	margin-bottom: 1em;
 }
 
-.form-field{
-	margin: 0.5em 0;
+form.login .form-field{
+	margin: 1em 0;
 }
 
 .form-field-submit{
@@ -44,7 +44,6 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 	color: $blue-main;
 	font-weight: 400;
 	font-size: .9em;
-	marin-top: .3em;
 }
 
 .hidden{
@@ -52,4 +51,14 @@ input[type="text"], input[type="email"], input[type="password"], input[type="pas
 	height: 0;
 	border: none;
 	padding: none;
+}
+
+.error-container{
+	height: 1.4em;
+}
+
+.field-inline{
+	display: inline-block;
+	width: 40%;
+	padding-right: 5%;
 }

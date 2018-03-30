@@ -12,19 +12,29 @@
 		padding-top: 40px;
 		width: 49%;
 
+		#account-form{
+			display: none;
+
+			.account-buttons{
+				padding: 0 0 30px;
+			}
+
+			.account-buttons{
+				margin-top: 10px;
+			}
+		}
+
 		.account-info{
 
 			padding: 0 30px 10px;
-			font-size: 1.1em;
 
 			.account-field{
-
-				margin-bottom: 1em;
+				font-size: 1.1em;
+				height: 40px;
 
 				.label{
 					font-weight: 400;
 					text-transform: uppercase;
-					letter-spacing: 0.1em;
 					display: inline-block;
 					margin-right: 1em;
 				}
@@ -32,6 +42,12 @@
 				.field{
 					color: $grey1;
 					display: inline-block;
+
+					input{
+						padding: 0;
+						border: none;
+						border-bottom: 1px solid $grey4;
+					}
 				}
 			}
 		}
@@ -58,8 +74,12 @@
 
 			form{
 
-				.form-field{
-					margin: 1.2em 0;
+				.form-field:first-of-type{
+					margin-top: 1.2em;
+				}
+
+				.form-field:last-of-type{
+					// margin-bottom: 1.2em;
 				}
 
 				margin-bottom: 10px;
@@ -69,7 +89,7 @@
 }
 
 #account-overlay, #account-overlay-form{
-	// display: none;
+	display: none;
 }
 
 #update-account-form{
@@ -79,7 +99,8 @@
 	}
 
 	label{
-		margin-bottom: 0.3em;
+		margin-bottom: 0.5em;
+		display: block;
 		font-weight: 400;
 	}
 }

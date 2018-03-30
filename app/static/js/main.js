@@ -64,19 +64,23 @@ $(document).ready( function() {
 	//Unfriending
 
 	$(".unfriend-form").submit(function(e) {
-		var friend = $(this).closest("li");
 
-		formInput = {
-			"friend_id": $(this).find('input[name="user_id"]').data("friend")
-		};
+		if (window.confirm("Are you sure you want to unfriend this user?")) {
 
-		$.post("/unfriend",
-			formInput,
-			function() {
-				friend.hide();
-				updateConnectionCount();
-			}
-		);
+			var friend = $(this).closest("li");
+
+			formInput = {
+				"friend_id": $(this).find('input[name="user_id"]').data("friend")
+			};
+
+			$.post("/unfriend",
+				formInput,
+				function() {
+					friend.hide();
+					updateConnectionCount();
+				}
+			);
+		}
 
 		e.preventDefault();
 	});
@@ -278,14 +282,13 @@ $(document).ready( function() {
 	});
 
 
-	//Overlay
+	//Account Update
 
-	var accountOverlayExists = $("#account-overlay").length > 0;
-	if (accountOverlayExists){
-		$('#account-overlay').click(function(){
-			$(this).hide();
-			$("#account-overlay-form").fadeOut(1000);
-		});
-	}
-
+	$('#edit-account-btn').click(function(){
+		$(this).hide();
+		$('#account-main').hide();
+		$('#account-btns-main').hide();
+		$('#account-form').show();
+		$('#account-btns-update').show();
+	});
 });
