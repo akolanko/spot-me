@@ -34,7 +34,7 @@ $(document).ready( function() {
 
 	$("#add-friend-form").submit(function(e) {
 		e.preventDefault();
-		
+
 		var formInput = {
 			"user_id_2": $("#user-info").data("userid")
 		};
@@ -410,5 +410,4 @@ $(document).ready( function() {
 		});
 		e.preventDefault();
 	});
-
 });

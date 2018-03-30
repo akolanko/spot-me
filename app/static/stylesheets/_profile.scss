@@ -2,7 +2,9 @@
 	display: inline-block;
 	vertical-align: top;
 }
-
+.profile-text-top-left {
+	display: inline;
+}
 .profile-left-col{
 	width: 29%;
 	padding-right: 5%;
@@ -52,17 +54,41 @@
 	font-size: 0.9em;
 }
 
-.profile-info{
-}
-
 .profile-label{
 	font-weight: 400;
 	text-transform: uppercase;
 	color: $black;
 }
 
+.profile-info {
+
+	.left-col {
+		width: 50% ;
+	}
+
+	.right-col {
+		width: 50% ;
+
+	}
+
+}
+
 .profile-about{
-	
+
+}
+.profile-meet{
+}
+.profile-skill{
+
+}
+.profile-location{
+
+}
+.profile-work{
+
+}
+.profile-interests{
+
 }
 
 .profile-buttons{

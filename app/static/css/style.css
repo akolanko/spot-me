@@ -254,6 +254,9 @@ nav {
   display: inline-block;
   vertical-align: top; }
 
+.profile-text-top-left {
+  display: inline; }
+
 .profile-left-col {
   width: 29%;
   padding-right: 5%; }
@@ -296,6 +299,11 @@ nav {
   font-weight: 400;
   text-transform: uppercase;
   color: #000; }
+
+.profile-info .left-col {
+  width: 50%; }
+.profile-info .right-col {
+  width: 50%; }
 
 .profile-buttons {
   margin-bottom: 1em; }

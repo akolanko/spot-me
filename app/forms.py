@@ -60,3 +60,17 @@ class NewEventForm(FlaskForm):
 	notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
 	submit = SubmitField('Send')
 
+
+class EditProfileForm(FlaskForm):
+	username  = StringField('Username', validators=[DataRequired()])
+	# left col
+	skills    = TextAreaField('Skill Level', validators=[Length(min=0, max=140)])
+	location  = TextAreaField('Location', validators=[Length(min=0, max=140)])
+	work      = TextAreaField('Work', validators=[Length(min=0, max=140)])
+	interests = TextAreaField('Interests', validators=[Length(min=0, max=140)])
+
+	# right col
+	about     = TextAreaField('About', validators=[Length(min=0, max=140)])
+	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=140)])
+
+	submit    = SubmitField('Submit')
