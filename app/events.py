@@ -2,7 +2,6 @@ from app.models import *
 
 
 def create_event(event, sender_id, receiver_id):
-	db.session.add(event)
 	user_event_1 = UserEvent(user_id=sender_id, event_id=event.id)
 	user_event_2 = UserEvent(user_id=receiver_id, event_id=event.id)
 	db.session.add(user_event_1)

@@ -295,7 +295,8 @@ def create_new_conversation():
 def new_event(user_id):
     eventform = NewEventForm()
     if eventform.validate_on_submit():
-        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
+        event = Event(title=eventform.title.data, date=eventform .date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
+        db.session.add(event)
         create_event(event, current_user.id, user_id)
         return jsonify("Event Created.")
     return jsonify(eventform.errors)
