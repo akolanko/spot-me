@@ -795,6 +795,8 @@ button {
       padding: 0 30px 30px; }
       .account .left .account-buttons .button:first-of-type {
         margin-right: 20px; }
+      .account .left .account-buttons form {
+        display: inline-block; }
   .account .right {
     vertical-align: top;
     padding: 40px 30px 30px 70px;

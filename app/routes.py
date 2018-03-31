@@ -94,6 +94,7 @@ def user(user_id):
     conversation = conversation_exists(user.id, user_id_1)
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -111,8 +112,6 @@ def edit_profile():
         current_user.profile.location = form.location.data
         current_user.profile.work = form.work.data
         current_user.profile.interests = form.interests.data
-
-
         db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
@@ -126,9 +125,7 @@ def edit_profile():
         form.work.data = current_user.profile.work
         form.interests.data = current_user.profile.interests
 
-
-    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile,
-    notifications=notifications, form = form)
+    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile, notifications=notifications, form=form)
 
 
 @app.route("/friends/<user_id>")
@@ -148,7 +145,7 @@ def friends(user_id):
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
-@app.route("/add_friend", methods=["POST"])
+@app.route("/add_friend/", methods=["POST"])
 def add_friend():
     """Send a friend request to another user"""
     user_id_1 = session["current_user"]["id"]
@@ -170,7 +167,7 @@ def add_friend():
         return "Request sent."
 
 
-@app.route("/accept_friend", methods=["POST"])
+@app.route("/accept_friend/", methods=["POST"])
 def accept_friend():
     """Accept a friend request from another user"""
     user_id_1 = session["current_user"]["id"]
@@ -190,7 +187,7 @@ def accept_friend():
         return "An error occured."
 
 
-@app.route("/unfriend", methods=["POST"])
+@app.route("/unfriend/", methods=["POST"])
 def unfriend():
     """Unfriend another user"""
     user_id_1 = session["current_user"]["id"]
@@ -208,7 +205,7 @@ def unfriend():
         return "You cannot unfriend this user."
 
 
-@app.route("/delete_friend_request", methods=["POST"])
+@app.route("/delete_friend_request/", methods=["POST"])
 def delete_friend_request():
     """Delete a friend request from another user"""
     user_id_1 = session["current_user"]["id"]
@@ -245,7 +242,7 @@ def conversation(id):
     return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications, eventform=eventform)
 
 
-@app.route("/new_message", methods=["POST"])
+@app.route("/new_message/", methods=["POST"])
 def new_message():
     sender = session["current_user"]["id"]
     conversation_id = request.form.get("conversation_id")
@@ -275,7 +272,7 @@ def create_conversation(user_id):
         return "An error occurred."
 
 
-@app.route("/create_new_conversation", methods=["POST"])
+@app.route("/create_new_conversation/", methods=["POST"])
 def create_new_conversation():
     cur_user_id = session["current_user"]["id"]
     username = request.form.get("username")
@@ -298,7 +295,7 @@ def create_new_conversation():
 def new_event(user_id):
     eventform = NewEventForm()
     if eventform.validate_on_submit():
-        event = Event(title=eventform .title.data, date=eventform .date.data, start_time=eventform .start_time.data, end_time=eventform .end_time.data, location=eventform .location.data, notes=eventform .notes.data)
+        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
         create_event(event, current_user.id, user_id)
         return jsonify("Event Created.")
     return jsonify(eventform.errors)
@@ -312,7 +309,7 @@ def discover():
     return render_template("discover.html", notifications=notifications, users_interests=users_interests)
 
 
-@app.route("/search_discover", methods=["POST"])
+@app.route("/search_discover/", methods=["POST"])
 def search_discover():
     cur_user_id = session["current_user"]["id"]
     interest = request.form.get("interest")
@@ -364,6 +361,14 @@ def update_password():
         db.session.commit()
         return jsonify("Password updated.")
     return jsonify(pswform.errors)
+
+
+@app.route("/delete_account/", methods=['POST'])
+@login_required
+def delete_account():
+    db.session.delete(current_user)
+    db.session.commit()
+    return redirect(url_for('login'))
 
 
 @app.errorhandler(500)

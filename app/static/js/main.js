@@ -39,7 +39,7 @@ $(document).ready( function() {
 			"user_id_2": $("#user-info").data("userid")
 		};
 
-		$.post("/add_friend",
+		$.post("/add_friend/",
 			formInput,
 			function() {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Pending</button>");
@@ -73,7 +73,7 @@ $(document).ready( function() {
 				"friend_id": $(this).find('input[name="user_id"]').data("friend")
 			};
 
-			$.post("/unfriend",
+			$.post("/unfriend/",
 				formInput,
 				function() {
 					friend.hide();
@@ -95,7 +95,7 @@ $(document).ready( function() {
 			"user_id_2": $("#user-info").data("userid")
 		};
 
-		$.post("/accept_friend",
+		$.post("/accept_friend/",
 			formInput,
 			function() {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
@@ -112,7 +112,7 @@ $(document).ready( function() {
 			"user_id_2": $(this).find('input[name="friend_id"]').data("friend")
 		};
 
-		$.post("/accept_friend",
+		$.post("/accept_friend/",
 			formInput,
 			function() {
 				friend.hide();
@@ -133,7 +133,7 @@ $(document).ready( function() {
 			"user_id_2": $(this).find('input[name="friend_id"]').data("friend")
 		};
 
-		$.post("/delete_friend_request",
+		$.post("/delete_friend_request/",
 			formInput,
 			function() {
 				friend.hide();
@@ -170,7 +170,7 @@ $(document).ready( function() {
 					"body": body
 				};
 
-				$.post("/new_message",
+				$.post("/new_message/",
 					formInput,
 					function() {
 						$('.conversation-messages').append("<div class='message-outer'><div class='message message-1'>" + body + "</div><div class='clear'></div></div>");
@@ -221,7 +221,7 @@ $(document).ready( function() {
 			"username": username
 		};
 
-		$.post("/create_new_conversation",
+		$.post("/create_new_conversation/",
 			formInput,
 			function(result) {
 				if(typeof result == "string"){
@@ -230,7 +230,7 @@ $(document).ready( function() {
 				} else {
 					$(".friend-search").hide();
 					$("#conversation-messages-2").removeAttr("id");
-					$(".compose-message").html("<form id='new-message' action='/new_message' method='post'><input type='hidden' id='conversation-id' data-conversation='" + result[0].id + "'><textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea><button type='submit' class='hidden'></button></form>");
+					$(".compose-message").html("<form id='new-message' action='/new_message/' method='post'><input type='hidden' id='conversation-id' data-conversation='" + result[0].id + "'><textarea name='body' id='new-message-body' placeholder='Write a message...'></textarea><button type='submit' class='hidden'></button></form>");
 					$(".friend-details").html("<a href='/user/" + result[1].id + "'><div class='left friend-thumb'><img src='" + result[1].avatar + "' /></div></a><div class='right'><div class='name'>" + result[1].fname + "</div></div>");
 
 					if (result.length == 4) {
@@ -255,7 +255,7 @@ $(document).ready( function() {
 			"interest": interest
 		};
 
-		$.post("/search_discover",
+		$.post("/search_discover/",
 			formInput,
 			function(result) {
 				var html = "";
@@ -288,7 +288,8 @@ $(document).ready( function() {
 		$('#account-main').hide();
 		$('#account-btns-main').hide();
 		$('#account-form').show();
-		$('#account-btns-update').show();
+		$('#account-update-btn').show();
+		$('#acc-update-del-btn').show();
 	});
 
 	function formatDate(date) {
@@ -332,7 +333,8 @@ $(document).ready( function() {
 					$(".error-container").empty();
 					$('#account-form').hide();
 					$('#account-main').show();
-					$('#account-btns-update').hide();
+					$('#account-update-btn').hide();
+					$('#acc-update-del-btn').hide();
 					$('#account-btns-main').show();
 					for (var key in data[1]){
 						if (key == 'birthday'){

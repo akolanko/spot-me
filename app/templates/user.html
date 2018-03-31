@@ -14,8 +14,8 @@
 				</a>
 			</div>
 			{% if user == current_user %}
-			<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
-		  {% endif %}
+				<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+			{% endif %}
 
 			{% if session.current_user.id != user.id %}
 				<div class='profile-buttons'>
@@ -25,11 +25,11 @@
 						{% elif is_pending_sent %}
 							<button class='button button-2 disabled'>Pending</button>
 						{% elif is_pending_recieved %}
-							<form id="accept-friend-form" action="/accept_friend" method="post">
+							<form id="accept-friend-form" action="/accept_friend/" method="post">
 								<button type="submit" class='button button-2'>Accept</button>
 							</form>
 						{% else %}
-							<form id="add-friend-form" action="/add_friend" method="post">
+							<form id="add-friend-form" action="/add_friend/" method="post">
 								<button type="submit" class='button button-2'>Connect</button>
 							</form>
 						{% endif %}
@@ -37,46 +37,37 @@
 					{% if conversation %}
 						<a href="{{ url_for('conversation', id=conversation.id) }}">
 					{% else %}
-					<form id="add-friend-form" action="/add_friend" method="post">
-						<button type="submit" class='button button-2'>Connect</button>
-					</form>
+						<a href="{{ url_for('create_conversation', user_id=user.id) }}">
 					{% endif %}
-				</div>
-				{% if conversation_id %}
-				<a href="{{ url_for('conversation', id=conversation_id) }}">
-					{% else %}
-					<a href="{{ url_for('create_conversation', user_id=user.id) }}">
-						{% endif %}
 						<button class='button button-2'>Message</button>
 					</a>
 					<div class='clear'></div>
 				</div>
-				{% endif %}
-				<div class='block profile-friends'>
-					<div class='connections-count'>
-						<a href="{{ url_for('friends', user_id=user.id) }}">
-							{{ total_friends }}
-							{% if total_friends == 1 %}
-							connection
-							{% else %}
-							connections
-							{% endif %}
-						</a>
-					</div>
-					<ul>
-						<li>
-							{% for friend in limited_friends %}
-							<a href="{{ url_for('user', user_id=friend.id) }}">
-								<div class='friend-thumb'>
-									<img src="{{ friend.avatar(75) }}" />
-								</div>
-							</a>
-							{% endfor %}
-						</li>
-					</ul>
+			{% endif %}
+			<div class='block profile-friends'>
+				<div class='connections-count'>
+					<a href="{{ url_for('friends', user_id=user.id) }}">
+						{{ total_friends }}
+						{% if total_friends == 1 %}
+						connection
+						{% else %}
+						connections
+						{% endif %}
+					</a>
 				</div>
+				<ul>
+					<li>
+						{% for friend in limited_friends %}
+						<a href="{{ url_for('user', user_id=friend.id) }}">
+							<div class='friend-thumb'>
+								<img src="{{ friend.avatar(75) }}" />
+							</div>
+						</a>
+						{% endfor %}
+					</li>
+				</ul>
 			</div>
-			{% block right %}{% endblock %}
-
 		</div>
-		{% endblock %}
+{% block right %}{% endblock %}
+	</div>
+{% endblock %}
