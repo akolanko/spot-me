@@ -1,0 +1,118 @@
+.invitations{
+	display: inline-block;
+	vertical-align: top;
+	width: 22%;
+	padding: 0;
+
+	ul{
+		// height: 560px;
+		// overflow-y: scroll;
+		// overflow-x: hidden;
+
+		li{
+
+			border-bottom: 2px solid $background;
+			padding: 15px;
+			height: 140px;
+
+			.title{
+				font-weight: 400;
+				color: $blue-main;
+				font-size: 1.2em;
+			}
+
+			.detail{
+				margin: 0.3em 0;
+			}
+
+			.detail:last-of-type{
+				margin-bottom: 0;
+			}
+
+			.link-2{
+				font-weight: 300;
+			}
+
+		}
+	}
+}
+
+.event-block{
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	margin: 0 2%;
+	padding: 0;
+
+	.outer{
+		border-bottom: 2px solid $background;
+
+		.inner{
+			padding: 20px;
+		}
+
+		.invites{
+
+			.invitation-detail{
+				color: $blue-main;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.event-details{
+
+		.event-field{
+			font-size: 1.1em;
+			margin: 0.5em 0;
+
+			.label{
+				font-weight: 400;
+				text-transform: uppercase;
+				display: inline-block;
+				margin-right: 1em;
+			}
+
+			.field{
+				color: $grey1;
+				display: inline-block;
+			}
+		}
+	}
+
+	.event-buttons{
+		padding: 0;
+		margin-top: 25px;
+	}
+
+	.page-title{
+		margin-bottom: 0.8em;
+	}
+
+	.add-invite-form{
+		margin-top: 15px;
+		
+		.non-btn{
+			color: $blue-main;
+		}
+	}
+
+	ul{
+
+		li{
+
+		}
+
+		li.invited-user{
+			margin: 0.5em 0;
+		}
+	}
+}
+
+.invitations, .event-block{
+
+	ul{
+		list-style: none;
+		padding: 0;
+	}
+}

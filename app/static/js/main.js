@@ -19,6 +19,9 @@ $(document).ready( function() {
 		var id = $(this).parent().attr('id');
 		$(".drop-down:not(#" + id + " .drop-down)").hide();
 		$(this).siblings('.drop-down').slideToggle(500);
+		$('#menu-line-2').removeClass('active');
+		$('#menu-line-1').removeClass('active');
+		$('#menu-line-3').removeClass('active');
 	});
 
 	$('#menu-btn').click(function(){
@@ -411,5 +414,26 @@ $(document).ready( function() {
 			}
 		});
 		e.preventDefault();
+	});
+
+
+	//Viewing a notification
+
+	$(".view-notification-form").submit(function(e) {
+		e.preventDefault();
+
+		var notification_id = $(this).find(".notification-id").data("notificationid");
+		var event_id = $(this).find(".event-id").data("eventid");
+
+		var formInput = {
+			"notification_id": notification_id
+		};
+
+		$.post("/view_notification/",
+			formInput,
+			function() {
+				window.location.replace("/event/" + event_id);
+			}
+		);
 	});
 });

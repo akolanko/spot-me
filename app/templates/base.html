@@ -117,7 +117,32 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='notifications'>
+							{% if notifications['ntfs_count'] %}
+							<div id='unread-ntfs-count' class='notification-count'>
+								{{ notifications['ntfs_count'] }}
+							</div>
+							{% endif %}
 							<img class='nav-icon' src="../static/img/notifications.png" />
+							<div class='notification-overlay' id='ntf-notification-overlay'></div>
+							{% if notifications['notifications'] %}
+								<div class='drop-down' id='drop-down-notification'>
+									<ul>
+										{% for notification in notifications['notifications'] %}
+											<li>
+												{% if notification.type == notifications['event_invite_type'] or notification.type == notifications['event_update_type'] %}
+													<form class="view-notification-form" action="/view_notification/" method="post">
+														<input type="hidden" class='notification-id' data-notificationid="{{ notification.id }}">
+														<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
+														<button type="submit" class='non-btn notification-body'>
+															{{ notification.body }}
+														</button>
+													</form>
+												{% endif %}
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</li>
 						<li class='nav-item' id='search-icon'>
 							<img class='nav-icon' src="../static/img/search.png" />

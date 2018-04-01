@@ -1,4 +1,8 @@
 .sidebar{
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 22%;
 	padding: 10px 0;
 
 	.outer{
@@ -13,21 +17,58 @@
 			}
 		}
 
-		.side-bar-user-details{
+		.user-details{
 
-			.skill{
+			// height: 60px;
 
-				margin: 25px 0;
+			.friend-thumb{
+				width: 60px;
+				height: 60px;
+			}
 
-				label{
-					text-transform: uppercase;
+			.right{
+				margin-left: 15px;
+				text-align: left;
+				width: 60%;
+
+				.name{
 					font-weight: 400;
 				}
+			}
+
+			.weekdays{
+				text-align: center;
+				margin-top: 30px;
 			}
 		}
 
 		.coming-up{
-			margin: 15px 0;
+
+			h2{
+				margin: 1em 0;
+			}
+
+			ul{
+				list-style: none;
+				padding: 0;
+
+				li{
+					margin: 0.5em 0;
+					font-size: 1.05em;
+				}
+
+				li:last-of-type{
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		.calendar{
+			margin-top: 30px;
+			
+			.button{
+				text-align: center;
+			}
 		}
 
 		.new-event{
@@ -82,4 +123,12 @@
 			}
 		}
 	}
+
+	.outer:last-of-type{
+		border-bottom: none;
+	}
+}
+
+.conversation-details .outer:last-of-type{
+	border-bottom: 2px solid $background;
 }

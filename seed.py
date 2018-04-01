@@ -47,5 +47,31 @@ def example_data():
     user_interest11 = User_Interest(user_id=6, interest_id=1)
     user_interest12 = User_Interest(user_id=7, interest_id=3)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12])
+    event1 = Event(date=datetime.date(2018, 3, 31), start_time=datetime.time(20, 15), end_time=datetime.time(11, 15), title='Event 1', location='Campus', notes='Lorem ipsum')
+    event2 = Event(date=datetime.date(2018, 4, 8), start_time=datetime.time(14, 30), end_time=datetime.time(15, 30), title='Event 2', location='Dodge')
+    event3 = Event(date=datetime.date(2018, 4, 20), start_time=datetime.time(16, 00), end_time=datetime.time(18, 00), title='Event 3')
+    event4 = Event(date=datetime.date(2018, 4, 18), start_time=datetime.time(9, 00), end_time=datetime.time(11, 30), title='Event 4')
+
+    user_event1 = UserEvent(user_id=1, event_id=1, accepted=0)
+    user_event2 = UserEvent(user_id=2, event_id=1, accepted=0)
+    user_event3 = UserEvent(user_id=2, event_id=2, accepted=0)
+    user_event4 = UserEvent(user_id=1, event_id=2, accepted=0)
+    user_event5 = UserEvent(user_id=1, event_id=3, accepted=1)
+    user_event6 = UserEvent(user_id=2, event_id=3, accepted=0)
+    user_event7 = UserEvent(user_id=4, event_id=3, accepted=1)
+    user_event8 = UserEvent(user_id=1, event_id=4, accepted=1)
+    user_event9 = UserEvent(user_id=2, event_id=4, accepted=1)
+    user_event10 = UserEvent(user_id=3, event_id=4, accepted=0)
+    user_event11 = UserEvent(user_id=4, event_id=4, accepted=1)
+
+    event_invite1 = EventInvitation(sender_id=1, receiver_id=2, event_id=1)
+    event_invite2 = EventInvitation(sender_id=2, receiver_id=1, event_id=2)
+    event_invite3 = EventInvitation(sender_id=1, receiver_id=2, event_id=3)
+
+    notification1 = Notification(body="New event invitation from Karen", receiver_id=2, event_id=1, type=NotificationType.event_invite)
+    notification2 = Notification(body="New event invitation from Dale", receiver_id=1, event_id=2, type=NotificationType.event_invite)
+    notification3 = Notification(body="New event invitation from Karen", receiver_id=2, event_id=3, type=NotificationType.event_invite)
+    notification4 = Notification(body="Karen updated the details of your event - Event 4", receiver_id=2, event_id=4, type=NotificationType.event_update)
+
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, event_invite1, event_invite2, event_invite3, notification1, notification2, notification3, notification4])
     db.session.commit()

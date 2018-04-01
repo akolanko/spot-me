@@ -7,6 +7,7 @@
 	border-left: 1px solid $grey4;
 	border-right: 1px solid $grey4;
 	width: 250px;
+	z-index: 500;
 
 	ul{
 		position: relative;
@@ -162,4 +163,12 @@
 	.delete-friend-request-form, .accept-friend-notification{
 		float: left;
 	}
+}
+
+.notification-body{
+	color: $grey6;
+}
+
+.notification-body:hover{
+	cursor: pointer;
 }

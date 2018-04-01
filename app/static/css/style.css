@@ -397,8 +397,45 @@ button {
   background-color: #fff;
   color: #ff6150; }
 
+.button-5 {
+  background-color: #fff;
+  color: #aaa;
+  border: 1px solid #aaa; }
+
+.button-5:hover {
+  color: #555555;
+  border: 1px solid #555555; }
+
 .disabled:hover {
   cursor: auto; }
+
+.non-btn {
+  font-size: 1em;
+  font-family: inherit;
+  text-align: left; }
+
+.inline-buttons {
+  padding: 0 30px 30px; }
+  .inline-buttons .button:first-of-type {
+    margin-right: 20px; }
+  .inline-buttons form {
+    display: inline-block; }
+
+.add-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 2px solid #8BC8DB;
+  position: relative; }
+  .add-btn .plus-line {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+  .add-btn .plus-line-1 {
+    width: 60%; }
+  .add-btn .plus-line-2 {
+    width: 2px;
+    height: 60%; }
 
 .drop-down {
   position: absolute;
@@ -408,7 +445,8 @@ button {
   display: none;
   border-left: 1px solid #E2E2E2;
   border-right: 1px solid #E2E2E2;
-  width: 250px; }
+  width: 250px;
+  z-index: 500; }
   .drop-down ul {
     position: relative;
     text-align: left;
@@ -507,6 +545,12 @@ button {
         opacity: 0.7; }
   #drop-down-friends .delete-friend-request-form, #drop-down-friends .accept-friend-notification {
     float: left; }
+
+.notification-body {
+  color: #717171; }
+
+.notification-body:hover {
+  cursor: pointer; }
 
 .friend-thumb {
   border-radius: 100%;
@@ -647,10 +691,6 @@ button {
       resize: none; }
 
 .conversation-details {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: 22%;
   height: 600px; }
   .conversation-details .friend-details {
     height: 60px; }
@@ -666,22 +706,9 @@ button {
       .conversation-details .friend-details .right .name {
         font-weight: 400; }
   .conversation-details .compose-msg {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    border: 2px solid #8BC8DB;
     position: absolute;
     bottom: 10px;
     right: 10px; }
-    .conversation-details .compose-msg .plus-line {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); }
-    .conversation-details .compose-msg .plus-line-1 {
-      width: 30px; }
-    .conversation-details .compose-msg .plus-line-2 {
-      width: 2px;
-      height: 30px; }
 
 #new-conversation-input {
   width: 100%;
@@ -739,6 +766,11 @@ button {
   margin-top: 0;
   margin-bottom: 1em; }
 
+.page-title-large {
+  font-size: 1.7em;
+  margin: 0 0 0.7em;
+  font-weight: 300; }
+
 .block-title {
   font-size: 1.2em;
   text-transform: uppercase; }
@@ -791,12 +823,6 @@ button {
             border-bottom: 1px solid #E2E2E2; }
         .account .left .account-info .account-field .validation-error {
           font-size: .8em; }
-    .account .left .account-buttons {
-      padding: 0 30px 30px; }
-      .account .left .account-buttons .button:first-of-type {
-        margin-right: 20px; }
-      .account .left .account-buttons form {
-        display: inline-block; }
   .account .right {
     vertical-align: top;
     padding: 40px 30px 30px 70px;
@@ -841,6 +867,10 @@ button {
   padding: 30px; }
 
 .sidebar {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 22%;
   padding: 10px 0; }
   .sidebar .outer {
     padding-bottom: 20px;
@@ -849,13 +879,32 @@ button {
       padding: 0 10px; }
       .sidebar .outer .inner h2 {
         font-size: 1.2em; }
-    .sidebar .outer .side-bar-user-details .skill {
-      margin: 25px 0; }
-      .sidebar .outer .side-bar-user-details .skill label {
-        text-transform: uppercase;
+    .sidebar .outer .user-details .friend-thumb {
+      width: 60px;
+      height: 60px; }
+    .sidebar .outer .user-details .right {
+      margin-left: 15px;
+      text-align: left;
+      width: 60%; }
+      .sidebar .outer .user-details .right .name {
         font-weight: 400; }
-    .sidebar .outer .coming-up {
-      margin: 15px 0; }
+    .sidebar .outer .user-details .weekdays {
+      text-align: center;
+      margin-top: 30px; }
+    .sidebar .outer .coming-up h2 {
+      margin: 1em 0; }
+    .sidebar .outer .coming-up ul {
+      list-style: none;
+      padding: 0; }
+      .sidebar .outer .coming-up ul li {
+        margin: 0.5em 0;
+        font-size: 1.05em; }
+      .sidebar .outer .coming-up ul li:last-of-type {
+        margin-bottom: 0; }
+    .sidebar .outer .calendar {
+      margin-top: 30px; }
+      .sidebar .outer .calendar .button {
+        text-align: center; }
     .sidebar .outer .new-event {
       margin: 15px 0 0; }
       .sidebar .outer .new-event h2 {
@@ -885,5 +934,89 @@ button {
           height: 60px;
           width: 100%;
           margin-top: 5px; }
+  .sidebar .outer:last-of-type {
+    border-bottom: none; }
+
+.conversation-details .outer:last-of-type {
+  border-bottom: 2px solid #F5F5F5; }
+
+.invitations {
+  display: inline-block;
+  vertical-align: top;
+  width: 22%;
+  padding: 0; }
+  .invitations ul li {
+    border-bottom: 2px solid #F5F5F5;
+    padding: 15px;
+    height: 140px; }
+    .invitations ul li .title {
+      font-weight: 400;
+      color: #8BC8DB;
+      font-size: 1.2em; }
+    .invitations ul li .detail {
+      margin: 0.3em 0; }
+    .invitations ul li .detail:last-of-type {
+      margin-bottom: 0; }
+    .invitations ul li .link-2 {
+      font-weight: 300; }
+
+.event-block {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  margin: 0 2%;
+  padding: 0; }
+  .event-block .outer {
+    border-bottom: 2px solid #F5F5F5; }
+    .event-block .outer .inner {
+      padding: 20px; }
+    .event-block .outer .invites .invitation-detail {
+      color: #8BC8DB;
+      font-weight: 400; }
+  .event-block .event-details .event-field {
+    font-size: 1.1em;
+    margin: 0.5em 0; }
+    .event-block .event-details .event-field .label {
+      font-weight: 400;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-right: 1em; }
+    .event-block .event-details .event-field .field {
+      color: #8D8D8D;
+      display: inline-block; }
+  .event-block .event-buttons {
+    padding: 0;
+    margin-top: 25px; }
+  .event-block .page-title {
+    margin-bottom: 0.8em; }
+  .event-block .add-invite-form {
+    margin-top: 15px; }
+    .event-block .add-invite-form .non-btn {
+      color: #8BC8DB; }
+  .event-block ul li.invited-user {
+    margin: 0.5em 0; }
+
+.invitations ul, .event-block ul {
+  list-style: none;
+  padding: 0; }
+
+.day-box {
+  display: inline-block;
+  background-color: #C6C6C6;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  margin-right: 7px; }
+  .day-box .letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+
+.day-box:last-of-type {
+  margin-right: 0; }
 
 /*# sourceMappingURL=style.css.map */

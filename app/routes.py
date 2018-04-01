@@ -9,26 +9,19 @@ from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
 from app.friends import are_friends_or_pending, get_friends, find_friend
-from app.notifications import get_notifications
+from app.notifications import get_notifications, get_notification
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
-from app.events import create_event
-
-
-@app.route('/home')
-@login_required
-def home():
-    notifications = get_notifications(session["current_user"]["id"])
-    return render_template('home.html', title='Home', notifications=notifications)
+from app.events import create_event, user_event_exists, get_recent_events, get_event_invitation
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('discover'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -86,12 +79,10 @@ def user(user_id):
     limited_friends = friends[:6]
     age = calculate_age(user.birthday)
 
-    user_id_1 = session["current_user"]["id"]
-    notifications = get_notifications(user_id_1)
+    notifications = get_notifications(current_user.id)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id)
 
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
-
-    conversation = conversation_exists(user.id, user_id_1)
+    conversation = conversation_exists(user.id, current_user.id)
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
@@ -133,14 +124,12 @@ def edit_profile():
 def friends(user_id):
     """Show all friends"""
     user = User.query.filter_by(id=user_id).first_or_404()
-    user_id_1 = session["current_user"]["id"]
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
-
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id)
     friends = get_friends(user_id)
     limited_friends = friends[:6]
     total_friends = len(friends)
-    notifications = get_notifications(session["current_user"]["id"])
-    conversation = conversation_exists(user.id, user_id_1)
+    notifications = get_notifications(current_user.id)
+    conversation = conversation_exists(user.id, current_user.id)
     age = calculate_age(user.birthday)
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
@@ -148,11 +137,10 @@ def friends(user_id):
 @app.route("/add_friend/", methods=["POST"])
 def add_friend():
     """Send a friend request to another user"""
-    user_id_1 = session["current_user"]["id"]
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
 
-    if user_id_1 == user_id_2:
+    if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
@@ -161,7 +149,7 @@ def add_friend():
     elif is_pending_recieved:
         return "You have already recieved a request from this user."
     else:
-        friend_request = Friends(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.requested)
+        friend_request = Friends(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.requested)
         db.session.add(friend_request)
         db.session.commit()
         return "Request sent."
@@ -170,16 +158,15 @@ def add_friend():
 @app.route("/accept_friend/", methods=["POST"])
 def accept_friend():
     """Accept a friend request from another user"""
-    user_id_1 = session["current_user"]["id"]
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
 
-    if user_id_1 == user_id_2:
+    if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
     elif is_pending_recieved:
-        friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
+        friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
         return "Request accepted."
@@ -190,14 +177,13 @@ def accept_friend():
 @app.route("/unfriend/", methods=["POST"])
 def unfriend():
     """Unfriend another user"""
-    user_id_1 = session["current_user"]["id"]
     user_id_2 = request.form.get("friend_id")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
 
     if are_friends:
-        relationship = Friends.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.accepted).first()
+        relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.accepted).first()
         if relationship is None:
-            relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.accepted).first()
+            relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.accepted).first()
         db.session.delete(relationship)
         db.session.commit()
         return "Unfriend"
@@ -208,12 +194,11 @@ def unfriend():
 @app.route("/delete_friend_request/", methods=["POST"])
 def delete_friend_request():
     """Delete a friend request from another user"""
-    user_id_1 = session["current_user"]["id"]
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
+    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
 
     if is_pending_recieved:
-        relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
+        relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
         db.session.delete(relationship)
         db.session.commit()
         return "Request removed."
@@ -225,29 +210,27 @@ def delete_friend_request():
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
-    cur_user_id = session["current_user"]["id"]
 
-    if cur_user_id == conversation.user_id_1:
+    if current_user.id == conversation.user_id_1:
         user_2 = User.query.filter_by(id=conversation.user_id_2).first()
-    elif cur_user_id == conversation.user_id_2:
+    elif current_user.id == conversation.user_id_2:
         user_2 = User.query.filter_by(id=conversation.user_id_1).first()
     else:
         return redirect(url_for('home'))
 
     update_read_messages(conversation.id, user_2.id)
-    notifications = get_notifications(cur_user_id)
+    notifications = get_notifications(current_user.id)
     messages = conversation.messages.order_by(asc(Message.timestamp)).all()
-    conversations = get_conversations(cur_user_id)
+    conversations = get_conversations(current_user.id)
     eventform = NewEventForm()
     return render_template("messenger.html", conversation=conversation, user_2=user_2, conversations=conversations, messages=messages, notifications=notifications, eventform=eventform)
 
 
 @app.route("/new_message/", methods=["POST"])
 def new_message():
-    sender = session["current_user"]["id"]
     conversation_id = request.form.get("conversation_id")
     body = request.form.get("body")
-    message = Message(sender=sender, conversation_id=conversation_id, body=body)
+    message = Message(sender=current_user.id, conversation_id=conversation_id, body=body)
     db.session.add(message)
     db.session.commit()
     return "Message sent"
@@ -256,16 +239,14 @@ def new_message():
 @app.route("/new_conversation")
 @login_required
 def new_conversation():
-    cur_user_id = session["current_user"]["id"]
-    notifications = get_notifications(cur_user_id)
-    conversations = get_conversations(cur_user_id)
+    notifications = get_notifications(current_user.id)
+    conversations = get_conversations(current_user.id)
     return render_template("new_conversation.html", conversations=conversations, notifications=notifications)
 
 
 @app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
 def create_conversation(user_id):
-    cur_user_id = session["current_user"]["id"]
-    conversation_id = build_conversation(cur_user_id, user_id)
+    conversation_id = build_conversation(current_user.id, user_id)
     if conversation_id:
         return redirect(url_for('conversation', id=conversation_id))
     else:
@@ -274,17 +255,16 @@ def create_conversation(user_id):
 
 @app.route("/create_new_conversation/", methods=["POST"])
 def create_new_conversation():
-    cur_user_id = session["current_user"]["id"]
     username = request.form.get("username")
     user_2 = find_friend(username)
     if user_2 is None:
         return "Your search did not return any results."
-    conversation = conversation_exists(cur_user_id, user_2.id)
+    conversation = conversation_exists(current_user.id, user_2.id)
     if conversation:
         messages = conversation.messages
         return jsonify([conversation.serialize(), user_2.serialize(), [m.serialize() for m in messages], current_user.serialize()])
     else:
-        c_id = build_conversation(cur_user_id, user_2.id)
+        c_id = build_conversation(current_user.id, user_2.id)
         if c_id:
             return jsonify([(get_conversation(c_id)).serialize(), user_2.serialize()])
         else:
@@ -297,7 +277,7 @@ def new_event(user_id):
     if eventform.validate_on_submit():
         event = Event(title=eventform.title.data, date=eventform .date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
         db.session.add(event)
-        create_event(event, current_user.id, user_id)
+        create_event(event, current_user, user_id)
         return jsonify("Event Created.")
     return jsonify(eventform.errors)
 
@@ -312,9 +292,8 @@ def discover():
 
 @app.route("/search_discover/", methods=["POST"])
 def search_discover():
-    cur_user_id = session["current_user"]["id"]
     interest = request.form.get("interest")
-    users = search_interests(interest, cur_user_id)
+    users = search_interests(interest, current_user.id)
     if len(users) == 0:
         return "Your search did not return any results."
     else:
@@ -370,6 +349,31 @@ def delete_account():
     db.session.delete(current_user)
     db.session.commit()
     return redirect(url_for('login'))
+
+
+@app.route("/view_notification/", methods=['POST'])
+@login_required
+def view_notification():
+    notification_id = request.form.get("notification_id")
+    notification = get_notification(notification_id)
+    db.session.delete(notification)
+    db.session.commit()
+    return "Notification deleted."
+
+
+@app.route("/event/<event_id>")
+@login_required
+def event(event_id):
+    event = Event.query.filter_by(id=event_id).first_or_404()
+    user_event = user_event_exists(current_user.id, event.id)
+    if user_event is None:
+        return redirect(url_for('discover'))
+    notifications = get_notifications(current_user.id)
+    coming_up = get_recent_events(current_user.id)
+    length = len(event.user_events)
+    sent_invitation, received_invitation = get_event_invitation(event_id, current_user.id)
+    weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays)
 
 
 @app.errorhandler(500)
