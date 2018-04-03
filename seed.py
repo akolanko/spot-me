@@ -16,7 +16,7 @@ def example_data():
     dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay')
     dan.set_password('dan')
 
-    profilekaren = Profile(user_id = 1)
+    profilekaren = Profile(user_id = 1, about = "Yoga | CS " )
     profiledale = Profile(user_id = 2)
     profilematt = Profile(user_id = 3)
     profilejake = Profile(user_id = 4)
