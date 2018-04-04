@@ -3,8 +3,8 @@
 {% block middle %}
 <div class='block event-block'>
 	<div class='outer'>
-		<div class='inner'>
-			<h1 class='page-title-large'>{{ event.title }}</h1>
+		<div class='inner event-info'>
+			<h1 id='event-title' class='page-title-large' data-eventid="{{ event.id }}" data-usereventid="{{ user_event.id }}">{{ event.title }}</h1>
 			<div class='event-details'>
 				<div class='event-field'>
 					<div class='label'>
@@ -54,7 +54,7 @@
 			{% if user_event.accepted %}
 				<div class='event-buttons inline-buttons' id='event-btns-main'>
 					<button class='button button-1' id='edit-event-btn'>Edit</button>
-					<form onsubmit="return confirm('Are you sure you want to remove yourself from this event?');" class="remove-event-form" action="/remove_event/" method="post">
+					<form onsubmit="return confirm('Are you sure you want to remove yourself from this event?');" class="remove-event-form" action="{{ url_for('remove_event', user_event_id=user_event.id) }}" method="post">
 						<button type="submit" class='button button-4'>Remove</button>
 					</form>
 				</div>
@@ -66,24 +66,22 @@
 			{% if length == 1 %}
 				<h2 class='page-title'>Invited</h2>
 				You have not invited anyone to this event.
-			{% elif length == 2 %}
-				{% if not user_event.accepted %}
-					{% if received_invitation %}
-						<div class='invitation-detail'>
-							Invitation sent by {{ received_invitation.sender.fname }} {{ received_invitation.sender.lname }}
-						</div>
-						<div class='event-buttons inline-buttons'>
-							<form class="accept-invitation-form" action="/accept_invitation/" method="post">
-								<button type="submit" class='button button-1'>Accept</button>
-							</form>
-							<form class="decline-invitation-form" action="/decline_invitation/" method="post">
-								<button type="submit" class='button button-5'>Decline</button>
-							</form>
-						</div>
-					{% elif sent_invitation %}
-						<h2 class='page-title'>Invited</h2>
-						<div class='invitation-detail'>Invitation sent to {{ sent_invitation.receiver.fname }} {{ sent_invitation.receiver.lname }}</div>
-					{% endif %}
+			{% elif length == 2 and not user_event.accepted %}
+				{% if received_invitation %}
+					<div class='invitation-detail'>
+						Invitation sent by {{ received_invitation.sender.fname }} {{ received_invitation.sender.lname }}
+					</div>
+					<div class='event-buttons inline-buttons'>
+						<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
+							<button type="submit" class='button button-1'>Accept</button>
+						</form>
+						<form class="decline-invitation-form" action="/decline_invitation/" method="post">
+							<button type="submit" class='button button-5'>Decline</button>
+						</form>
+					</div>
+				{% elif sent_invitation %}
+					<h2 class='page-title'>Invited</h2>
+					<div class='invitation-detail'>Invitation sent to {{ sent_invitation.receiver.fname }} {{ sent_invitation.receiver.lname }}</div>
 				{% endif %}
 			{% else %}
 				<h2 class='page-title'>Invited</h2>
@@ -105,7 +103,7 @@
 				</ul>
 				{% if not user_event.accepted and received_invitation %}
 					<div class='event-buttons inline-buttons'>
-						<form class="accept-invitation-form" action="/accept_invitation/" method="post">
+						<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
 							<button type="submit" class='button button-1'>Accept</button>
 						</form>
 						<form class="decline-invitation-form" action="/decline_invitation/" method="post">

@@ -945,6 +945,8 @@ button {
   vertical-align: top;
   width: 22%;
   padding: 0; }
+  .invitations ul .no-results {
+    padding: 15px; }
   .invitations ul li {
     border-bottom: 2px solid #F5F5F5;
     padding: 15px;
@@ -999,6 +1001,9 @@ button {
 .invitations ul, .event-block ul {
   list-style: none;
   padding: 0; }
+
+.invite-id, #event-id {
+  display: none; }
 
 .day-box {
   display: inline-block;

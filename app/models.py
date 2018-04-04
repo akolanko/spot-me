@@ -146,6 +146,14 @@ class UserEvent(db.Model):
     user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("user_events", cascade="all,delete"))
     event = db.relationship("Event", foreign_keys=[event_id], backref=db.backref("user_events", cascade="all,delete"))
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'event_id': self.event_id,
+            'accepted': self.accepted
+        }
+
 
 class EventInvitation(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -171,22 +179,3 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     receiver = db.relationship("User", foreign_keys=[receiver_id], backref=db.backref("notifications", cascade="all,delete"))
     event = db.relationship("Event", foreign_keys=[event_id], backref=db.backref("notifications", cascade="all,delete"))
-
-
-class Weekday(enum.Enum):
-    sunday = 0
-    monday = 1
-    tuesday = 2
-    wednesday = 3
-    thursday = 4
-    friday = 5
-    saturday = 6
-
-
-class Availability(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    weekday = db.Column(db.Enum(Weekday), nullable=False)
-    start_time = db.Column(db.Time, nullable=False)
-    end_time = db.Column(db.Time, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("availabilities", cascade="all,delete"))

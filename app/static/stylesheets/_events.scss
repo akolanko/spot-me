@@ -5,9 +5,10 @@
 	padding: 0;
 
 	ul{
-		// height: 560px;
-		// overflow-y: scroll;
-		// overflow-x: hidden;
+
+		.no-results{
+			padding: 15px;
+		}
 
 		li{
 
@@ -115,4 +116,8 @@
 		list-style: none;
 		padding: 0;
 	}
+}
+
+.invite-id, #event-id{
+	display: none;
 }

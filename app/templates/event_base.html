@@ -3,31 +3,35 @@
 {% block content %}
 <div class='content'>
 	<div class='block invitations'>
-		<ul>
-		{% for invite in current_user.received_invitations %}
-			<li>
-				<a class='link-2' href="{{ url_for('event', event_id=invite.event.id) }}">
-					<div class='title'>
-						{{ invite.event.title }}
-					</div>
-					<div class='detail date'>
-						{{ invite.event.date.strftime('%B %d, %Y') }}
-					</div>
-					<div class='detail time'>
-						{{ invite.event.start_time.strftime('%-I:%M %p') }} - {{ invite.event.end_time.strftime('%-I:%M %p') }}
-					</div>
-					<div class='detail sender'>
-						Sent by {{ invite.sender.fname }} {{ invite.sender.lname }}
-					</div>
-				</a>
-			</li>
-		{% endfor %}
+		<ul id='invite-list'>
+		{% if current_user.received_invitations %}
+			{% for invite in current_user.received_invitations %}
+				<li class="invite-item" data-eventid="{{ invite.event.id }}">
+					<a class='link-2' href="{{ url_for('event', event_id=invite.event.id) }}">
+						<div class='title'>
+							{{ invite.event.title }}
+						</div>
+						<div class='detail date'>
+							{{ invite.event.date.strftime('%B %d, %Y') }}
+						</div>
+						<div class='detail time'>
+							{{ invite.event.start_time.strftime('%-I:%M %p') }} - {{ invite.event.end_time.strftime('%-I:%M %p') }}
+						</div>
+						<div class='detail sender'>
+							Sent by {{ invite.sender.fname }} {{ invite.sender.lname }}
+						</div>
+					</a>
+				</li>
+			{% endfor %}
+		{% else %}
+			<div class='no-results'>You do not currently have any event invitations.</div>
+		{% endif %}
 		</ul>
 	</div>
 	{% block middle %}{% endblock %}
 	<div class='block sidebar'>
 		<div class='outer'>
-			<div class='user-details inner'>
+			<div class='user-details inner' data-userid='{{ current_user.id }}'>
 				<div class='left friend-thumb'>
 					<img src='{{ current_user.avatar(75) }}' />
 				</div>

@@ -275,7 +275,7 @@ def create_new_conversation():
 def new_event(user_id):
     eventform = NewEventForm()
     if eventform.validate_on_submit():
-        event = Event(title=eventform.title.data, date=eventform .date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
+        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
         db.session.add(event)
         create_event(event, current_user, user_id)
         return jsonify("Event Created.")
@@ -374,6 +374,30 @@ def event(event_id):
     sent_invitation, received_invitation = get_event_invitation(event_id, current_user.id)
     weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays)
+
+
+@app.route("/accept_invitation/<user_event_id>/", methods=['POST'])
+@login_required
+def accept_invitation(user_event_id):
+    user_event = UserEvent.query.filter_by(id=user_event_id).first()
+    if len(user_event.event.user_events) == 2:
+        for u_e in user_event.event.user_events:
+            u_e.accepted = True
+            db.session.add(u_e)
+    else:
+        user_event.accepted = True
+        db.session.add(user_event)
+    sent_invitation, recieved_invitation = get_event_invitation(user_event.event_id, current_user.id)
+    if recieved_invitation is not None:
+        db.session.delete(recieved_invitation)
+    db.session.commit()
+    return jsonify(["Invitation accepted.", [{"user_event": u_e.serialize(), "user": u_e.user.serialize()} for u_e in user_event.event.user_events]])
+
+
+@app.route("/remove_event/<user_event_id>/", methods=['POST'])
+@login_required
+def remove_event(user_event_id):
+    user_event = UserEvent.query.filter_by(id=user_event_id).first()
 
 
 @app.errorhandler(500)

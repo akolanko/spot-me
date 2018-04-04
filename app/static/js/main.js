@@ -436,4 +436,47 @@ $(document).ready( function() {
 			}
 		);
 	});
+
+
+	//Accepting an event invitation
+
+	$(".accept-invitation-form").submit(function(e) {
+		e.preventDefault();
+
+		var action = $(this).attr("action");
+		var event_id = $("#event-title").data("eventid");
+		var invite = $("#invite-list").find("[data-eventid='" + event_id + "']");
+		var user_id = $(".user-details").data("userid");
+		var user_event_id = $("#event-title").data("usereventid");
+
+		$.post(action,
+			function(result) {
+				flashResult(result[0]);
+				invite.hide();
+				html = "<h2 class='page-title'>Invited</h2><ul>";
+				for (i = 0; i < result[1].length; i++) {
+					if (result[1][i]["user"].id != user_id){
+						html += "<li class='invited-user'><a href='user/" + result[1][i]["user"].id + "'>" + result[1][i]["user"].fname + " " + result[1][i]["user"].lname + " - ";
+						if (result[1][i]["user_event"].accepted === 0) {
+							html += "Pending";
+						} else {
+							html += "Accepted";
+						}
+						html += "</a></li>";
+					}
+				}
+				html += "</ul>";
+				$('.invites').html(html);
+
+				btns = "<div class='event-buttons inline-buttons' id='event-btns-main'><button class='button button-1' id='edit-event-btn'>Edit</button><form onsubmit='return confirm(\"Are you sure you want to remove yourself from this event?\");' class='remove-event-form' action='remove_event/'" + user_event_id + " method='post'><button type='submit' class='button button-4'>Remove</button></form></div>";
+				$(".event-info").append(btns);
+
+				if( $('#invite-list').height() === 0 ) {
+					$('#invite-list').html("<div class='no-results'>You do not currently have any event invitations.</div>");
+				}
+			}
+		);
+	});
+
+
 });
