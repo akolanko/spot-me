@@ -430,6 +430,15 @@ def decline_invitation(user_event_id):
 @login_required
 def remove_event(user_event_id):
     user_event = UserEvent.query.filter_by(id=user_event_id).first()
+    body = user_event.user.fname + " is no longer attending " + user_event.event.title
+    for u_e in user_event.event.user_events:
+        if u_e.id != user_event.id:
+            notification = Notification(body=body, receiver_id=u_e.user.id, event_id=user_event.event.id, type=NotificationType.event_removed)
+            db.session.add(notification)
+    db.session.delete(user_event)
+    db.session.commit()
+    flash('Event removed.')
+    return redirect(url_for('event_new'))
 
 
 @app.errorhandler(500)

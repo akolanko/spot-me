@@ -1,6 +1,9 @@
 .grey {
   color: #C6C6C6; }
 
+.blue {
+  color: #8BC8DB; }
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -54,15 +54,19 @@
 		<div class='outer'>
 			<div class='inner coming-up'>
 				<h2>Coming Up</h2>
-				<ul>
-					{% for event in coming_up %}
-					<li>
-						<a href="{{ url_for('event', event_id=event.id) }}">
-							{{ event.date.strftime('%m/%d/%y') }} - {{ event.start_time.strftime('%-I:%M %p') }} {{ event.title }}
-						</a>
-					</li>
-					{% endfor %}
-				</ul>
+				{% if coming_up %}
+					<ul>
+						{% for event in coming_up %}
+						<li>
+							<a href="{{ url_for('event', event_id=event.id) }}">
+								{{ event.date.strftime('%m/%d/%y') }} - {{ event.start_time.strftime('%-I:%M %p') }} {{ event.title }}
+							</a>
+						</li>
+						{% endfor %}
+					</ul>
+				{% else %}
+				<span class='blue weight-med'>You do not have any events coming up.</span>
+				{% endif %}
 			</div>
 		</div>
 		<div class='outer'>
