@@ -9,7 +9,7 @@ from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
 from app.friends import are_friends_or_pending, get_friends, find_friend
-from app.notifications import get_notifications, get_notification
+from app.notifications import get_notifications, get_notification, notification_exists
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
@@ -271,17 +271,6 @@ def create_new_conversation():
             return "An error occurred."
 
 
-@app.route("/new_event/<user_id>/", methods=["POST"])
-def new_event(user_id):
-    eventform = NewEventForm()
-    if eventform.validate_on_submit():
-        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
-        db.session.add(event)
-        create_event(event, current_user, user_id)
-        return jsonify("Event Created.")
-    return jsonify(eventform.errors)
-
-
 @app.route("/discover")
 @login_required
 def discover():
@@ -361,6 +350,17 @@ def view_notification():
     return "Notification deleted."
 
 
+@app.route("/new_event/<user_id>/", methods=["POST"])
+def new_event(user_id):
+    eventform = NewEventForm()
+    if eventform.validate_on_submit():
+        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
+        db.session.add(event)
+        create_event(event, current_user, user_id)
+        return jsonify("Event Created.")
+    return jsonify(eventform.errors)
+
+
 @app.route("/event/<event_id>")
 @login_required
 def event(event_id):
@@ -376,6 +376,15 @@ def event(event_id):
     return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays)
 
 
+@app.route("/event/new")
+@login_required
+def event_new():
+    notifications = get_notifications(current_user.id)
+    coming_up = get_recent_events(current_user.id)
+    weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    return render_template('new_event.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays)
+
+
 @app.route("/accept_invitation/<user_event_id>/", methods=['POST'])
 @login_required
 def accept_invitation(user_event_id):
@@ -388,10 +397,33 @@ def accept_invitation(user_event_id):
         user_event.accepted = True
         db.session.add(user_event)
     sent_invitation, recieved_invitation = get_event_invitation(user_event.event_id, current_user.id)
-    if recieved_invitation is not None:
-        db.session.delete(recieved_invitation)
+    old_notification = notification_exists(recieved_invitation.receiver.id, user_event.event.id)
+    if old_notification is not None:
+        db.session.delete(old_notification)
+    body = user_event.user.fname + " accepted your invitation to " + user_event.event.title
+    notification = Notification(body=body, receiver_id=recieved_invitation.sender.id, event_id=user_event.event.id, type=NotificationType.invite_accepted)
+    db.session.add(notification)
+    db.session.delete(recieved_invitation)
     db.session.commit()
     return jsonify(["Invitation accepted.", [{"user_event": u_e.serialize(), "user": u_e.user.serialize()} for u_e in user_event.event.user_events]])
+
+
+@app.route("/decline_invitation/<user_event_id>/", methods=['POST'])
+@login_required
+def decline_invitation(user_event_id):
+    user_event = UserEvent.query.filter_by(id=user_event_id).first()
+    sent_invitation, recieved_invitation = get_event_invitation(user_event.event_id, current_user.id)
+    old_notification = notification_exists(recieved_invitation.receiver.id, user_event.event.id)
+    if old_notification is not None:
+        db.session.delete(old_notification)
+    body = user_event.user.fname + " declined your invitation to " + user_event.event.title
+    notification = Notification(body=body, receiver_id=recieved_invitation.sender.id, event_id=user_event.event.id, type=NotificationType.invite_declined)
+    db.session.add(notification)
+    db.session.delete(user_event)
+    db.session.delete(recieved_invitation)
+    db.session.commit()
+    flash('Invitation declined.')
+    return redirect(url_for('event_new'))
 
 
 @app.route("/remove_event/<user_event_id>/", methods=['POST'])

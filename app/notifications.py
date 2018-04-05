@@ -30,4 +30,12 @@ def get_notifications(user_id):
 	unread_msgs_count, unread_conversations = unread_messages(user_id)
 	ntfs_count, notifications = all_notifications(user_id)
 
-	return {'received_friend_requests': received_friend_requests, 'sent_friend_requests': sent_friend_requests, 'pending_recieved': pending_recieved, 'pending_sent': pending_sent, 'total_pending_recieved': total_pending_recieved, 'recent_conversation': recent_conversation, 'unread_msgs_count': unread_msgs_count, 'unread_conversations': unread_conversations, 'ntfs_count': ntfs_count, 'notifications': notifications, 'event_invite_type': NotificationType.event_invite, 'event_update_type': NotificationType.event_update}
+	return {'received_friend_requests': received_friend_requests, 'sent_friend_requests': sent_friend_requests, 'pending_recieved': pending_recieved, 'pending_sent': pending_sent, 'total_pending_recieved': total_pending_recieved, 'recent_conversation': recent_conversation, 'unread_msgs_count': unread_msgs_count, 'unread_conversations': unread_conversations, 'ntfs_count': ntfs_count, 'notifications': notifications}
+
+
+def notification_exists(receiver_id, event_id):
+	notifications = db.session.query(Notification).filter(Notification.receiver_id == receiver_id, Notification.event_id == event_id)
+	if notifications is not None:
+		return notifications.first()
+	else:
+		return None

@@ -168,6 +168,8 @@ class EventInvitation(db.Model):
 class NotificationType(enum.Enum):
     event_invite = 0
     event_update = 1
+    invite_accepted = 2
+    invite_declined = 3
 
 
 class Notification(db.Model):

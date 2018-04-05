@@ -66,6 +66,11 @@
 			{% if length == 1 %}
 				<h2 class='page-title'>Invited</h2>
 				You have not invited anyone to this event.
+				<ul>
+				</ul>
+				<form class="add-invite-form" action="/add_invite/" method="post">
+					<button type='submit' class='non-btn'>+ Add More Friends</button>
+				</form>
 			{% elif length == 2 and not user_event.accepted %}
 				{% if received_invitation %}
 					<div class='invitation-detail'>
@@ -75,7 +80,7 @@
 						<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
 							<button type="submit" class='button button-1'>Accept</button>
 						</form>
-						<form class="decline-invitation-form" action="/decline_invitation/" method="post">
+						<form class="decline-invitation-form" action="{{ url_for('decline_invitation', user_event_id=user_event.id) }}" method="post">
 							<button type="submit" class='button button-5'>Decline</button>
 						</form>
 					</div>
@@ -106,7 +111,7 @@
 						<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
 							<button type="submit" class='button button-1'>Accept</button>
 						</form>
-						<form class="decline-invitation-form" action="/decline_invitation/" method="post">
+						<form class="decline-invitation-form" action="{{ url_for('decline_invitation', user_event_id=user_event.id) }}" method="post">
 							<button type="submit" class='button button-5'>Decline</button>
 						</form>
 					</div>
@@ -118,8 +123,5 @@
 			{% endif %}
 		</div>
 	</div>
-	{% if user_event.accepted %}
-		
-	{% endif %}
 </div>
 {% endblock %}

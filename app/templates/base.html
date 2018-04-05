@@ -129,15 +129,13 @@
 									<ul>
 										{% for notification in notifications['notifications'] %}
 											<li>
-												{% if notification.type == notifications['event_invite_type'] or notification.type == notifications['event_update_type'] %}
-													<form class="view-notification-form" action="/view_notification/" method="post">
-														<input type="hidden" class='notification-id' data-notificationid="{{ notification.id }}">
-														<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
-														<button type="submit" class='non-btn notification-body'>
-															{{ notification.body }}
-														</button>
-													</form>
-												{% endif %}
+												<form class="view-notification-form" action="/view_notification/" method="post">
+													<input type="hidden" class='notification-id' data-notificationid="{{ notification.id }}">
+													<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
+													<button type="submit" class='non-btn notification-body'>
+														{{ notification.body }}
+													</button>
+												</form>
 											</li>
 										{% endfor %}
 									</ul>
