@@ -122,6 +122,9 @@
 						<li class='nav-item' id='search-icon'>
 							<img class='nav-icon' src="../static/img/search.png" />
 						</li>
+						<li class='nav-item' id='calendar-icon'>
+							<img class='nav-icon' src='../static/img/calendar.png' />
+						</li>
 						<li class='nav-item' id='menu'>
 							<div id='menu-btn'>
 								<div class='menu-line' id='menu-line-1'>
@@ -140,6 +143,8 @@
 											<a href="{{ url_for('new_conversation') }}">Messages</a>
 										{% endif %}
 									</li>
+									<li>
+										<a href="cal.html">Calendar</a>
 									<li>
 										<a href="{{ url_for('discover') }}">Discover</a>
 									</li>
