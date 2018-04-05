@@ -39,3 +39,38 @@ def notification_exists(receiver_id, event_id):
 		return notifications.first()
 	else:
 		return None
+
+
+def remove_notification(receiver_id, event_id):
+	old_notification = notification_exists(receiver_id, event_id)
+	if old_notification is not None:
+		db.session.delete(old_notification)
+		db.session.commit()
+
+
+def create_invite_notification(event_id, sender, receiver_id):
+	body = "New event invitation from " + sender.fname
+	notification = Notification(body=body, receiver_id=receiver_id, event_id=event_id, type=NotificationType.event_invite)
+	db.session.add(notification)
+	db.session.commit()
+
+
+def create_decline_notification(user_event, receiver_id):
+	body = user_event.user.fname + " declined your invitation to " + user_event.event.title
+	notification = Notification(body=body, receiver_id=receiver_id, event_id=user_event.event.id, type=NotificationType.invite_declined)
+	db.session.add(notification)
+	db.session.commit()
+
+
+def create_accept_notification(user_event, receiver_id):
+	body = user_event.user.fname + " accepted your invitation to " + user_event.event.title
+	notification = Notification(body=body, receiver_id=receiver_id, event_id=user_event.event.id, type=NotificationType.invite_accepted)
+	db.session.add(notification)
+	db.session.commit()
+
+
+def create_remove_event_notification(user_event, receiver_id):
+	body = user_event.user.fname + " is no longer attending " + user_event.event.title
+	notification = Notification(body=body, receiver_id=receiver_id, event_id=user_event.event.id, type=NotificationType.event_removed)
+	db.session.add(notification)
+	db.session.commit()

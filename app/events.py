@@ -1,7 +1,8 @@
 from app.models import *
 from app import db
-from sqlalchemy import desc, asc
+from sqlalchemy import asc
 import datetime
+from app.notifications import create_invite_notification
 
 
 def create_event(event, sender, receiver_id):
@@ -11,9 +12,7 @@ def create_event(event, sender, receiver_id):
 	db.session.add(user_event_2)
 	event_invitation = EventInvitation(sender_id=sender.id, receiver_id=receiver_id, event_id=event.id)
 	db.session.add(event_invitation)
-	body = "New event invitation from " + sender.fname
-	notification = Notification(body=body, receiver_id=receiver_id, event_id=event.id, type=NotificationType.event_invite)
-	db.session.add(notification)
+	create_invite_notification(event.id, sender, receiver_id)
 	db.session.commit()
 
 

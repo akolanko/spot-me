@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
 		'Repeat Password', validators=[DataRequired(), EqualTo('password')])
 	fname = StringField('First Name', validators=[DataRequired()])
 	lname = StringField('Last Name', validators=[DataRequired()])
-	birthday = DateField('Birthday', format='%Y-%m-%d', validators=[DataRequired()])
+	birthday = DateField('Birthday', format='%Y-%m-%d', validators=[DataRequired()], render_kw={"placeholder": "yyyy-mm-dd"})
 	submit = SubmitField('Register')
 
 	def validate_username(self, username):
@@ -53,9 +53,9 @@ class UpdatePasswordForm(FlaskForm):
 
 class NewEventForm(FlaskForm):
 	title = StringField('Title', validators=[DataRequired()])
-	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
-	start_time = TimeField('Start Time', validators=[DataRequired()])
-	end_time = TimeField('End Time', validators=[DataRequired()])
+	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()], render_kw={"placeholder": "yyyy-mm-dd"})
+	start_time = TimeField('Start Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
+	end_time = TimeField('End Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
 	location = StringField('Location')
 	notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
 	submit = SubmitField('Send')

@@ -9,7 +9,7 @@ from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
 from app.friends import are_friends_or_pending, get_friends, find_friend
-from app.notifications import get_notifications, get_notification, notification_exists
+from app.notifications import *
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
@@ -210,14 +210,12 @@ def delete_friend_request():
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
-
     if current_user.id == conversation.user_id_1:
         user_2 = User.query.filter_by(id=conversation.user_id_2).first()
     elif current_user.id == conversation.user_id_2:
         user_2 = User.query.filter_by(id=conversation.user_id_1).first()
     else:
         return redirect(url_for('home'))
-
     update_read_messages(conversation.id, user_2.id)
     notifications = get_notifications(current_user.id)
     messages = conversation.messages.order_by(asc(Message.timestamp)).all()
@@ -396,14 +394,10 @@ def accept_invitation(user_event_id):
     else:
         user_event.accepted = True
         db.session.add(user_event)
-    sent_invitation, recieved_invitation = get_event_invitation(user_event.event_id, current_user.id)
-    old_notification = notification_exists(recieved_invitation.receiver.id, user_event.event.id)
-    if old_notification is not None:
-        db.session.delete(old_notification)
-    body = user_event.user.fname + " accepted your invitation to " + user_event.event.title
-    notification = Notification(body=body, receiver_id=recieved_invitation.sender.id, event_id=user_event.event.id, type=NotificationType.invite_accepted)
-    db.session.add(notification)
-    db.session.delete(recieved_invitation)
+    sent_invitation, received_invitation = get_event_invitation(user_event.event_id, current_user.id)
+    remove_notification(received_invitation.receiver.id, user_event.event.id)
+    create_accept_notification(user_event, received_invitation.sender.id)
+    db.session.delete(received_invitation)
     db.session.commit()
     return jsonify(["Invitation accepted.", [{"user_event": u_e.serialize(), "user": u_e.user.serialize()} for u_e in user_event.event.user_events]])
 
@@ -412,15 +406,11 @@ def accept_invitation(user_event_id):
 @login_required
 def decline_invitation(user_event_id):
     user_event = UserEvent.query.filter_by(id=user_event_id).first()
-    sent_invitation, recieved_invitation = get_event_invitation(user_event.event_id, current_user.id)
-    old_notification = notification_exists(recieved_invitation.receiver.id, user_event.event.id)
-    if old_notification is not None:
-        db.session.delete(old_notification)
-    body = user_event.user.fname + " declined your invitation to " + user_event.event.title
-    notification = Notification(body=body, receiver_id=recieved_invitation.sender.id, event_id=user_event.event.id, type=NotificationType.invite_declined)
-    db.session.add(notification)
+    sent_invitation, received_invitation = get_event_invitation(user_event.event_id, current_user.id)
+    remove_notification(received_invitation.receiver.id, user_event.event.id)
+    create_decline_notification(user_event, received_invitation.sender.id)
     db.session.delete(user_event)
-    db.session.delete(recieved_invitation)
+    db.session.delete(received_invitation)
     db.session.commit()
     flash('Invitation declined.')
     return redirect(url_for('event_new'))
@@ -430,11 +420,9 @@ def decline_invitation(user_event_id):
 @login_required
 def remove_event(user_event_id):
     user_event = UserEvent.query.filter_by(id=user_event_id).first()
-    body = user_event.user.fname + " is no longer attending " + user_event.event.title
     for u_e in user_event.event.user_events:
         if u_e.id != user_event.id:
-            notification = Notification(body=body, receiver_id=u_e.user.id, event_id=user_event.event.id, type=NotificationType.event_removed)
-            db.session.add(notification)
+            create_remove_event_notification(user_event, u_e.user.id)
     db.session.delete(user_event)
     db.session.commit()
     flash('Event removed.')
