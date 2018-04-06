@@ -7,7 +7,7 @@ from flask import jsonify
 
 
 def create_event(event, sender, receiver_id):
-	user_event_1 = UserEvent(user_id=sender.id, event_id=event.id)
+	user_event_1 = UserEvent(user_id=sender.id, event_id=event.id, accepted=True)
 	user_event_2 = UserEvent(user_id=receiver_id, event_id=event.id)
 	db.session.add(user_event_1)
 	db.session.add(user_event_2)

@@ -107,6 +107,29 @@ form.login .form-field {
   width: 40%;
   padding-right: 5%; }
 
+.account-field, .event-info .event-field {
+  font-size: 1.1em;
+  height: 40px; }
+  .account-field .label, .event-info .event-field .label {
+    font-weight: 400;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-right: 1em; }
+  .account-field .field, .event-info .event-field .field {
+    color: #8D8D8D;
+    display: inline-block; }
+    .account-field .field input, .account-field .field textarea, .event-info .event-field .field input, .event-info .event-field .field textarea {
+      padding: 0;
+      border: none;
+      border-bottom: 1px solid #E2E2E2; }
+  .account-field .field-wide, .event-info .event-field .field-wide {
+    width: 80%; }
+  .account-field .field-textarea, .event-info .event-field .field-textarea {
+    width: 80%;
+    vertical-align: top; }
+  .account-field .validation-error, .event-info .event-field .validation-error {
+    font-size: .8em; }
+
 #home-title-block {
   float: left;
   width: 50%;
@@ -814,23 +837,6 @@ button {
         margin-top: 10px; }
     .account .left .account-info {
       padding: 0 30px 10px; }
-      .account .left .account-info .account-field {
-        font-size: 1.1em;
-        height: 40px; }
-        .account .left .account-info .account-field .label {
-          font-weight: 400;
-          text-transform: uppercase;
-          display: inline-block;
-          margin-right: 1em; }
-        .account .left .account-info .account-field .field {
-          color: #8D8D8D;
-          display: inline-block; }
-          .account .left .account-info .account-field .field input {
-            padding: 0;
-            border: none;
-            border-bottom: 1px solid #E2E2E2; }
-        .account .left .account-info .account-field .validation-error {
-          font-size: .8em; }
   .account .right {
     vertical-align: top;
     padding: 40px 30px 30px 70px;
@@ -982,22 +988,20 @@ button {
     .event-block .outer .invites .invitation-detail {
       color: #8BC8DB;
       font-weight: 400; }
-  .event-block .event-details .event-field {
-    font-size: 1.1em;
-    margin: 0.5em 0; }
-    .event-block .event-details .event-field .label {
-      font-weight: 400;
-      text-transform: uppercase;
-      display: inline-block;
-      margin-right: 1em; }
-    .event-block .event-details .event-field .field {
-      color: #8D8D8D;
-      display: inline-block; }
   .event-block .event-buttons {
     padding: 0;
     margin-top: 25px; }
   .event-block .page-title {
     margin-bottom: 0.8em; }
+  .event-block .page-title-large {
+    height: 55px;
+    margin-bottom: 0; }
+  .event-block #update-event {
+    display: none; }
+    .event-block #update-event #update-event-form h1 input[type='text'] {
+      padding: 0;
+      border: none;
+      border-bottom: 1px solid #E2E2E2; }
   .event-block .add-friends {
     margin-top: 15px;
     color: #8BC8DB; }

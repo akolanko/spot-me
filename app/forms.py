@@ -61,6 +61,16 @@ class NewEventForm(FlaskForm):
 	submit = SubmitField('Send')
 
 
+class UpdateEventForm(FlaskForm):
+	title = StringField('Title', validators=[DataRequired()])
+	date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+	start_time = TimeField('Start Time', validators=[DataRequired()])
+	end_time = TimeField('End Time', validators=[DataRequired()])
+	location = StringField('Location')
+	notes = TextAreaField('Notes', validators=[Length(min=0, max=140)])
+	submit = SubmitField('Send')
+
+
 class EditProfileForm(FlaskForm):
 	username  = StringField('Username', validators=[DataRequired()])
 	# left col

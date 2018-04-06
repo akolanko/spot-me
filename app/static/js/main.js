@@ -285,6 +285,74 @@ $(document).ready( function() {
 	});
 
 
+	//Show validation errors
+
+	function validationErrors(errors, parent){
+		for (var key in errors){
+			var value = errors[key];
+			if (value.length > 0) {
+				var err;
+				if (parent === true){
+					err = $("#"+key).parent().siblings(".error-container");
+				} else{
+					err = $("#"+key).next();
+				}
+				err.html("<div class='validation-error'>" + value + "</div>");
+			}
+		}
+	}
+
+
+	//Format date and time objects
+
+	function formatDate(date) {
+		var monthNames = [
+			"January", "February", "March",
+			"April", "May", "June", "July",
+			"August", "September", "October",
+			"November", "December"
+		];
+
+		var day = date.getUTCDate();
+		var monthIndex = date.getMonth();
+		var year = date.getFullYear();
+
+		return monthNames[monthIndex] + ' ' + day + ', ' + year;
+	}
+
+	function formatTime(time) {
+		values=time.split(':');
+		var hours = parseInt(values[0]);
+		var minutes = values[1];
+		var am = "AM";
+		if (hours > 11 && hours < 24){
+			am = "PM";
+		}
+		if (hours > 12){
+			hours = hours - 12;
+		}
+		return hours + ":" + minutes + " " + am;
+	}
+
+
+	//Updating form data
+
+	function updateData(data){
+		for (var key in data){
+			var value;
+			if (key == 'date' || key == 'birthday'){
+				var date = new Date(data[key]);
+				value = formatDate(date);
+			} else if (key == 'start_time' || key == 'end_time') {
+				value = formatTime(data[key]);
+			} else {
+				value = data[key];
+			}
+			$("#"+key+"-main").html(value);
+		}
+	}
+
+
 	//Account Update
 
 	$('#edit-account-btn').click(function(){
@@ -295,21 +363,6 @@ $(document).ready( function() {
 		$('#acc-update-del-btn').show();
 	});
 
-	function formatDate(date) {
-		var monthNames = [
-			"January", "February", "March",
-			"April", "May", "June", "July",
-			"August", "September", "October",
-			"November", "December"
-		];
-
-		var day = date.getDate() + 1;
-		var monthIndex = date.getMonth();
-		var year = date.getFullYear();
-
-		return monthNames[monthIndex] + ' ' + day + ', ' + year;
-	}
-
 	$('#update-account-form').submit(function (e) {
 		var url = "/update_account/";
 		$.ajax({
@@ -318,19 +371,9 @@ $(document).ready( function() {
 			data: $('#update-account-form').serialize(),
 			success: function(data) {
 				if (data[0] == "error") {
-					for (var key in data[1]){
-						var value = data[1][key];
-						var err = $("#"+key).parent().siblings(".error-container");
-						err.html("<div class='validation-error'>" + value + "</div>");
-					}
-					if (data[2] != false){
-						for (var key in data[2]){
-							var value = data[2][key];
-							if (value.length > 0) {
-								var err = $("#"+key).parent().siblings(".error-container");
-								err.html("<div class='validation-error'>" + value + "</div>");
-							}
-						}
+					validationErrors(data[1], true);
+					if (data[2] !== false){
+						validationErrors(data[2], true);
 					}
 				} else {
 					$(".error-container").empty();
@@ -339,15 +382,7 @@ $(document).ready( function() {
 					$('#account-update-btn').hide();
 					$('#acc-update-del-btn').hide();
 					$('#account-btns-main').show();
-					for (var key in data[1]){
-						if (key == 'birthday'){
-							var date = new Date(data[1][key]);
-							var value = formatDate(date);
-						} else {
-							var value = data[1][key];
-						}
-						$("#"+key+"-main").html(value);
-					}
+					updateData(data[1]);
 				}
 			}
 		});
@@ -370,11 +405,7 @@ $(document).ready( function() {
 					$("#update-password-form input[type='password']").val('');
 					$(".error-container").empty();
 				} else {
-					for (var key in data){
-						var value = data[key];
-						var err = $("#"+key).next();
-						err.html("<div class='validation-error'>" + value + "</div>");
-					}
+					validationErrors(data, false);
 				}
 			}
 		});
@@ -404,13 +435,28 @@ $(document).ready( function() {
 					$('input[type="time"]').val('');
 					$('textarea').val('');
 				} else {
-					for (var key in data){
-						var value = data[key];
-						var err = $("#"+key).parent().siblings(".error-container");
-						err.html("<div class='validation-error'>" + value + "</div>");
-					}
+					validationErrors(data, true);
 				}
-				console.log(data);
+			}
+		});
+		e.preventDefault();
+	});
+
+
+	//New event - event page
+
+	$('#create-event-form').submit(function(e) {
+		var url = $(this).attr("action");
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $(this).serialize(),
+			success: function(data) {
+				if(data[0] == "error"){
+					validationErrors(data[1], true);
+				} else if (data[0] == "success"){
+					window.location.replace("/event/" + data[1]);
+				}
 			}
 		});
 		e.preventDefault();
@@ -494,6 +540,7 @@ $(document).ready( function() {
 				url: url,
 				data: $(this).serialize(),
 				success: function(data) {
+					$('.empty-list').hide();
 					$('.search-title').hide();
 					$('.user-results').hide();
 					$('.invites ul.invite-list').append("<li class='invited-user'><a href='/user/" + data.id + "'>" + data.fname + " " + data.lname + " - Pending</a></li>");
@@ -520,23 +567,18 @@ $(document).ready( function() {
 					$('.flash-list').delay(1500).slideUp();
 					$(".error-container").empty();
 				} else if (data[0] == "error") {
-					for (var key in data[1]){
-						var value = data[1][key];
-						var err = $("#"+key).next();
-						err.html("<div class='validation-error'>" + value + "</div>");
-					}
+					validationErrors(data[1], false);
 				} else if (data[0] == "multiple results"){
 					var results = "<h3 class='section-title search-title'>Search Results</h3><ul class='user-results'>";
 					for (i = 0; i < data[1].length; i++){
-						console.log(data[1][i]);
 						results += "<li class='search-result'><a class='link-2' href='/user/" + data[1][i].id + "'>" + data[1][i].fname + " " + data[1][i].lname + "</a><form class='add-invite-form-single' action='/add_invite_single/" + data[2] + "/" + data[3] + "/" + data[1][i].id + "/' method='post'><button type='submit' class='button'>Invite</button></form></li>";
 					}
 					results += "</ul>";
 					$('.add-friends').before(results);
 					$('.add-friends').show();
 					$('.add-invite-form').hide();
-					console.log(data);
 				} else if (data[0] == "success"){
+					$('.empty-list').hide();
 					$('.invites ul.invite-list').append("<li class='invited-user'><a href='/user/" + data[1].id + "'>" + data[1].fname + " " + data[1].lname + " - Pending</a></li>");
 					$('.add-friends').show();
 					$('.add-invite-form').hide();
@@ -544,6 +586,34 @@ $(document).ready( function() {
 				}
 				$(".add-invite-form input[type='text']").val('');
 				invite();
+			}
+		});
+		e.preventDefault();
+	});
+
+
+	//Updating an event
+
+	$('#edit-event-btn').click(function(){
+		$('#event-main').hide();
+		$('#update-event').show();
+	});
+
+	$('#update-event-form').submit(function(e) {
+		$(".error-container").empty();
+		var url = $(this).attr("action");
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $(this).serialize(),
+			success: function(data) {
+				if (data[0] == "error") {
+					validationErrors(data[1], true);
+				} else {
+					$('#update-event').hide();
+					$('#event-main').show();
+					updateData(data[1]);
+				}
 			}
 		});
 		e.preventDefault();

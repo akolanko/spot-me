@@ -15,6 +15,7 @@ from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
 from app.events import *
+import datetime
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -371,30 +372,61 @@ def event(event_id):
     length = len(event.user_events)
     sent_invitation, received_invitation = get_event_invitation(event_id, current_user.id)
     friendform = AddFriendForm()
+    eventform = UpdateEventForm()
     weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays, friendform=friendform)
+    today = datetime.date.today()
+    return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays, friendform=friendform, eventform=eventform, today=today)
+
+
+@app.route("/update_event/<event_id>", methods=['POST'])
+@login_required
+def update_event(event_id):
+    event = Event.query.filter_by(id=event_id).first()
+    eventform = UpdateEventForm()
+    if eventform.validate_on_submit():
+        event.title = eventform.title.data
+        event.date = eventform.date.data
+        event.start_time = eventform.start_time.data
+        event.end_time = eventform.end_time.data
+        event.location = eventform.location.data
+        event.notes = eventform.notes.data
+        db.session.add(event)
+        db.session.commit()
+        return jsonify(["success", {"title": eventform.title.data, "date": eventform.date.data, "start_time": str(event.start_time), "end_time": str(event.end_time), "location": eventform.location.data, "notes": eventform.notes.data}])
+    return jsonify(["error", eventform.errors])
 
 
 @app.route("/event/new")
 @login_required
 def event_new():
+    eventform = NewEventForm()
     notifications = get_notifications(current_user.id)
     coming_up = get_recent_events(current_user.id)
     weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    return render_template('new_event.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays)
+    return render_template('new_event.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays, eventform=eventform)
+
+
+@app.route("/event/create/", methods=['POST'])
+@login_required
+def create_event():
+    eventform = NewEventForm()
+    if eventform.validate_on_submit():
+        event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
+        db.session.add(event)
+        db.session.commit()
+        user_event = UserEvent(user_id=current_user.id, event_id=event.id, accepted=True)
+        db.session.add(user_event)
+        db.session.commit()
+        return jsonify(["success", event.id])
+    return jsonify(["error", eventform.errors])
 
 
 @app.route("/accept_invitation/<user_event_id>/", methods=['POST'])
 @login_required
 def accept_invitation(user_event_id):
     user_event = UserEvent.query.filter_by(id=user_event_id).first()
-    if len(user_event.event.user_events) == 2:
-        for u_e in user_event.event.user_events:
-            u_e.accepted = True
-            db.session.add(u_e)
-    else:
-        user_event.accepted = True
-        db.session.add(user_event)
+    user_event.accepted = True
+    db.session.add(user_event)
     sent_invitation, received_invitation = get_event_invitation(user_event.event_id, current_user.id)
     remove_notification(received_invitation.receiver.id, user_event.event.id)
     create_accept_notification(user_event, received_invitation.sender.id)

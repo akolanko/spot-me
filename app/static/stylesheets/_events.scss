@@ -61,23 +61,6 @@
 	}
 
 	.event-details{
-
-		.event-field{
-			font-size: 1.1em;
-			margin: 0.5em 0;
-
-			.label{
-				font-weight: 400;
-				text-transform: uppercase;
-				display: inline-block;
-				margin-right: 1em;
-			}
-
-			.field{
-				color: $grey1;
-				display: inline-block;
-			}
-		}
 	}
 
 	.event-buttons{
@@ -87,6 +70,26 @@
 
 	.page-title{
 		margin-bottom: 0.8em;
+	}
+
+	.page-title-large{
+		height: 55px;
+		margin-bottom: 0;
+	}
+
+	#update-event{
+
+		display: none;
+
+		#update-event-form{
+			h1{
+				input[type='text']{
+					padding: 0;
+					border: none;
+					border-bottom: 1px solid $grey4;
+				}
+			}
+		}
 	}
 
 	.add-friends{

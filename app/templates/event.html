@@ -3,15 +3,17 @@
 {% block middle %}
 <div class='block event-block'>
 	<div class='outer'>
-		<div class='inner event-info'>
-			<h1 id='event-title' class='page-title-large' data-eventid="{{ event.id }}" data-usereventid="{{ user_event.id }}">{{ event.title }}</h1>
+		<div class='inner event-info' id='event-main'>
+			<h1 id='event-title' class='page-title-large' data-eventid="{{ event.id }}" data-usereventid="{{ user_event.id }}">
+				<span id='title-main'>{{ event.title }}</span>
+			</h1>
 			<div class='event-details'>
 				<div class='event-field'>
 					<div class='label'>
 						Date
 					</div>
 					<div class='field'>
-						{{ event.date.strftime('%B %d, %Y') }}
+						<span id='date-main'>{{ event.date.strftime('%B %d, %Y') }}</span>
 					</div>
 				</div>
 				<div class='event-field'>
@@ -19,7 +21,7 @@
 						Start Time
 					</div>
 					<div class='field'>
-						{{ event.start_time.strftime('%-I:%M %p') }}
+						<span id='start_time-main'>{{ event.start_time.strftime('%-I:%M %p') }}</span>
 					</div>
 				</div>
 				<div class='event-field'>
@@ -27,7 +29,7 @@
 						End Time
 					</div>
 					<div class='field'>
-						{{ event.end_time.strftime('%-I:%M %p') }}
+						<span id='end_time-main'>{{ event.end_time.strftime('%-I:%M %p') }}</span>
 					</div>
 				</div>
 				<div class='event-field'>
@@ -35,9 +37,11 @@
 						Location
 					</div>
 					<div class='field'>
+						<span id='location-main'>
 						{% if event.location %}
 							{{ event.location }}
 						{% endif %}
+						</span>
 					</div>
 				</div>
 				<div class='event-field'>
@@ -45,13 +49,15 @@
 						Notes
 					</div>
 					<div class='field'>
+						<span id='notes-main'>
 						{% if event.notes %}
 							{{ event.notes }}
 						{% endif %}
+						</span>
 					</div>
 				</div>
 			</div>
-			{% if user_event.accepted %}
+			{% if user_event.accepted or sent_invitation %}
 				<div class='event-buttons inline-buttons' id='event-btns-main'>
 					<button class='button button-1' id='edit-event-btn'>Edit</button>
 					<form onsubmit="return confirm('Are you sure you want to remove yourself from this event?');" class="remove-event-form" action="{{ url_for('remove_event', user_event_id=user_event.id) }}" method="post">
@@ -60,51 +66,137 @@
 				</div>
 			{% endif %}
 		</div>
+		<div class='inner event-info' id='update-event'>
+			<form id='update-event-form' action="{{ url_for('update_event', event_id=event.id) }}" method="post">
+				{{ eventform.hidden_tag() }}
+				<h1 id='event-title' class='page-title-large' data-eventid="{{ event.id }}" data-usereventid="{{ user_event.id }}">
+					{{ eventform.title(value=event.title) }}
+					<div class='error-container'>
+						{% for error in eventform.title.errors %}
+							<div class="validation-error">{{ error }}</div>
+						{% endfor %}
+					</div>
+				</h1>
+				<div class='event-details'>
+					<div class='event-field'>
+						<div class='label'>
+							Date
+						</div>
+						<div class='field'>
+							{{ eventform.date(value=event.date) }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.date.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Start Time
+						</div>
+						<div class='field'>
+							{{ eventform.start_time(value=event.start_time) }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.start_time.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							End Time
+						</div>
+						<div class='field'>
+							{{ eventform.end_time(value=event.end_time) }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.end_time.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Location
+						</div>
+						<div class='field'>
+							{% if event.location %}
+								{{ eventform.location(value=event.location) }}
+							{% else %}
+								{{ eventform.location }}
+							{% endif %}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.location.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Notes
+						</div>
+						<div class='field field-textarea'>
+							{% if event.notes %}
+								{{ eventform.notes(value=event.notes) }}
+							{% else %}
+								{{ eventform.notes }}
+							{% endif %}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.notes.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-buttons inline-buttons' id='event-btns-update'>
+						{{ eventform.submit(value="Update", class='button button-1', id='event-update-btn') }}
+			</form>
+						<form onsubmit="return confirm('Are you sure you want to remove yourself from this event?');" class="remove-event-form" action="{{ url_for('remove_event', user_event_id=user_event.id) }}" method="post">
+							<button type="submit" class='button button-4'>Remove</button>
+						</form>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	<div class='outer'>
 		<div class='inner invites'>
-			{% if length == 1 %}
-				<h2 class='page-title'>Invited</h2>
-				You have not invited anyone to this event.
-				<ul>
-				</ul>
-				<form class="add-invite-form" action="/add_invite/" method="post">
-					<button type='submit' class='non-btn'>+ Add More Friends</button>
-				</form>
-			{% elif length == 2 and not user_event.accepted %}
-				{% if received_invitation %}
-					<div class='invitation-detail'>
-						Invitation sent by {{ received_invitation.sender.fname }} {{ received_invitation.sender.lname }}
-					</div>
-					<div class='event-buttons inline-buttons'>
-						<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
-							<button type="submit" class='button button-1'>Accept</button>
-						</form>
-						<form class="decline-invitation-form" action="{{ url_for('decline_invitation', user_event_id=user_event.id) }}" method="post">
-							<button type="submit" class='button button-5'>Decline</button>
-						</form>
-					</div>
-				{% elif sent_invitation %}
-					<h2 class='page-title'>Invited</h2>
-					<div class='invitation-detail'>Invitation sent to {{ sent_invitation.receiver.fname }} {{ sent_invitation.receiver.lname }}</div>
-				{% endif %}
+			{% if length == 2 and not user_event.accepted and received_invitation %}
+				<div class='invitation-detail'>
+					Invitation sent by {{ received_invitation.sender.fname }} {{ received_invitation.sender.lname }}
+				</div>
+				<div class='event-buttons inline-buttons'>
+					<form class="accept-invitation-form" action="{{ url_for('accept_invitation', user_event_id=user_event.id) }}" method="post">
+						<button type="submit" class='button button-1'>Accept</button>
+					</form>
+					<form class="decline-invitation-form" action="{{ url_for('decline_invitation', user_event_id=user_event.id) }}" method="post">
+						<button type="submit" class='button button-5'>Decline</button>
+					</form>
+				</div>
 			{% else %}
 				<h2 class='page-title'>Invited</h2>
 				<ul class='invite-list'>
-				{% for user_event in event.user_events %}
-					<li class='invited-user'>
-					{% if user_event.user.id != current_user.id %}
-						<a href="{{ url_for('user', user_id=user_event.user.id) }}">
-							{{ user_event.user.fname }} {{ user_event.user.lname }} -
-							{% if user_event.accepted == 0 %}
-								Pending
-							{% else %}
-								Accepted
+					{% if length == 1 %}
+						<span class='empty-list'>You have not invited anyone to this event.</span>
+					{% else %}
+						{% for user_event in event.user_events %}
+							<li class='invited-user'>
+							{% if user_event.user.id != current_user.id %}
+								<a href="{{ url_for('user', user_id=user_event.user.id) }}">
+									{{ user_event.user.fname }} {{ user_event.user.lname }} -
+									{% if user_event.accepted == 0 %}
+										Pending
+									{% else %}
+										Accepted
+									{% endif %}
+								</a>
 							{% endif %}
-						</a>
+							</li>
+						{% endfor %}
 					{% endif %}
-					</li>
-				{% endfor %}
 				</ul>
 				{% if not user_event.accepted and received_invitation %}
 					<div class='event-buttons inline-buttons'>
@@ -115,7 +207,7 @@
 							<button type="submit" class='button button-5'>Decline</button>
 						</form>
 					</div>
-				{% else %}
+				{% elif event.date >= today %}
 					<button class='non-btn add-friends'>+ Add More Friends</button>
 					<form class='add-invite-form' action="{{ url_for('add_invite', event_id=event.id, sender_id=current_user.id) }}" method="post">
 						{{ friendform.hidden_tag() }}

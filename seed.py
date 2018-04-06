@@ -54,9 +54,9 @@ def example_data():
     event3 = Event(date=datetime.date(2018, 4, 20), start_time=datetime.time(16, 00), end_time=datetime.time(18, 00), title='Event 3')
     event4 = Event(date=datetime.date(2018, 4, 18), start_time=datetime.time(9, 00), end_time=datetime.time(11, 30), title='Event 4')
 
-    user_event1 = UserEvent(user_id=1, event_id=1, accepted=0)
+    user_event1 = UserEvent(user_id=1, event_id=1, accepted=1)
     user_event2 = UserEvent(user_id=2, event_id=1, accepted=0)
-    user_event3 = UserEvent(user_id=2, event_id=2, accepted=0)
+    user_event3 = UserEvent(user_id=2, event_id=2, accepted=1)
     user_event4 = UserEvent(user_id=1, event_id=2, accepted=0)
     user_event5 = UserEvent(user_id=1, event_id=3, accepted=1)
     user_event6 = UserEvent(user_id=2, event_id=3, accepted=0)

@@ -66,3 +66,40 @@ form.login .form-field{
 	width: 40%;
 	padding-right: 5%;
 }
+
+
+.account-field, .event-info .event-field{
+	font-size: 1.1em;
+	height: 40px;
+
+	.label{
+		font-weight: 400;
+		text-transform: uppercase;
+		display: inline-block;
+		margin-right: 1em;
+	}
+
+	.field{
+		color: $grey1;
+		display: inline-block;
+
+		input, textarea{
+			padding: 0;
+			border: none;
+			border-bottom: 1px solid $grey4;
+		}
+	}
+
+	.field-wide{
+		width: 80%;
+	}
+
+	.field-textarea{
+		width: 80%;
+		vertical-align: top;
+	}
+
+	.validation-error{
+		font-size: .8em;
+	}
+}
