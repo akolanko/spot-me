@@ -90,7 +90,7 @@
 				{% endif %}
 			{% else %}
 				<h2 class='page-title'>Invited</h2>
-				<ul>
+				<ul class='invite-list'>
 				{% for user_event in event.user_events %}
 					<li class='invited-user'>
 					{% if user_event.user.id != current_user.id %}
@@ -116,8 +116,18 @@
 						</form>
 					</div>
 				{% else %}
-					<form class="add-invite-form" action="/add_invite/" method="post">
-						<button type='submit' class='non-btn'>+ Add More Friends</button>
+					<button class='non-btn add-friends'>+ Add More Friends</button>
+					<form class='add-invite-form' action="{{ url_for('add_invite', event_id=event.id, sender_id=current_user.id) }}" method="post">
+						{{ friendform.hidden_tag() }}
+						<div class='form-field'>
+							{{ friendform.name(placeholder="name") }}
+							<div class='error-container'>
+								{% for error in friendform.name.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						{{ friendform.submit(id='add-friend-submit', value="Invite", class='button button-5') }}
 					</form>
 				{% endif %}
 			{% endif %}

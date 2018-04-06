@@ -14,7 +14,7 @@ from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
-from app.events import create_event, user_event_exists, get_recent_events, get_event_invitation
+from app.events import *
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -370,8 +370,9 @@ def event(event_id):
     coming_up = get_recent_events(current_user.id)
     length = len(event.user_events)
     sent_invitation, received_invitation = get_event_invitation(event_id, current_user.id)
+    friendform = AddFriendForm()
     weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays)
+    return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays, friendform=friendform)
 
 
 @app.route("/event/new")
@@ -427,6 +428,28 @@ def remove_event(user_event_id):
     db.session.commit()
     flash('Event removed.')
     return redirect(url_for('event_new'))
+
+
+@app.route("/add_invite/<event_id>/<sender_id>/", methods=['POST'])
+@login_required
+def add_invite(event_id, sender_id):
+    friendform = AddFriendForm()
+    if friendform.validate_on_submit():
+        names = friendform.name.data.split(' ')
+        if len(names) == 1:
+            users = User.query.filter_by(fname=names[0]).all()
+        elif len(names) > 1:
+            users = User.query.filter_by(fname=names[0], lname=names[1]).all()
+        return invite_search(users, event_id, sender_id, current_user.id)
+    return jsonify(["error", friendform.errors])
+
+
+@app.route("/add_invite_single/<event_id>/<sender_id>/<user_id>/", methods=['POST'])
+@login_required
+def add_invite_single(event_id, sender_id, user_id):
+    create_user_event(user_id, event_id, sender_id)
+    user = User.query.filter_by(id=user_id).first()
+    return jsonify(user.serialize())
 
 
 @app.errorhandler(500)

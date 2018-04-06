@@ -17,6 +17,8 @@ def example_data():
     katie.set_password('katie')
     dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay', birthday=datetime.date(2002, 8, 4))
     dan.set_password('dan')
+    dan2 = User(username='dan2', email='dan2@example.com', fname='Dan', lname='Smith', birthday=datetime.date(2000, 10, 9))
+    dan2.set_password('dan2')
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
     friendship2 = Friends(user_id_1=3, user_id_2=4, status=FriendStatus.requested)
@@ -73,5 +75,5 @@ def example_data():
     notification3 = Notification(body="New event invitation from Karen", receiver_id=2, event_id=3, type=NotificationType.event_invite)
     notification4 = Notification(body="Karen updated the details of your event - Event 4", receiver_id=2, event_id=4, type=NotificationType.event_update)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, event_invite1, event_invite2, event_invite3, notification1, notification2, notification3, notification4])
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, dan2, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, event_invite1, event_invite2, event_invite3, notification1, notification2, notification3, notification4])
     db.session.commit()

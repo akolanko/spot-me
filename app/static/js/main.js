@@ -479,4 +479,73 @@ $(document).ready( function() {
 	});
 
 
+	//Inviting more friends to an event
+
+	$(".add-friends").click(function() {
+		$(this).hide();
+		$(".add-invite-form").show();
+	});
+
+	function invite(){
+		$('.add-invite-form-single').submit(function(e) {
+			var url = $(this).attr("action");
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: $(this).serialize(),
+				success: function(data) {
+					$('.search-title').hide();
+					$('.user-results').hide();
+					$('.invites ul.invite-list').append("<li class='invited-user'><a href='/user/" + data.id + "'>" + data.fname + " " + data.lname + " - Pending</a></li>");
+					$('.add-friends').show();
+					$('.add-invite-form').hide();
+					flashResult("Invitation sent to " + data.fname);
+				}
+			});
+			e.preventDefault();
+		});
+	}
+
+	$('.add-invite-form').submit(function (e) {
+		var url = $(this).attr("action");
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('.add-invite-form').serialize(),
+			success: function(data) {
+				$('.search-title').hide();
+				$('.user-results').hide();
+				if(typeof data == "string"){
+					$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + data + "</li></ul>");
+					$('.flash-list').delay(1500).slideUp();
+					$(".error-container").empty();
+				} else if (data[0] == "error") {
+					for (var key in data[1]){
+						var value = data[1][key];
+						var err = $("#"+key).next();
+						err.html("<div class='validation-error'>" + value + "</div>");
+					}
+				} else if (data[0] == "multiple results"){
+					var results = "<h3 class='section-title search-title'>Search Results</h3><ul class='user-results'>";
+					for (i = 0; i < data[1].length; i++){
+						console.log(data[1][i]);
+						results += "<li class='search-result'><a class='link-2' href='/user/" + data[1][i].id + "'>" + data[1][i].fname + " " + data[1][i].lname + "</a><form class='add-invite-form-single' action='/add_invite_single/" + data[2] + "/" + data[3] + "/" + data[1][i].id + "/' method='post'><button type='submit' class='button'>Invite</button></form></li>";
+					}
+					results += "</ul>";
+					$('.add-friends').before(results);
+					$('.add-friends').show();
+					$('.add-invite-form').hide();
+					console.log(data);
+				} else if (data[0] == "success"){
+					$('.invites ul.invite-list').append("<li class='invited-user'><a href='/user/" + data[1].id + "'>" + data[1].fname + " " + data[1].lname + " - Pending</a></li>");
+					$('.add-friends').show();
+					$('.add-invite-form').hide();
+					flashResult("Invitation sent to " + data[1].fname);
+				}
+				$(".add-invite-form input[type='text']").val('');
+				invite();
+			}
+		});
+		e.preventDefault();
+	});
 });

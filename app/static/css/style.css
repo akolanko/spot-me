@@ -793,6 +793,11 @@ button {
   border-bottom: 2px solid #F5F5F5;
   padding: 0 10px 10px; }
 
+.section-title {
+  font-size: 1.1em;
+  font-weight: 300;
+  margin: 1.5em 0 1em; }
+
 .account {
   padding: 10px 0 0; }
   .account .heading-columns {
@@ -952,8 +957,7 @@ button {
     padding: 15px; }
   .invitations ul li {
     border-bottom: 2px solid #F5F5F5;
-    padding: 15px;
-    height: 140px; }
+    padding: 15px; }
     .invitations ul li .title {
       font-weight: 400;
       color: #8BC8DB;
@@ -994,10 +998,20 @@ button {
     margin-top: 25px; }
   .event-block .page-title {
     margin-bottom: 0.8em; }
+  .event-block .add-friends {
+    margin-top: 15px;
+    color: #8BC8DB; }
+  .event-block .add-friends:hover {
+    cursor: pointer; }
   .event-block .add-invite-form {
-    margin-top: 15px; }
-    .event-block .add-invite-form .non-btn {
-      color: #8BC8DB; }
+    display: none;
+    margin-top: 30px; }
+    .event-block .add-invite-form input[type='text'] {
+      border: 1px solid #aaa; }
+    .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'] {
+      display: inline-block; }
+    .event-block .add-invite-form input[type='submit'] {
+      margin-left: 10px; }
   .event-block ul li.invited-user {
     margin: 0.5em 0; }
 
@@ -1007,6 +1021,19 @@ button {
 
 .invite-id, #event-id {
   display: none; }
+
+.search-result {
+  margin: 0.5em 0; }
+  .search-result a.link-2 {
+    font-weight: 300; }
+  .search-result .add-invite-form-single {
+    display: inline-block;
+    margin-left: 18px; }
+    .search-result .add-invite-form-single button {
+      color: #8BC8DB;
+      padding: 0; }
+    .search-result .add-invite-form-single button:hover {
+      cursor: pointer; }
 
 .day-box {
   display: inline-block;

@@ -102,7 +102,7 @@
 							</div>
 						</div>
 						<div class='account-buttons inline-buttons' id='account-btns-update'>
-							{{ accform.submit(id='update-account-submit', value="Update", class='button button-1', id='account-update-btn') }}
+							{{ accform.submit(value="Update", class='button button-1', id='account-update-btn') }}
 					</form>		
 							<form onsubmit="return confirm('Are you sure you want to delete your account?');" class="delete-acc-form" action="/delete_account/" method="post">
 								<button type="submit" class='button button-4'>Delete Account</button>
@@ -137,7 +137,7 @@
 								{% endfor %}
 							</div>
 						</div>
-						{{ pswform.submit(id='update-password-submit', value="Update", class='button button-1', id='password-update-btn') }}
+						{{ pswform.submit(value="Update", class='button button-1', id='password-update-btn') }}
 					</form>
 				</div>
 			</div>

@@ -14,7 +14,6 @@
 
 			border-bottom: 2px solid $background;
 			padding: 15px;
-			height: 140px;
 
 			.title{
 				font-weight: 400;
@@ -90,11 +89,33 @@
 		margin-bottom: 0.8em;
 	}
 
-	.add-invite-form{
+	.add-friends{
 		margin-top: 15px;
-		
-		.non-btn{
-			color: $blue-main;
+		color: $blue-main;
+	}
+
+	.add-friends:hover{
+		cursor: pointer;
+	}
+
+	.add-invite-form{
+		display: none;
+		margin-top: 30px;
+
+		input[type='text']{
+			// width: 60%;
+			// border: none;
+			// border-bottom: 1px solid $grey4;
+			// padding-left: 0;
+			border: 1px solid $grey3;
+		}
+
+		.form-field, input[type='submit']{
+			display: inline-block;
+		}
+
+		input[type='submit']{
+			margin-left: 10px;
 		}
 	}
 
@@ -120,4 +141,26 @@
 
 .invite-id, #event-id{
 	display: none;
+}
+
+.search-result{
+	margin: 0.5em 0;
+
+	a.link-2{
+		font-weight: 300;
+	}
+
+	.add-invite-form-single{
+		display: inline-block;
+		margin-left: 18px;
+
+		button{
+			color: $blue-main;
+			padding: 0;
+		}
+
+		button:hover{
+			cursor: pointer;
+		}
+	}
 }

@@ -55,6 +55,13 @@ def create_invite_notification(event_id, sender, receiver_id):
 	db.session.commit()
 
 
+def create_update_notification(event, sender, receiver_id):
+	body = sender.fname + " updated the details of your event - " + event.title
+	notification = Notification(body=body, receiver_id=receiver_id, event_id=event.id, type=NotificationType.event_update)
+	db.session.add(notification)
+	db.session.commit()
+
+
 def create_decline_notification(user_event, receiver_id):
 	body = user_event.user.fname + " declined your invitation to " + user_event.event.title
 	notification = Notification(body=body, receiver_id=receiver_id, event_id=user_event.event.id, type=NotificationType.invite_declined)

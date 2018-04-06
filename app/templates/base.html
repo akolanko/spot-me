@@ -157,6 +157,9 @@
 							<div class='drop-down' id='drop-down-menu'>
 								<ul>
 									<li>
+										<a href="{{ url_for('event_new') }}">Events</a>
+									</li>
+									<li>
 										{% if notifications['recent_conversation'] %}
 											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
 										{% else %}

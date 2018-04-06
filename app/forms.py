@@ -74,3 +74,8 @@ class EditProfileForm(FlaskForm):
 	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=140)])
 
 	submit    = SubmitField('Submit')
+
+
+class AddFriendForm(FlaskForm):
+	name = StringField('Name', validators=[DataRequired()])
+	submit = SubmitField('Submit')
