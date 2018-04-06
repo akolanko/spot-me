@@ -365,6 +365,10 @@ def update_password():
         return jsonify("Password updated.")
     return jsonify(pswform.errors)
 
+@app.route("/cal")
+def cal():
+    return render_template("cal.html")
+
 
 @app.errorhandler(500)
 def server_error(e):
