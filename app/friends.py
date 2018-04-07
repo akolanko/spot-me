@@ -46,9 +46,11 @@ def get_friends(user_id):
 
 
 def get_non_friends(user_id):
-	f1 = db.session.query(User).join(Friends, Friends.user_id_1 == User.id).filter(Friends.user_id_1 != user_id, Friends.user_id_2 != user_id)
-	f2 = db.session.query(User).join(Friends, Friends.user_id_2 == User.id).filter(Friends.user_id_1 != user_id, Friends.user_id_2 != user_id)
-	non_friends = f1.union(f2)
+	users = db.session.query(User).filter(User.id != user_id)
+	non_friends = []
+	for user in users:
+		if not are_connected(user_id, user.id):
+			non_friends.append(user)
 	return non_friends
 
 

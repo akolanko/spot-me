@@ -22,7 +22,6 @@ def example_data():
     dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 04, 12))
     dan3.set_password('dan3')
 
-
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
     friendship2 = Friends(user_id_1=3, user_id_2=4, status=FriendStatus.requested)
     friendship3 = Friends(user_id_1=5, user_id_2=7, status=FriendStatus.accepted)

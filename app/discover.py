@@ -31,7 +31,11 @@ def search_interests(interest, user_id):
 	if interest_1 is not None:
 		interest_id = interest_1.id
 		non_friends = get_non_friends(user_id)
-		users = non_friends.join(User_Interest).filter(User_Interest.user_id == User.id, User_Interest.interest_id == interest_id).all()
+		for user in non_friends:
+			for user_interest in user.user_interests:
+				if user_interest.interest_id == interest_id:
+					users.append(user)
+					break
 	return users
 
 

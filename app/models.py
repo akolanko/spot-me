@@ -72,8 +72,8 @@ class User_Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
     interest_id = db.Column(db.Integer, db.ForeignKey('interest.id'), index=True, nullable=False)
-    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("user", cascade="all,delete"))
-    interest = db.relationship("Interest", foreign_keys=[interest_id], backref=db.backref("interest", cascade="all,delete"))
+    user = db.relationship("User", foreign_keys=[user_id], backref=db.backref("user_interests", cascade="all,delete"))
+    interest = db.relationship("Interest", foreign_keys=[interest_id], backref=db.backref("user_interests", cascade="all,delete"))
 
 
 class FriendStatus(enum.Enum):
