@@ -4,9 +4,10 @@ from sqlalchemy import asc
 import datetime
 from app.notifications import create_invite_notification
 from flask import jsonify
+from app.friends import are_connected
 
 
-def create_event(event, sender, receiver_id):
+def create_friend_event(event, sender, receiver_id):
 	user_event_1 = UserEvent(user_id=sender.id, event_id=event.id, accepted=True)
 	user_event_2 = UserEvent(user_id=receiver_id, event_id=event.id)
 	db.session.add(user_event_1)
@@ -53,7 +54,10 @@ def create_user_event(user_id, event_id, sender_id):
 
 
 def check_results(users, event_id, sender_id, current_user_id):
-	if len(users) < 1 or (len(users) == 1 and users[0].id == current_user_id):
+	connected = False
+	if len(users) == 1:
+		connected = are_connected(users[0].id, current_user_id)
+	if len(users) < 1 or (len(users) == 1 and (users[0].id == current_user_id or not connected)):
 		return jsonify("Your search did not return any results.")
 	elif len(users) > 1:
 		return jsonify(["multiple results", [u.serialize() for u in users], event_id, sender_id])
@@ -69,7 +73,8 @@ def invite_search(users, event_id, sender_id, current_user_id):
 		not_ivited_users = []
 		for user in users:
 			user_event = user_event_exists(user.id, event_id)
-			if user_event is None and user.id != current_user_id:
+			connected = are_connected(user.id, current_user_id)
+			if user_event is None and user.id != current_user_id and connected:
 				not_ivited_users.append(user)
 		return check_results(not_ivited_users, event_id, sender_id, current_user_id)
 	return check_results(users, event_id, sender_id, current_user_id)

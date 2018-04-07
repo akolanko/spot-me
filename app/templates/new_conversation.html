@@ -4,7 +4,7 @@
 	<div class='block conversation'>
 		<div class='search friend-search'>
 			<form id='new-conversation' action="/create_new_conversation/" method="post">
-				<input type="text" name='username' id="new-conversation-input" placeholder='Search for friend by username'>
+				<input type="text" name='username' id="new-conversation-input" placeholder='Search for friend by name'>
 				<button type="submit" class='hidden'></button>
 			</form>
 		</div>
@@ -19,8 +19,12 @@
 	</div>
 {% endblock %}
 {% block details %}
-	<div class='outer'>
+	<div class='outer no-border'>
 		<div class='friend-details inner'>
 		</div>
 	</div>
+{% endblock %}
+{% block event %}
+	<div class='outer no-border'>
+		<div class='new-event inner event-hidden'>
 {% endblock %}

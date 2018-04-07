@@ -19,8 +19,6 @@
 
 		.user-details{
 
-			// height: 60px;
-
 			.friend-thumb{
 				width: 60px;
 				height: 60px;
@@ -63,11 +61,12 @@
 			}
 		}
 
-		.calendar{
-			margin-top: 30px;
+		.btns{
+			margin-top: 28px;
 			
 			.button{
 				text-align: center;
+				margin-top: 15px;
 			}
 		}
 
@@ -122,13 +121,25 @@
 				}
 			}
 		}
+
+		.event-hidden{
+			display: none;
+		}
 	}
 
 	.outer:last-of-type{
 		border-bottom: none;
 	}
+
+	.no-border{
+		border: none;
+	}
 }
 
 .conversation-details .outer:last-of-type{
 	border-bottom: 2px solid $background;
+}
+
+.conversation-details .no-border:last-of-type{
+	border: none;
 }

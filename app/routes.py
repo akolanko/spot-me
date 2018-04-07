@@ -8,7 +8,7 @@ from flask_login import logout_user
 from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
-from app.friends import are_friends_or_pending, get_friends, find_friend
+from app.friends import are_friends_or_pending, get_friends
 from app.notifications import *
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
@@ -123,7 +123,6 @@ def edit_profile():
 @app.route("/friends/<user_id>")
 @login_required
 def friends(user_id):
-    """Show all friends"""
     user = User.query.filter_by(id=user_id).first_or_404()
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id)
     friends = get_friends(user_id)
@@ -136,11 +135,10 @@ def friends(user_id):
 
 
 @app.route("/add_friend/", methods=["POST"])
+@login_required
 def add_friend():
-    """Send a friend request to another user"""
     user_id_2 = request.form.get("user_id_2")
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
-
     if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
@@ -157,11 +155,10 @@ def add_friend():
 
 
 @app.route("/accept_friend/", methods=["POST"])
+@login_required
 def accept_friend():
-    """Accept a friend request from another user"""
     user_id_2 = request.form.get("user_id_2")
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
-
     if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
@@ -176,11 +173,10 @@ def accept_friend():
 
 
 @app.route("/unfriend/", methods=["POST"])
+@login_required
 def unfriend():
-    """Unfriend another user"""
     user_id_2 = request.form.get("friend_id")
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
-
     if are_friends:
         relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.accepted).first()
         if relationship is None:
@@ -193,11 +189,10 @@ def unfriend():
 
 
 @app.route("/delete_friend_request/", methods=["POST"])
+@login_required
 def delete_friend_request():
-    """Delete a friend request from another user"""
     user_id_2 = request.form.get("user_id_2")
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
-
     if is_pending_recieved:
         relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
         db.session.delete(relationship)
@@ -226,6 +221,7 @@ def conversation(id):
 
 
 @app.route("/new_message/", methods=["POST"])
+@login_required
 def new_message():
     conversation_id = request.form.get("conversation_id")
     body = request.form.get("body")
@@ -238,12 +234,14 @@ def new_message():
 @app.route("/new_conversation")
 @login_required
 def new_conversation():
+    eventform = NewEventForm()
     notifications = get_notifications(current_user.id)
     conversations = get_conversations(current_user.id)
-    return render_template("new_conversation.html", conversations=conversations, notifications=notifications)
+    return render_template("new_conversation.html", conversations=conversations, notifications=notifications, eventform=eventform)
 
 
 @app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
+@login_required
 def create_conversation(user_id):
     conversation_id = build_conversation(current_user.id, user_id)
     if conversation_id:
@@ -253,21 +251,17 @@ def create_conversation(user_id):
 
 
 @app.route("/create_new_conversation/", methods=["POST"])
+@login_required
 def create_new_conversation():
-    username = request.form.get("username")
-    user_2 = find_friend(username)
-    if user_2 is None:
-        return "Your search did not return any results."
-    conversation = conversation_exists(current_user.id, user_2.id)
-    if conversation:
-        messages = conversation.messages
-        return jsonify([conversation.serialize(), user_2.serialize(), [m.serialize() for m in messages], current_user.serialize()])
-    else:
-        c_id = build_conversation(current_user.id, user_2.id)
-        if c_id:
-            return jsonify([(get_conversation(c_id)).serialize(), user_2.serialize()])
-        else:
-            return "An error occurred."
+    name = request.form.get("name")
+    return post_conversation(name, current_user)
+
+
+@app.route("/post_conversation_single/<user_id>/", methods=["POST"])
+@login_required
+def post_conversation_single(user_id):
+    user = User.query.get(user_id)
+    return post_single(user, current_user)
 
 
 @app.route("/discover")
@@ -355,7 +349,7 @@ def new_event(user_id):
     if eventform.validate_on_submit():
         event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
         db.session.add(event)
-        create_event(event, current_user, user_id)
+        create_friend_event(event, current_user, user_id)
         return jsonify("Event Created.")
     return jsonify(eventform.errors)
 
@@ -378,7 +372,7 @@ def event(event_id):
     return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays, friendform=friendform, eventform=eventform, today=today)
 
 
-@app.route("/update_event/<event_id>", methods=['POST'])
+@app.route("/update_event/<event_id>/", methods=['POST'])
 @login_required
 def update_event(event_id):
     event = Event.query.filter_by(id=event_id).first()
@@ -480,7 +474,7 @@ def add_invite(event_id, sender_id):
 @login_required
 def add_invite_single(event_id, sender_id, user_id):
     create_user_event(user_id, event_id, sender_id)
-    user = User.query.filter_by(id=user_id).first()
+    user = User.query.get(user_id)
     return jsonify(user.serialize())
 
 

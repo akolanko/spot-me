@@ -207,7 +207,14 @@
 							<button type="submit" class='button button-5'>Decline</button>
 						</form>
 					</div>
-				{% elif event.date >= today %}
+				{% endif %}
+			{% endif %}
+			{% if event.date >= today %}
+				{% if not user_event.accepted and received_invitation %}
+				<div class='adding-friends-hidden'>
+				{% else %}
+				<div>
+				{% endif %}
 					<button class='non-btn add-friends'>+ Add More Friends</button>
 					<form class='add-invite-form' action="{{ url_for('add_invite', event_id=event.id, sender_id=current_user.id) }}" method="post">
 						{{ friendform.hidden_tag() }}
@@ -221,7 +228,7 @@
 						</div>
 						{{ friendform.submit(id='add-friend-submit', value="Invite", class='button button-5') }}
 					</form>
-				{% endif %}
+				</div>
 			{% endif %}
 		</div>
 	</div>

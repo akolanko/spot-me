@@ -715,6 +715,31 @@ button {
       padding: 10px 20px;
       font-size: 0.95em;
       resize: none; }
+  .conversation .friend-search {
+    position: relative; }
+    .conversation .friend-search .search-drop-down {
+      position: absolute;
+      top: 40px;
+      width: 100%;
+      z-index: 500;
+      font-size: 0.95em; }
+      .conversation .friend-search .search-drop-down ul {
+        list-style: none;
+        padding: 0;
+        background-color: #fff; }
+        .conversation .friend-search .search-drop-down ul li {
+          margin: 0;
+          border-bottom: 2px solid #f1f1f1; }
+          .conversation .friend-search .search-drop-down ul li form button {
+            padding: 10px 20px;
+            width: 100%;
+            font-weight: 300; }
+          .conversation .friend-search .search-drop-down ul li form button:hover {
+            cursor: pointer; }
+          .conversation .friend-search .search-drop-down ul li form .non-btn:active {
+            color: #000; }
+        .conversation .friend-search .search-drop-down ul li:hover {
+          background-color: #f1f1f1; }
 
 .conversation-details {
   height: 600px; }
@@ -915,10 +940,11 @@ button {
         font-size: 1.05em; }
       .sidebar .outer .coming-up ul li:last-of-type {
         margin-bottom: 0; }
-    .sidebar .outer .calendar {
-      margin-top: 30px; }
-      .sidebar .outer .calendar .button {
-        text-align: center; }
+    .sidebar .outer .btns {
+      margin-top: 28px; }
+      .sidebar .outer .btns .button {
+        text-align: center;
+        margin-top: 15px; }
     .sidebar .outer .new-event {
       margin: 15px 0 0; }
       .sidebar .outer .new-event h2 {
@@ -948,11 +974,18 @@ button {
           height: 60px;
           width: 100%;
           margin-top: 5px; }
+    .sidebar .outer .event-hidden {
+      display: none; }
   .sidebar .outer:last-of-type {
     border-bottom: none; }
+  .sidebar .no-border {
+    border: none; }
 
 .conversation-details .outer:last-of-type {
   border-bottom: 2px solid #F5F5F5; }
+
+.conversation-details .no-border:last-of-type {
+  border: none; }
 
 .invitations {
   display: inline-block;
@@ -988,6 +1021,8 @@ button {
     .event-block .outer .invites .invitation-detail {
       color: #8BC8DB;
       font-weight: 400; }
+    .event-block .outer .invites .adding-friends-hidden {
+      display: none; }
   .event-block .event-buttons {
     padding: 0;
     margin-top: 25px; }
