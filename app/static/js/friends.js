@@ -30,6 +30,20 @@ $(document).ready( function() {
 	}
 
 
+	//Update connection count on profile page when unfriending
+
+	function updateConnectionCount(){
+		arr = $('.connections-count a').html().split(' ');
+		count = parseInt(arr[0]);
+		count -= 1;
+		if (count == 1){
+			$('.connections-count a').html(count + " connection");
+		} else {
+			$('.connections-count a').html(count + " connections");
+		}
+	}
+
+
 	//Unfriending
 
 	$(".unfriend-form").submit(function(e) {
@@ -37,9 +51,11 @@ $(document).ready( function() {
 		if (window.confirm("Are you sure you want to unfriend this user?")) {
 
 			var friend = $(this).closest("li");
+			var friend_id = $(this).find('input[name="user_id"]').data("friend");
+			var friend_thumb = $(".friend-thumb[data-userid='" + friend_id + "']");
 
 			formInput = {
-				"friend_id": $(this).find('input[name="user_id"]').data("friend")
+				"friend_id": friend_id
 			};
 
 			$.post("/unfriend/",
@@ -47,6 +63,7 @@ $(document).ready( function() {
 				function() {
 					friend.hide();
 					updateConnectionCount();
+					friend_thumb.parent().hide();
 				}
 			);
 		}
