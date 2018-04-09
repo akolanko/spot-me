@@ -68,14 +68,14 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='friend-notifications'>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 							<div id='friend-request-count' class='notification-count'>
-								{{ notifications['total_pending_recieved'] }}
+								{{ notifications['total_pending_received'] }}
 							</div>
 							{% endif %}
 							<img class='nav-icon' src="../static/img/person.png" />
 							<div class='notification-overlay' id='friend-notification-overlay'></div>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 								<div class='drop-down' id='drop-down-friends'>
 									<ul>
 										{% for friend in notifications['received_friend_requests'] %}

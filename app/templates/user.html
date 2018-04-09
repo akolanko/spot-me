@@ -17,14 +17,14 @@
 				<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
 			{% endif %}
 
-			{% if session.current_user.id != user.id %}
+			{% if current_user.id != user.id %}
 				<div class='profile-buttons'>
 					<div id ='connect-btn'>
 						{% if are_friends %}
 							<button class='button button-2 disabled'>Friends</button>
 						{% elif is_pending_sent %}
 							<button class='button button-2 disabled'>Pending</button>
-						{% elif is_pending_recieved %}
+						{% elif is_pending_received %}
 							<form id="accept-friend-form" action="/accept_friend/" method="post">
 								<button type="submit" class='button button-2'>Accept</button>
 							</form>

@@ -166,7 +166,7 @@ $(document).ready( function() {
 				} else if (data[0] == "multiple results"){
 					var results = "<h3 class='section-title search-title'>Search Results</h3><ul class='user-results'>";
 					for (i = 0; i < data[1].length; i++){
-						results += "<li class='search-result'><a class='link-2' href='/user/" + data[1][i].id + "'>" + data[1][i].fname + " " + data[1][i].lname + "</a><form class='add-invite-form-single' action='/add_invite_single/" + data[2] + "/" + data[3] + "/" + data[1][i].id + "/' method='post'><button type='submit' class='button'>Invite</button></form></li>";
+						results += "<li class='search-result'><a class='link-2' href='/user/" + data[1][i].id + "'>" + data[1][i].fname + " " + data[1][i].lname + "</a><form class='add-invite-form-single' action='/add_invite_single/" + data[2] + "/" + data[1][i].id + "/' method='post'><button type='submit' class='button'>Invite</button></form></li>";
 					}
 					results += "</ul>";
 					$('.add-friends').before(results);

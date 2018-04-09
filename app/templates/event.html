@@ -216,7 +216,7 @@
 				<div>
 				{% endif %}
 					<button class='non-btn add-friends'>+ Add More Friends</button>
-					<form class='add-invite-form' action="{{ url_for('add_invite', event_id=event.id, sender_id=current_user.id) }}" method="post">
+					<form class='add-invite-form' action="{{ url_for('add_invite', event_id=event.id) }}" method="post">
 						{{ friendform.hidden_tag() }}
 						<div class='form-field'>
 							{{ friendform.name(placeholder="name") }}

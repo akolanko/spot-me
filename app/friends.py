@@ -6,21 +6,21 @@ from app.models import db
 
 def are_friends_or_pending(user_id_1, user_id_2):
 	are_friends_sent = Friends.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.accepted).first()
-	are_friends_recieved = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.accepted).first()
+	are_friends_received = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.accepted).first()
 	if are_friends_sent:
 		are_friends = are_friends_sent
 	else:
-		are_friends = are_friends_recieved
-	if are_friends_sent is not None or are_friends_recieved is not None:
+		are_friends = are_friends_received
+	if are_friends_sent is not None or are_friends_received is not None:
 		are_friends = True
 	is_pending_sent = Friends.query.filter_by(user_id_1=user_id_1, user_id_2=user_id_2, status=FriendStatus.requested).first()
-	is_pending_recieved = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
-	return are_friends, is_pending_sent, is_pending_recieved
+	is_pending_received = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=user_id_1, status=FriendStatus.requested).first()
+	return are_friends, is_pending_sent, is_pending_received
 
 
 def are_connected(user_id_1, user_id_2):
-	are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id_2)
-	if are_friends or is_pending_sent or is_pending_recieved:
+	are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(user_id_1, user_id_2)
+	if are_friends or is_pending_sent or is_pending_received:
 		return True
 	else:
 		return False
@@ -33,9 +33,9 @@ def get_friend_requests(user_id):
 
 
 def have_pending_requests(user_id):
-	pending_recieved = db.session.query(User).filter(Friends.user_id_2 == user_id, Friends.status == FriendStatus.requested).join(Friends, Friends.user_id_1 == User.id).first()
+	pending_received = db.session.query(User).filter(Friends.user_id_2 == user_id, Friends.status == FriendStatus.requested).join(Friends, Friends.user_id_1 == User.id).first()
 	pending_sent = db.session.query(User).filter(Friends.user_id_1 == user_id, Friends.status == FriendStatus.requested).join(Friends, Friends.user_id_2 == User.id).first()
-	return pending_recieved, pending_sent
+	return pending_received, pending_sent
 
 
 def get_friends(user_id):

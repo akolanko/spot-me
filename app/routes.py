@@ -33,17 +33,12 @@ def login():
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('discover')
-        session["current_user"] = {
-            "username": user.username,
-            "id": user.id
-        }
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/logout')
 def logout():
-    del session["current_user"]
     logout_user()
     return redirect(url_for('login'))
 
@@ -61,10 +56,6 @@ def register():
         db.session.add(profile)
         user.profile = profile
         db.session.commit()
-        session["current_user"] = {
-            "username": user.username,
-            "id": user.id
-        }
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
@@ -81,10 +72,10 @@ def user(user_id):
     age = calculate_age(user.birthday)
 
     notifications = get_notifications(current_user.id)
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
 
     conversation = conversation_exists(user.id, current_user.id)
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -124,29 +115,29 @@ def edit_profile():
 @login_required
 def friends(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
     friends = get_friends(user_id)
     limited_friends = friends[:6]
     total_friends = len(friends)
     notifications = get_notifications(current_user.id)
     conversation = conversation_exists(user.id, current_user.id)
     age = calculate_age(user.birthday)
-    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
+    return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
 @app.route("/add_friend/", methods=["POST"])
 @login_required
 def add_friend():
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
     if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
     elif is_pending_sent:
         return "Your friend request is pending."
-    elif is_pending_recieved:
-        return "You have already recieved a request from this user."
+    elif is_pending_received:
+        return "You have already received a request from this user."
     else:
         friend_request = Friends(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.requested)
         db.session.add(friend_request)
@@ -158,12 +149,12 @@ def add_friend():
 @login_required
 def accept_friend():
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
     if current_user.id == user_id_2:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
-    elif is_pending_recieved:
+    elif is_pending_received:
         friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
@@ -176,7 +167,7 @@ def accept_friend():
 @login_required
 def unfriend():
     user_id_2 = request.form.get("friend_id")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
     if are_friends:
         relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.accepted).first()
         if relationship is None:
@@ -192,8 +183,8 @@ def unfriend():
 @login_required
 def delete_friend_request():
     user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(current_user.id, user_id_2)
-    if is_pending_recieved:
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
+    if is_pending_received:
         relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
         db.session.delete(relationship)
         db.session.commit()
@@ -456,9 +447,9 @@ def remove_event(user_event_id):
     return redirect(url_for('event_new'))
 
 
-@app.route("/add_invite/<event_id>/<sender_id>/", methods=['POST'])
+@app.route("/add_invite/<event_id>/", methods=['POST'])
 @login_required
-def add_invite(event_id, sender_id):
+def add_invite(event_id):
     friendform = AddFriendForm()
     if friendform.validate_on_submit():
         names = friendform.name.data.split(' ')
@@ -466,14 +457,14 @@ def add_invite(event_id, sender_id):
             users = User.query.filter_by(fname=names[0]).all()
         elif len(names) > 1:
             users = User.query.filter_by(fname=names[0], lname=names[1]).all()
-        return invite_search(users, event_id, sender_id, current_user.id)
+        return invite_search(users, event_id, current_user.id)
     return jsonify(["error", friendform.errors])
 
 
-@app.route("/add_invite_single/<event_id>/<sender_id>/<user_id>/", methods=['POST'])
+@app.route("/add_invite_single/<event_id>/<user_id>/", methods=['POST'])
 @login_required
-def add_invite_single(event_id, sender_id, user_id):
-    create_user_event(user_id, event_id, sender_id)
+def add_invite_single(event_id, user_id):
+    create_user_event(user_id, event_id, current_user.id)
     user = User.query.get(user_id)
     return jsonify(user.serialize())
 

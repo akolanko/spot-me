@@ -28,14 +28,14 @@ def user_event_exists(user_id, event_id):
 
 def get_recent_events(user_id):
 	today = datetime.date.today()
-	events = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == user_id, UserEvent.accepted == 1, Event.date >= today).order_by(asc(Event.date)).limit(3).all()
+	events = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == user_id, UserEvent.accepted == 1, Event.date >= today).order_by(asc(Event.date), asc(Event.start_time)).limit(3).all()
 	return events
 
 
 def get_event_invitation(event_id, user_id):
 	sent_invitation = db.session.query(EventInvitation).filter(EventInvitation.event_id == event_id, EventInvitation.sender_id == user_id).first()
-	recieved_invitation = db.session.query(EventInvitation).filter(EventInvitation.event_id == event_id, EventInvitation.receiver_id == user_id).first()
-	return sent_invitation, recieved_invitation
+	received_invitation = db.session.query(EventInvitation).filter(EventInvitation.event_id == event_id, EventInvitation.receiver_id == user_id).first()
+	return sent_invitation, received_invitation
 
 
 def create_user_event(user_id, event_id, sender_id):
@@ -53,14 +53,14 @@ def create_user_event(user_id, event_id, sender_id):
 		return None
 
 
-def check_results(users, event_id, sender_id, current_user_id):
+def check_results(users, event_id, sender_id):
 	connected = False
 	if len(users) == 1:
-		connected = are_connected(users[0].id, current_user_id)
-	if len(users) < 1 or (len(users) == 1 and (users[0].id == current_user_id or not connected)):
+		connected = are_connected(users[0].id, sender_id)
+	if len(users) < 1 or (len(users) == 1 and (users[0].id == sender_id or not connected)):
 		return jsonify("Your search did not return any results.")
 	elif len(users) > 1:
-		return jsonify(["multiple results", [u.serialize() for u in users], event_id, sender_id])
+		return jsonify(["multiple results", [u.serialize() for u in users], event_id])
 	else:
 		user_event = create_user_event(users[0].id, event_id, sender_id)
 		if user_event is None:
@@ -68,13 +68,13 @@ def check_results(users, event_id, sender_id, current_user_id):
 		return jsonify(["success", users[0].serialize()])
 
 
-def invite_search(users, event_id, sender_id, current_user_id):
+def invite_search(users, event_id, sender_id):
 	if len(users) > 1:
 		not_ivited_users = []
 		for user in users:
 			user_event = user_event_exists(user.id, event_id)
-			connected = are_connected(user.id, current_user_id)
-			if user_event is None and user.id != current_user_id and connected:
+			connected = are_connected(user.id, sender_id)
+			if user_event is None and user.id != sender_id and connected:
 				not_ivited_users.append(user)
-		return check_results(not_ivited_users, event_id, sender_id, current_user_id)
-	return check_results(users, event_id, sender_id, current_user_id)
+		return check_results(not_ivited_users, event_id, sender_id)
+	return check_results(users, event_id, sender_id)
