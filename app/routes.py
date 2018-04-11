@@ -15,6 +15,7 @@ from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
 from app.events import *
+from app.search import search_user
 import datetime
 
 
@@ -467,6 +468,13 @@ def add_invite_single(event_id, user_id):
     create_user_event(user_id, event_id, current_user.id)
     user = User.query.get(user_id)
     return jsonify(user.serialize())
+
+
+@app.route("/search/", methods=['POST'])
+@login_required
+def search():
+    name = request.form.get("name")
+    return search_user(name, current_user.id)
 
 
 @app.errorhandler(500)

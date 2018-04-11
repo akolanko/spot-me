@@ -142,8 +142,17 @@
 								</div>
 							{% endif %}
 						</li>
-						<li class='nav-item' id='search-icon'>
+						<li class='nav-item' id='search'>
 							<img class='nav-icon' src="../static/img/search.png" />
+							<div class='notification-overlay'></div>
+							<div class='drop-down' id='drop-down-search'>
+								<form id='search-form' action="/search/" method="post">
+									<input type="text" name='name' id="search-input" placeholder='Search for a user'>
+									<button type="submit" class='hidden'></button>
+								</form>
+								<div class='search-drop-down'>
+								</div>
+							</div>
 						</li>
 						<li class='nav-item' id='menu'>
 							<div id='menu-btn'>

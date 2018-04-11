@@ -1093,4 +1093,23 @@ button {
 .day-box:last-of-type {
   margin-right: 0; }
 
+#search .drop-down {
+  width: 250px;
+  transform: translateX(-85%); }
+  #search .drop-down #search-form {
+    border-bottom: 1px solid #E2E2E2; }
+    #search .drop-down #search-form input[type="text"] {
+      border: none;
+      padding: 10px 15px; }
+  #search .drop-down .search-drop-down ul li {
+    border: none;
+    padding: 10px 15px;
+    border-bottom: 1px solid #E2E2E2;
+    font-size: 1em;
+    font-weight: 300; }
+  #search .drop-down .search-drop-down ul li:hover {
+    background-color: #f1f1f1; }
+  #search .drop-down .search-drop-down ul li.no-hover:hover {
+    background-color: #fff; }
+
 /*# sourceMappingURL=style.css.map */

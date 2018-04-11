@@ -10,7 +10,7 @@ from app import connect_to_db
 import datetime
 
 
-class FlaskTestDatabase(unittest.TestCase):
+class FlaskTestAccounts(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""

@@ -8,6 +8,7 @@ from sample_db import example_data
 from app.events import *
 from app.notifications import notification_exists
 from app import connect_to_db
+from flask import jsonify
 
 
 def convert_list(list):
@@ -17,7 +18,7 @@ def convert_list(list):
 	return id_list
 
 
-class FlaskTestDatabase(unittest.TestCase):
+class FlaskTestEvents(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""
@@ -25,6 +26,8 @@ class FlaskTestDatabase(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		# self.app_context = app.app_context()
+		# self.app_context.push()
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -38,6 +41,7 @@ class FlaskTestDatabase(unittest.TestCase):
 
 		db.session.close()
 		db.drop_all()
+		# self.app_context.pop()
 
 	"""Test event functions"""
 
@@ -111,6 +115,11 @@ class FlaskTestDatabase(unittest.TestCase):
 		self.assertIsNotNone(user_event_exists(13, 6))
 		user_event = create_user_event(13, 6, 6)
 		self.assertIsNone(user_event)
+
+	# def test_check_results(self):
+	# 	with app.app_context():
+	# 		data = check_results([], 6, 6)
+	# 		self.assertEqual(data, "Your search did not return any results.")
 
 if __name__ == '__main__':
 	unittest.main()

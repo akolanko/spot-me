@@ -16,7 +16,7 @@ def convert_tuple_list(list):
 	return id_list
 
 
-class FlaskTestDatabase(unittest.TestCase):
+class FlaskTestMessages(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""
