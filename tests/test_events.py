@@ -9,6 +9,7 @@ from app.events import *
 from app.notifications import notification_exists
 from app import connect_to_db
 from flask import jsonify
+from json import loads
 
 
 def convert_list(list):
@@ -26,8 +27,7 @@ class FlaskTestEvents(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
-		# self.app_context = app.app_context()
-		# self.app_context.push()
+		app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -41,7 +41,6 @@ class FlaskTestEvents(unittest.TestCase):
 
 		db.session.close()
 		db.drop_all()
-		# self.app_context.pop()
 
 	"""Test event functions"""
 
@@ -116,10 +115,39 @@ class FlaskTestEvents(unittest.TestCase):
 		user_event = create_user_event(13, 6, 6)
 		self.assertIsNone(user_event)
 
-	# def test_check_results(self):
-	# 	with app.app_context():
-	# 		data = check_results([], 6, 6)
-	# 		self.assertEqual(data, "Your search did not return any results.")
+	def test_check_results(self):
+		with app.test_request_context():
+			response = check_results([], 6, 6)
+			data = loads(response.get_data())
+			self.assertEqual(data, "Your search did not return any results.")
+			u = User.query.get(13)
+			response = check_results([u], 7, 13)
+			data = loads(response.get_data())
+			self.assertEqual(data, "Your search did not return any results.")
+			u = User.query.get(1)
+			response = check_results([u], 7, 13)
+			data = loads(response.get_data())
+			self.assertEqual(data, "Your search did not return any results.")
+			u = User.query.get(2)
+			response = check_results([u], 1, 1)
+			data = loads(response.get_data())
+			self.assertEqual(data, "Dale is already invited.")
+			u = User.query.get(2)
+			response = check_results([u], 4, 1)
+			data = loads(response.get_data())
+			self.assertEqual(data, "Dale is already invited.")
+			u = User.query.get(16)
+			response = check_results([u], 7, 13)
+			data = loads(response.get_data())
+			self.assertEqual(data[0], "success")
+			self.assertEqual(data[1]["id"], 16)
+			u1 = User.query.get(9)
+			u2 = User.query.get(8)
+			response = check_results([u1, u2], 5, 6)
+			data = loads(response.get_data())
+			self.assertEqual(data[0], "multiple results")
+			self.assertEqual(data[1][0]["id"], 9)
+			self.assertEqual(data[1][1]["id"], 8)
 
 if __name__ == '__main__':
 	unittest.main()
