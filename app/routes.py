@@ -1,11 +1,9 @@
 import logging
-from flask import render_template, flash, redirect, url_for, session, jsonify
+from flask import render_template, flash, redirect, url_for, jsonify
 from app import app, db
 from app.forms import *
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
-from flask_login import logout_user
-from flask_login import login_required
 from flask import request
 from werkzeug.urls import url_parse
 from app.friends import are_friends_or_pending, get_friends
@@ -47,13 +45,13 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('discover'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data, birthday=form.birthday.data)
         user.set_password(form.password.data)
         db.session.add(user)
-        profile = Profile()
+        profile = Profile(user_id=user.id)
         db.session.add(profile)
         user.profile = profile
         db.session.commit()
@@ -484,3 +482,11 @@ def server_error(e):
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
     """.format(e), 500
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    if current_user.is_authenticated:
+        notifications = get_notifications(current_user.id)
+        return render_template('404.html', notifications=notifications), 404
+    return render_template('404.html'), 404

@@ -8,7 +8,6 @@ from sample_db import example_data
 from app.events import *
 from app.notifications import notification_exists
 from app import connect_to_db
-from flask import jsonify
 from json import loads
 
 
