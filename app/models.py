@@ -40,21 +40,18 @@ class User(UserMixin, db.Model):
             'avatar': self.avatar(75)
         }
 
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
 
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
     about     = db.Column(db.Text)
-    work      = db.Column(db.Text)
-    skills    = db.Column(db.Text)
-    location  = db.Column(db.Text)
-    interests = db.Column(db.Text)
-    meet      = db.Column(db.Text)
+    work      = db.Column(db.String(30))
+    skills    = db.Column(db.Integer)
+    location  = db.Column(db.String(40))
+    meet      = db.Column(db.String(50))
 
 
 class Interest(db.Model):
@@ -78,7 +75,7 @@ class User_Interest(db.Model):
 
 class FriendStatus(enum.Enum):
     requested = 0
-    accepted = 1
+    accepted  = 1
 
 
 class Friends(db.Model):

@@ -2,6 +2,7 @@ import logging
 from flask import render_template, flash, redirect, url_for, session, jsonify
 from app import app, db
 from app.forms import *
+# from app.forms import LoginForm, RegistrationForm, UpdatePasswordForm, EditProfileForm
 from flask_login import current_user, login_user
 from app.models import *
 from flask_login import logout_user
@@ -76,7 +77,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/user/<user_id>')
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
@@ -92,44 +93,54 @@ def user(user_id):
     are_friends, is_pending_sent, is_pending_recieved = are_friends_or_pending(user_id_1, user_id)
 
     conversation = conversation_exists(user.id, user_id_1)
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
-@app.route('/edit_profile', methods=['GET', 'POST'])
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        if current_user.profile.about is not None :
+            form.about.data = current_user.profile.about
+
+        if current_user.profile.meet is not None :
+            form.meet.data = current_user.profile.meet
+
+        if current_user.profile.skills is not None :
+            form.skills.data = current_user.profile.skills
+
+        if current_user.profile.location is not None :
+            form.location.data = current_user.profile.location
+
+        if current_user.profile.work is not None :
+            form.work.data = current_user.profile.work
+
+    return render_template('profile.html', user=user, profile=profile,
+    total_friends=total_friends, are_friends=are_friends,
+    is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved,
+    friends=friends, notifications=notifications, limited_friends=limited_friends,
+    conversation=conversation, form=form)
+
+@app.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile():
     # enable editing
     user = current_user
     profile = user.profile
+    notifications = get_notifications(user.id)
 
     form = EditProfileForm()
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        notifications = get_notifications(current_user.username)
-        current_user.profile.about = form.about.data
-        current_user.profile.meet = form.meet.data
-        current_user.profile.skills = form.skills.data
-        current_user.profile.location = form.location.data
-        current_user.profile.work = form.work.data
-        current_user.profile.interests = form.interests.data
-
-
-        db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        notifications = get_notifications(form.username.data)
-        form.about.data = current_user.profile.about
-        form.meet.data = current_user.profile.meet
-        form.skills.data = current_user.profile.skills
-        form.location.data = current_user.profile.location
-        form.work.data = current_user.profile.work
-        form.interests.data = current_user.profile.interests
-
-
-    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile,
-    notifications=notifications, form = form)
-
+    user.profile.location = form.location.data
+    user.profile.about = form.about.data
+    user.profile.meet = form.meet.data
+    user.profile.skills = form.skills.data
+    user.profile.work = form.work.data
+    # current_user.profile.interests = form.interests.data
+    db.session.commit()
+        #flash('Your changes have been saved.')
+        #return redirect(url_for('/user/<user.id>'))
+    return render_template('profile.html', user=user, profile=profile,
+    notifications = notifications,form=form)
 
 @app.route("/friends/<user_id>")
 @login_required

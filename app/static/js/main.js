@@ -4,13 +4,31 @@ $(document).ready( function() {
 
 	$('.flash-list').delay(1500).slideUp();
 
-
 	//Flash result
 
 	function flashResult(result) {
 		$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + result + "</li></ul>");
 		$('.flash-list').delay(1500).slideUp();
 	}
+	// Profile edit
+	$('#info-edit-button').click(function(){
+		$('#profile-box').fadeIn();
+		$('#main-profile-info').hide();
+		$('#edit-info-overlay').hide();
+		$('#info-edit-button').hide();
+
+	});
+
+	$('.profile-info').hover(function(){
+		$('#edit-info-overlay').toggle();
+		$('#info-edit-button').toggle();
+	});
+
+	$('#profile-overlay').click(function(){
+		$('#profile-overlay').fadeOut();
+		$('#profile-overlay-form').fadeOut();
+	});
+
 
 
 	//Navigation menu

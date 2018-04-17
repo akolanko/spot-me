@@ -1,7 +1,6 @@
 from app.models import *
 import datetime
 
-
 def example_data():
     karen = User(username='karen', email='karen@example.com', fname='Karen', lname='Smith', birthday=datetime.date(1990, 1, 1))
     karen.set_password('karen')
@@ -18,6 +17,15 @@ def example_data():
     dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay', birthday=datetime.date(2002, 8, 4))
     dan.set_password('dan')
 
+    profilekaren = Profile(user_id = 1, about = "Yoga | CS ", location="NYC" )
+    profiledale  = Profile(user_id = 2)
+    profilematt  = Profile(user_id = 3)
+    profilejake  = Profile(user_id = 4)
+    profileellen = Profile(user_id = 5)
+    profilekatie = Profile(user_id = 6)
+    profiledan   = Profile(user_id = 7, about = "" )
+
+
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
     friendship2 = Friends(user_id_1=3, user_id_2=4, status=FriendStatus.requested)
     friendship3 = Friends(user_id_1=5, user_id_2=7, status=FriendStatus.accepted)
@@ -26,6 +34,7 @@ def example_data():
 
     conversation1 = Conversation(user_id_1=1, user_id_2=2)
     conversation2 = Conversation(user_id_1=4, user_id_2=1)
+
     message1 = Message(sender=1, conversation_id=1, body='hello', read=True)
     message2 = Message(sender=2, conversation_id=1, body='hey')
     message3 = Message(sender=2, conversation_id=1, body='how are you?')
@@ -47,5 +56,5 @@ def example_data():
     user_interest11 = User_Interest(user_id=6, interest_id=1)
     user_interest12 = User_Interest(user_id=7, interest_id=3)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12])
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, profilekaren, profiledale, profilematt, profilejake, profileellen, profilekatie, profiledan, friendship1, friendship2, friendship3, friendship4, friendship5, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12])
     db.session.commit()

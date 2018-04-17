@@ -14,6 +14,34 @@
 	width: 70%;
 }
 
+#profile-overlay {
+	display: none;
+
+}
+#profile-overlay-form{
+	display: none;
+}
+#profile-box{
+	display:none;
+	position:absolute;
+	width:100%;
+	height:100%;
+	background-color: $white;
+}
+
+#edit-info-overlay, #info-edit-button{
+	display: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+}
+
+#info-edit-button{
+	z-index: 900;
+
+}
+
 .profile-cover{
 	width: 100%;
 }
@@ -54,6 +82,16 @@
 	font-size: 0.9em;
 }
 
+#block-profile-info{
+	overflow: hidden;
+}
+
+.col{
+	width: 50% ;
+	float: left;
+}
+
+
 .profile-label{
 	font-weight: 400;
 	text-transform: uppercase;
@@ -61,6 +99,8 @@
 }
 
 .profile-info {
+	position: relative;
+	height: 280px;
 
 	.left-col {
 		width: 50% ;
@@ -72,14 +112,28 @@
 	}
 
 }
+.select-box{
+	width: 400px;
+	background: image-url('down_arrow.png') no-repeat 95% center;
+	background-color: $white;
+}
 
+.select-box select{
+	background: transparent;
+	width: 400px;
+	padding: 8px 10px;
+	font-family: inherit;
+	font-size: inherit;
+	border: 2px solid $grey;
+	border-radius: 0;
+	-webkit-appearance: none;
+}
 .profile-about{
 
 }
 .profile-meet{
 }
 .profile-skill{
-
 }
 .profile-location{
 
