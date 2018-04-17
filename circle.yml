@@ -37,7 +37,12 @@ test:
   override:
     # run local unit tests
     - python -m tests.test_main
-    - python -m tests.test_db
+    - python -m tests.test_friends
+    - python -m tests.test_messages
+    - python -m tests.test_accounts
+    - python -m tests.test_discover
+    - python -m tests.test_notifications
+    - python -m tests.test_events
 
 deployment:
     staging:

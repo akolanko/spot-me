@@ -68,14 +68,14 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='friend-notifications'>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 							<div id='friend-request-count' class='notification-count'>
-								{{ notifications['total_pending_recieved'] }}
+								{{ notifications['total_pending_received'] }}
 							</div>
 							{% endif %}
 							<img class='nav-icon' src="../static/img/person.png" />
 							<div class='notification-overlay' id='friend-notification-overlay'></div>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 								<div class='drop-down' id='drop-down-friends'>
 									<ul>
 										{% for friend in notifications['received_friend_requests'] %}
@@ -100,7 +100,7 @@
 															</div>
 														</button>
 													</form>
-													<form class="delete-friend-request-form" action="/delete_friend_request" method="post">
+													<form class="delete-friend-request-form" action="/delete_friend_request/" method="post">
 														<input type="hidden" name="friend_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon reject'>
@@ -117,7 +117,30 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='notifications'>
+							{% if notifications['ntfs_count'] %}
+							<div id='unread-ntfs-count' class='notification-count'>
+								{{ notifications['ntfs_count'] }}
+							</div>
+							{% endif %}
 							<img class='nav-icon' src="../static/img/notifications.png" />
+							<div class='notification-overlay' id='ntf-notification-overlay'></div>
+							{% if notifications['notifications'] %}
+								<div class='drop-down' id='drop-down-notification'>
+									<ul>
+										{% for notification in notifications['notifications'] %}
+											<li>
+												<form class="view-notification-form" action="/view_notification/" method="post">
+													<input type="hidden" class='notification-id' data-notificationid="{{ notification.id }}">
+													<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
+													<button type="submit" class='non-btn notification-body'>
+														{{ notification.body }}
+													</button>
+												</form>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</li>
 						<li class='nav-item' id='search-icon'>
 							<img class='nav-icon' src="../static/img/search.png" />
@@ -136,6 +159,9 @@
 							</div>
 							<div class='drop-down' id='drop-down-menu'>
 								<ul>
+									<li>
+										<a href="{{ url_for('event_new') }}">Events</a>
+									</li>
 									<li>
 										{% if notifications['recent_conversation'] %}
 											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
@@ -167,7 +193,10 @@
 		{% endif %}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="/static/js/main.js"></script>
+		<script type='text/javascript' src="/static/js/global_functions.js"></script>
+		<script type='text/javascript' src="/static/js/main.js"></script>
+		<script type='text/javascript' src="/static/js/friends.js"></script>
+		<script type='text/javascript' src="/static/js/events.js"></script>
 		{% block javascript %}{% endblock %}
 	</body>
 </html>

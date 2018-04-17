@@ -27,7 +27,7 @@
 							</a>
 							<div class='friends-action'>
 								{% if current_user.id == user.id %}
-									<form class="unfriend-form" action="/unfriend" method="post">
+									<form class="unfriend-form" action="/unfriend/" method="post">
 										<input type="hidden" name="user_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
 										<button type="submit" class='button button-3' id="unfriend-btn">Unfriend</button>
 									</form>

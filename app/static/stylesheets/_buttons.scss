@@ -62,6 +62,58 @@ button{
 	color: $red;
 }
 
+.button-5{
+	background-color: $white;
+	color: $grey3;
+	border: 1px solid $grey3;
+}
+
+.button-5:hover{
+	color: $grey2;
+	border: 1px solid $grey2;
+}
+
 .disabled:hover{
 	cursor: auto;
+}
+
+.non-btn{
+	font-size: 1em;
+	font-family: inherit;
+	text-align: left;
+}
+
+.inline-buttons{
+	padding: 0 30px 30px;
+
+	.button:first-of-type{
+		margin-right: 20px;
+	}
+
+	form{
+		display: inline-block;
+	}
+}
+
+.add-btn{
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	border: 2px solid $blue-main;
+	position: relative;
+
+	.plus-line{
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.plus-line-1{
+		width: 60%;
+	}
+
+	.plus-line-2{
+		width: 2px;
+		height: 60%;
+	}
 }

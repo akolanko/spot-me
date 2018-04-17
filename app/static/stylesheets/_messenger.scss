@@ -98,13 +98,53 @@
 			resize: none;
 		}
 	}
+
+	.friend-search{
+		position: relative;
+
+		.search-drop-down{
+			position: absolute;
+			top: 40px;
+			width: 100%;
+			z-index: 500;
+			font-size: 0.95em;
+
+			ul{
+				list-style: none;
+				padding: 0;
+				background-color: $white;
+
+				li{
+					margin: 0;
+					border-bottom: 2px solid $slight-background;
+
+					form{
+
+						button{
+							padding: 10px 20px;
+							width: 100%;
+							font-weight: 300;
+						}
+
+						button:hover{
+							cursor: pointer;
+						}
+
+						.non-btn:active{
+							color: $black;
+						}
+					}
+				}
+
+				li:hover{
+					background-color: $slight-background;
+				}
+			}
+		}
+	}
 }
 
 .conversation-details{
-	position: relative;
-	display: inline-block;
-	vertical-align: top;
-	width: 22%;
 	height: 600px;
 
 	.friend-details{
@@ -132,28 +172,9 @@
 	}
 
 	.compose-msg{
-		width: 50px;
-		height: 50px;
-		border-radius: 100%;
-		border: 2px solid $blue-main;
 		position: absolute;
 		bottom: 10px;
 		right: 10px;
-
-		.plus-line{
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-		}
-
-		.plus-line-1{
-			width: 30px;
-		}
-
-		.plus-line-2{
-			width: 2px;
-			height: 30px;
-		}
 	}
 }
 
