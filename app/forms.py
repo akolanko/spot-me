@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User
+from app.models import *
 
 
 class LoginForm(FlaskForm):
@@ -40,7 +40,8 @@ class UpdatePasswordForm(FlaskForm):
 class EditProfileForm(FlaskForm):
 	username  = StringField('Username', validators=[DataRequired()])
 	# left col
-	skills    = SelectField('Skill Level', choices=[(1, 'Beginner'), (2,'Intermediate'), (3, 'Advanced')])
+	skills    = SelectField('Skill Level', choices=[(0, 'Beginner'),
+	(1,'Intermediate'), (2, 'Advanced')])
 	location  = TextAreaField('Location', validators=[Length(min=0, max=40)])
 	work      = TextAreaField('Work', validators=[Length(min=0, max=30)])
 	# right col

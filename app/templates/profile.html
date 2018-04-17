@@ -7,7 +7,8 @@
 		<div class='overlay' id='edit-info-overlay'></div>
 		<button class='button button-1' id='info-edit-button'>Edit</button>
 		<div id='profile-box'>
-			<form action="/profile" method="POST">
+			<h1>Edit Profile</h1>
+			<form action="{{ url_for('edit_profile') }}" method="post">
 			{{ form.hidden_tag() }}
 			{{ form.profile }}
 				<div class='.col'>
@@ -20,14 +21,12 @@
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
 						</div>
-
 						</span>
-
 					</div>
 					<div class='profile-location'>
 						<p>
 							{{ form.location.label }}
-							{{ form.location(cols=30, rows=1) }}<br>
+							{{ form.location(cols=30, rows=1) }}
 							{% for error in form.location.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
@@ -35,7 +34,7 @@
 					<div class='profile-work'>
 						<p>
 							{{ form.work.label }}
-							{{ form.work(cols=50, rows=1) }}<br>
+							{{ form.work(cols=50, rows=1) }}
 							{% for error in form.work.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
@@ -69,7 +68,15 @@
 			<div class='col'>
 				<div class='profile-skills'>
 					<div class='profile-label'>Skill Level</div>
-					<div class='profile-text-top-left'>{{ profile.skills }}</div>
+					<div class='profile-text-top-left'>
+						{% if profile.skills == 0 %}
+							Beginner
+						{% elif profile.skills == 1 %}
+							Intermediate
+						{% else %}
+							Advanced
+						{% endif %}
+					</div>
 				</div>
 				<div class='profile-location'>
 					<div class='profile-label'>Location</div>

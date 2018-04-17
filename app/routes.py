@@ -96,7 +96,7 @@ def user(user_id):
         flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
-        if current_user.profile.work is not None :
+        if current_user.profile.about is not None :
             form.about.data = current_user.profile.about
 
         if current_user.profile.meet is not None :
@@ -111,7 +111,11 @@ def user(user_id):
         if current_user.profile.work is not None :
             form.work.data = current_user.profile.work
 
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, form=form)
+    return render_template('profile.html', user=user, profile=profile,
+    total_friends=total_friends, are_friends=are_friends,
+    is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved,
+    friends=friends, notifications=notifications, limited_friends=limited_friends,
+    conversation=conversation, form=form)
 
 @app.route('/edit_profile', methods=['POST'])
 @login_required
@@ -119,23 +123,20 @@ def edit_profile():
     # enable editing
     user = current_user
     profile = user.profile
+    notifications = get_notifications(user.id)
 
     form = EditProfileForm()
-    if form.validate_on_submit():
-        current_user.profile.about = form.about.data
-        current_user.profile.meet = form.meet.data
-        current_user.profile.skills = form.skills.data
-        current_user.profile.location = form.location.data
-        current_user.profile.work = form.work.data
-        # current_user.profile.interests = form.interests.data
-
-        db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('profile'))
-
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends,
-        are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved,
-        friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, form=form)
+    user.profile.location = form.location.data
+    user.profile.about = form.about.data
+    user.profile.meet = form.meet.data
+    user.profile.skills = form.skills.data
+    user.profile.work = form.work.data
+    # current_user.profile.interests = form.interests.data
+    db.session.commit()
+        #flash('Your changes have been saved.')
+        #return redirect(url_for('/user/<user.id>'))
+    return render_template('profile.html', user=user, profile=profile,
+    notifications = notifications,form=form)
 
 @app.route("/friends/<user_id>")
 @login_required

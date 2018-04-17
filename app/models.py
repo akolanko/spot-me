@@ -44,18 +44,12 @@ class User(UserMixin, db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
-class SkillLevel(enum.Enum):
-    beginner     = 0
-    intermediate = 1
-    advanced     = 2
-
-
 class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
     about     = db.Column(db.Text)
     work      = db.Column(db.String(30))
-    skills    = db.Column(db.Enum(SkillLevel))
+    skills    = db.Column(db.Integer)
     location  = db.Column(db.String(40))
     meet      = db.Column(db.String(50))
 
