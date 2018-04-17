@@ -23,7 +23,11 @@
 		{% if (request.path != "/" and request.path != "/login" and request.path != "/register") %}
 			<nav>
 				<div id='nav-left'>
-					<a href="{{ url_for('discover') }}">
+					{% if current_user.is_authenticated %}
+						<a href="{{ url_for('discover') }}">
+					{% else %}
+						<a href="{{ url_for('login') }}">
+					{% endif %}
 						<h1 id='nav-title'>
 							<span id='nav-title-1'>Spot</span>
 							<span id='nav-title-2'>Me</span>
@@ -142,8 +146,17 @@
 								</div>
 							{% endif %}
 						</li>
-						<li class='nav-item' id='search-icon'>
+						<li class='nav-item' id='search'>
 							<img class='nav-icon' src="../static/img/search.png" />
+							<div class='notification-overlay'></div>
+							<div class='drop-down' id='drop-down-search'>
+								<form id='search-form' action="/search/" method="post">
+									<input type="text" name='name' id="search-input" placeholder='Search for a user'>
+									<button type="submit" class='hidden'></button>
+								</form>
+								<div class='search-drop-down'>
+								</div>
+							</div>
 						</li>
 						<li class='nav-item' id='calendar-icon'>
 							<img class='nav-icon' src='../static/img/calendar.png' />
@@ -185,6 +198,13 @@
 									</li>
 								</ul>
 							</div>
+						</li>
+						{% else %}
+						<li class='nav-item-alt'>
+							<a href"url_for(login)">Sign In</a>
+						</li>
+						<li class='nav-item-alt'>
+							<a href"url_for(register)">Sign Up</a>
 						</li>
 						{% endif %}
 					</ul>

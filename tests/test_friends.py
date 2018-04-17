@@ -16,7 +16,7 @@ def convert_user_list(user_list):
 	return id_list
 
 
-class FlaskTestDatabase(unittest.TestCase):
+class FlaskTestFriends(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""

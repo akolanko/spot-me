@@ -43,6 +43,7 @@ test:
     - python -m tests.test_discover
     - python -m tests.test_notifications
     - python -m tests.test_events
+    - python -m tests.test_routes
 
 deployment:
     staging:

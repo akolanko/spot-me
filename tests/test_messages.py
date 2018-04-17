@@ -7,6 +7,7 @@ from app.models import *
 from sample_db import example_data
 from app.messages import *
 from app import connect_to_db
+from json import loads
 
 
 def convert_tuple_list(list):
@@ -16,7 +17,7 @@ def convert_tuple_list(list):
 	return id_list
 
 
-class FlaskTestDatabase(unittest.TestCase):
+class FlaskTestMessages(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""
@@ -92,14 +93,67 @@ class FlaskTestDatabase(unittest.TestCase):
 		conversation = get_conversation(40)
 		self.assertIsNone(conversation)
 
-	# def test_post_conversation(self):
-	# 	user = User.query.get(15)
-	# 	self.assertEqual(conversation_exists(15, 16), None)
-	# 	data = post_conversation("Dylan", user)
-	# 	self.assertEqual(data["status"], "new conversation")
-	# 	self.assertEqual(data["friend"]["id"], 16)
-	# 	self.assertEqual(conversation_exists(15, 16).id, 7)
+	def test_post_single(self):
+		with app.test_request_context():
+			f = User.query.get(2)
+			u = User.query.get(1)
+			self.assertIsNotNone(conversation_exists(1, 2))
+			response = post_single(f, u)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "conversation exists")
+			f = User.query.get(13)
+			u = User.query.get(14)
+			self.assertIsNone(conversation_exists(13, 14))
+			response = post_single(f, u)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "new conversation")
+			self.assertEqual(data["friend"]["id"], 13)
+			self.assertEqual(conversation_exists(13, 14).id, 7)
 
+	def test_post_conversation(self):
+		with app.test_request_context():
+			user = User.query.get(15)
+			self.assertIsNone(conversation_exists(15, 16))
+			response = post_conversation("Dylan", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "new conversation")
+			self.assertEqual(data["friend"]["id"], 16)
+			self.assertEqual(conversation_exists(15, 16).id, 7)
+
+			user = User.query.get(13)
+			self.assertIsNone(conversation_exists(13, 14))
+			response = post_conversation("Blaine Davis", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "new conversation")
+			self.assertEqual(data["friend"]["id"], 14)
+			self.assertEqual(conversation_exists(13, 14).id, 8)
+
+			user = User.query.get(1)
+			response = post_conversation("Karen", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "none")
+			self.assertEqual(data["results"], "Your search did not return any results.")
+
+			response = post_conversation("Abc", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "none")
+			self.assertEqual(data["results"], "Your search did not return any results.")
+
+			response = post_conversation("Katie Wolf", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "none")
+			self.assertEqual(data["results"], "Your search did not return any results.")
+
+			self.assertIsNotNone(conversation_exists(1, 2))
+			response = post_conversation("Dale", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "conversation exists")
+			self.assertEqual(data["friend"]["id"], 2)
+
+			response = post_conversation("Dale Sue", user)
+			data = loads(response.get_data())
+			self.assertEqual(data["status"], "conversation exists")
+			self.assertEqual(data["friend"]["id"], 2)
 
 if __name__ == '__main__':
 	unittest.main()

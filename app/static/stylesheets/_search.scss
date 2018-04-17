@@ -1,0 +1,37 @@
+#search{
+
+	.drop-down{
+		width: 250px;
+		transform: translateX(-85%);
+
+		#search-form{
+
+			input[type="text"]{
+				border: none;
+				padding: 10px 15px;
+			}
+
+			border-bottom: 1px solid $grey4;
+		}
+
+		.search-drop-down{
+			ul{
+				li{
+					border: none;
+					padding: 10px 15px;
+					border-bottom: 1px solid $grey4;
+					font-size: 1em;
+					font-weight: 300;
+				}
+
+				li:hover{
+					background-color: $slight-background;
+				}
+
+				li.no-hover:hover{
+					background-color: $white;
+				}
+			}
+		}
+	}
+}

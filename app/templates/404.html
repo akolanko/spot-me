@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div class='content'>
+		<div class='block-404 block'>
+			<h2>Sorry, that page could not be found.</h2>
+			<p>
+				{% if current_user.is_authenticated %}
+				<a href="{{ url_for('discover') }}">
+				{% else %}
+				<a href="{{ url_for('login') }}">
+				{% endif %}
+					&larr; Back to Homepage
+				</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}
