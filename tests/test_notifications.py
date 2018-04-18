@@ -109,10 +109,10 @@ class FlaskTestNotifications(unittest.TestCase):
 
 	def test_create_invite_notification(self):
 		sender = User.query.get(1)
-		notification_exists = db.session.query(Notification).filter(Notification.event_id == 4, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
+		notification_exists = db.session.query(Notification).filter(Notification.event_id == 1, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
 		self.assertIsNone(notification_exists)
-		create_invite_notification(4, sender, 3)
-		notification_exists = db.session.query(Notification).filter(Notification.event_id == 4, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
+		create_invite_notification(1, sender, 3)
+		notification_exists = db.session.query(Notification).filter(Notification.event_id == 1, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
 		self.assertIsNotNone(notification_exists)
 
 	def test_create_update_notification(self):

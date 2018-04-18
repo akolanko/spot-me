@@ -124,12 +124,11 @@ def friends(user_id):
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
-@app.route("/add_friend/", methods=["POST"])
+@app.route("/add_friend/<friend_id>/", methods=["POST"])
 @login_required
-def add_friend():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
-    if current_user.id == user_id_2:
+def add_friend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
+    if current_user.id == friend_id:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
@@ -138,23 +137,22 @@ def add_friend():
     elif is_pending_received:
         return "You have already received a request from this user."
     else:
-        friend_request = Friends(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.requested)
+        friend_request = Friends(user_id_1=current_user.id, user_id_2=friend_id, status=FriendStatus.requested)
         db.session.add(friend_request)
         db.session.commit()
         return "Request sent."
 
 
-@app.route("/accept_friend/", methods=["POST"])
+@app.route("/accept_friend/<friend_id>/", methods=["POST"])
 @login_required
-def accept_friend():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
-    if current_user.id == user_id_2:
+def accept_friend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
+    if current_user.id == friend_id:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
     elif is_pending_received:
-        friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
+        friend_request = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
         return "Request accepted."
@@ -272,7 +270,7 @@ def search_discover():
         return jsonify([[u.serialize(), [i.serialize() for i in get_interests(u.id)]] for u in users])
 
 
-@app.route("/account", methods=['GET', 'POST'])
+@app.route("/account", methods=['GET'])
 @login_required
 def account():
     notifications = get_notifications(current_user.id)

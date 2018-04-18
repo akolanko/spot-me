@@ -4,12 +4,9 @@ $(document).ready( function() {
 	$("#add-friend-form").submit(function(e) {
 		e.preventDefault();
 
-		var formInput = {
-			"user_id_2": $("#user-info").data("userid")
-		};
+		var action = $(this).attr("action");
 
-		$.post("/add_friend/",
-			formInput,
+		$.post(action,
 			function() {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Pending</button>");
 			}
@@ -77,12 +74,9 @@ $(document).ready( function() {
 	$("#accept-friend-form").submit(function(e) {
 		e.preventDefault();
 
-		var formInput = {
-			"user_id_2": $("#user-info").data("userid")
-		};
+		var action = $(this).attr("action");
 
-		$.post("/accept_friend/",
-			formInput,
+		$.post(action,
 			function() {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
 				updateFriendRequestCount();

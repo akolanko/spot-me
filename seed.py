@@ -33,7 +33,7 @@ def example_data():
 
     conversation1 = Conversation(user_id_1=1, user_id_2=2)
     conversation2 = Conversation(user_id_1=4, user_id_2=1)
-    message1 = Message(sender=1, conversation_id=1, body='hello', read=True)
+    message1 = Message(sender=1, conversation_id=1, body='hello', read=True, timestamp=datetime.datetime(2017, 02, 22, 19, 53, 42))
     message2 = Message(sender=2, conversation_id=1, body='hey')
     message3 = Message(sender=2, conversation_id=1, body='how are you?')
 
