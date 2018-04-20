@@ -7,6 +7,9 @@ from app.models import *
 from sample_db import example_data
 from app.friends import *
 from app import connect_to_db
+from json import loads
+from app.routes import add_friend, accept_friend, unfriend, delete_friend_request
+from flask_login import login_user, logout_user
 
 
 def convert_user_list(user_list):
@@ -24,6 +27,8 @@ class FlaskTestFriends(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		self._ctx = app.test_request_context()
+		self._ctx.push()
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -34,6 +39,9 @@ class FlaskTestFriends(unittest.TestCase):
 
 	def tearDown(self):
 		"""Do at end of every test"""
+
+		if self._ctx is not None:
+			self._ctx.pop()
 
 		db.session.close()
 		db.drop_all()
@@ -153,6 +161,104 @@ class FlaskTestFriends(unittest.TestCase):
 		self.assertEqual(data["status"], "none")
 		data = find_friend("Karen Smith", 1)
 		self.assertEqual(data["status"], "none")
+
+	"""Friend post routes"""
+
+	def test_add_friend(self):
+		login_user(User.query.get(1))
+		self.assertFalse(are_connected(1, 10))
+		result = add_friend(10)
+		self.assertTrue(are_connected(1, 10))
+		self.assertIsNotNone(Friends.query.filter_by(user_id_1=1, user_id_2=10, status=FriendStatus.requested))
+		self.assertEqual("Request sent.", result)
+		self.assertTrue(are_connected(1, 2))
+		result = add_friend(2)
+		self.assertEqual("You are already friends.", result)
+		self.assertFalse(are_connected(1, 1))
+		result = add_friend(1)
+		self.assertEqual("You cannot add yourself as a friend.", result)
+		self.assertFalse(are_connected(1, 1))
+		logout_user()
+		login_user(User.query.get(5))
+		self.assertIsNotNone(Friends.query.filter_by(user_id_1=5, user_id_2=6, status=FriendStatus.requested))
+		result = add_friend(6)
+		self.assertEqual("Your friend request is pending.", result)
+		self.assertIsNotNone(Friends.query.filter_by(user_id_1=7, user_id_2=5, status=FriendStatus.requested))
+		result = add_friend(7)
+		self.assertEqual("You have already received a request from this user.", result)
+
+	def test_accept_friend(self):
+		login_user(User.query.get(6))
+		request = Friends.query.filter_by(user_id_1=5, user_id_2=6).first()
+		self.assertEqual(request.status, FriendStatus.requested)
+		result = accept_friend(5)
+		data = loads(result.get_data())
+		self.assertEqual(request.status, FriendStatus.accepted)
+		self.assertEqual(data["status"], "Request accepted.")
+		result = accept_friend(6)
+		self.assertEqual(result, "You cannot add yourself as a friend.")
+		request = Friends.query.filter_by(user_id_1=6, user_id_2=8).first()
+		self.assertEqual(request.status, FriendStatus.accepted)
+		result = accept_friend(8)
+		self.assertEqual(result, "You are already friends.")
+
+	def test_unfriend(self):
+		login_user(User.query.get(6))
+		request = Friends.query.filter_by(user_id_1=6, user_id_2=8).first()
+		self.assertEqual(request.status, FriendStatus.accepted)
+		result = unfriend(8)
+		data = loads(result.get_data())
+		self.assertIsNone(Friends.query.filter_by(user_id_1=6, user_id_2=8).first())
+		self.assertEqual(data["status"], "Sucessfully unfriended.")
+		request = Friends.query.filter_by(user_id_1=6, user_id_2=2).first()
+		self.assertIsNone(request)
+		request = Friends.query.filter_by(user_id_1=2, user_id_2=6).first()
+		self.assertIsNone(request)
+		result = unfriend(2)
+		self.assertEqual(result, "You cannot unfriend this user.")
+		result = unfriend(6)
+		self.assertEqual(result, "You cannot unfriend this user.")
+		logout_user()
+		login_user(User.query.get(15))
+		request = Friends.query.filter_by(user_id_1=15, user_id_2=12, status=FriendStatus.requested).first()
+		self.assertIsNotNone(request)
+		result = unfriend(12)
+		self.assertEqual(result, "You cannot unfriend this user.")
+		request = Friends.query.filter_by(user_id_1=16, user_id_2=15, status=FriendStatus.requested).first()
+		self.assertIsNotNone(request)
+		result = unfriend(16)
+		self.assertEqual(result, "You cannot unfriend this user.")
+
+	def test_delete_friend_request(self):
+		login_user(User.query.get(15))
+		request = Friends.query.filter_by(user_id_1=16, user_id_2=15, status=FriendStatus.requested).first()
+		self.assertIsNotNone(request)
+		result = delete_friend_request(16)
+		self.assertEqual(result, "Request removed.")
+		request = Friends.query.filter_by(user_id_1=16, user_id_2=15, status=FriendStatus.requested).first()
+		self.assertIsNone(request)
+		request = Friends.query.filter_by(user_id_1=15, user_id_2=12, status=FriendStatus.requested).first()
+		self.assertIsNotNone(request)
+		result = delete_friend_request(12)
+		self.assertEqual(result, "You cannot remove this request.")
+		result = delete_friend_request(15)
+		self.assertEqual(result, "You cannot remove this request.")
+		request = Friends.query.filter_by(user_id_1=15, user_id_2=2).first()
+		self.assertIsNone(request)
+		request = Friends.query.filter_by(user_id_1=2, user_id_2=15).first()
+		self.assertIsNone(request)
+		result = delete_friend_request(2)
+		self.assertEqual(result, "You cannot remove this request.")
+		logout_user()
+		login_user(User.query.get(6))
+		request = Friends.query.filter_by(user_id_1=6, user_id_2=8, status=FriendStatus.accepted).first()
+		self.assertIsNotNone(request)
+		result = delete_friend_request(8)
+		self.assertEqual(result, "You cannot remove this request.")
+		request = Friends.query.filter_by(user_id_1=9, user_id_2=6, status=FriendStatus.accepted).first()
+		self.assertIsNotNone(request)
+		result = delete_friend_request(9)
+		self.assertEqual(result, "You cannot remove this request.")
 
 
 if __name__ == '__main__':

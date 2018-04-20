@@ -95,7 +95,7 @@
 													</div>
 												</a>
 												<div class='right'>
-													<form class="accept-friend-notification" action="/accept_friend" method="post">
+													<form class="accept-friend-notification" action="{{ url_for('accept_friend', friend_id= friend.id) }}" method="post">
 														<input type="hidden" name="friend_id" class='accept-hidden' value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon accept'>
@@ -104,7 +104,7 @@
 															</div>
 														</button>
 													</form>
-													<form class="delete-friend-request-form" action="/delete_friend_request/" method="post">
+													<form class="delete-friend-request-form" action="{{ url_for('delete_friend_request', friend_id= friend.id) }}" method="post">
 														<input type="hidden" name="friend_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon reject'>
@@ -133,8 +133,7 @@
 									<ul>
 										{% for notification in notifications['notifications'] %}
 											<li>
-												<form class="view-notification-form" action="/view_notification/" method="post">
-													<input type="hidden" class='notification-id' data-notificationid="{{ notification.id }}">
+												<form class="view-notification-form" action="{{ url_for('view_notification', notification_id=notification.id) }}" method="post">
 													<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
 													<button type="submit" class='non-btn notification-body'>
 														{{ notification.body }}

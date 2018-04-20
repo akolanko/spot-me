@@ -155,34 +155,32 @@ def accept_friend(friend_id):
         friend_request = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
-        return "Request accepted."
+        return jsonify({"status": "Request accepted.", "user": current_user.serialize()})
     else:
         return "An error occured."
 
 
-@app.route("/unfriend/", methods=["POST"])
+@app.route("/unfriend/<friend_id>/", methods=["POST"])
 @login_required
-def unfriend():
-    user_id_2 = request.form.get("friend_id")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
+def unfriend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
     if are_friends:
-        relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.accepted).first()
+        relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=friend_id, status=FriendStatus.accepted).first()
         if relationship is None:
-            relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.accepted).first()
+            relationship = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.accepted).first()
         db.session.delete(relationship)
         db.session.commit()
-        return "Unfriend"
+        return jsonify({"status": "Sucessfully unfriended.", "user": current_user.serialize()})
     else:
         return "You cannot unfriend this user."
 
 
-@app.route("/delete_friend_request/", methods=["POST"])
+@app.route("/delete_friend_request/<friend_id>/", methods=["POST"])
 @login_required
-def delete_friend_request():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
+def delete_friend_request(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
     if is_pending_received:
-        relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
+        relationship = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.requested).first()
         db.session.delete(relationship)
         db.session.commit()
         return "Request removed."
@@ -190,7 +188,7 @@ def delete_friend_request():
         return "You cannot remove this request."
 
 
-@app.route("/conversation/<id>", methods=['GET', "POST"])
+@app.route("/conversation/<id>", methods=['GET'])
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
@@ -228,7 +226,7 @@ def new_conversation():
     return render_template("new_conversation.html", conversations=conversations, notifications=notifications, eventform=eventform)
 
 
-@app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
+@app.route("/create_conversation/<user_id>/", methods=["POST"])
 @login_required
 def create_conversation(user_id):
     conversation_id = build_conversation(current_user.id, user_id)
@@ -321,10 +319,9 @@ def delete_account():
     return redirect(url_for('login'))
 
 
-@app.route("/view_notification/", methods=['POST'])
+@app.route("/view_notification/<notification_id>/", methods=['POST'])
 @login_required
-def view_notification():
-    notification_id = request.form.get("notification_id")
+def view_notification(notification_id):
     notification = get_notification(notification_id)
     db.session.delete(notification)
     db.session.commit()
