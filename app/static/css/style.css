@@ -180,7 +180,7 @@ form.login .form-field {
   text-align: center;
   font-weight: 600;
   color: #fff;
-  z-index: 600; }
+  z-index: 1000; }
 
 .flash-list {
   list-style: none;
@@ -473,6 +473,9 @@ button {
   .add-btn .plus-line-2 {
     width: 2px;
     height: 60%; }
+
+.add-btn:hover {
+  cursor: pointer; }
 
 .drop-down {
   position: absolute;
@@ -904,17 +907,55 @@ button {
   opacity: 0.55;
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  display: none; }
+
+.overlay:hover {
+  cursor: pointer; }
 
 .overlay-form {
   background-color: #fff;
   position: absolute;
   z-index: 900;
-  width: 600px;
+  width: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 30px; }
+  display: none; }
+  .overlay-form .page-title-large {
+    display: inline-block;
+    width: 90%; }
+
+.close-btn {
+  height: 22px;
+  width: 28px;
+  position: absolute;
+  right: 30px;
+  top: 30px; }
+  .close-btn .close-line {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    position: absolute; }
+  .close-btn #close-line-1 {
+    left: 0;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 50%; }
+  .close-btn #close-line-2 {
+    left: 0;
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 50%; }
+
+.close-btn:hover {
+  cursor: pointer; }
 
 .sidebar {
   position: relative;
@@ -1025,47 +1066,53 @@ button {
   width: 50%;
   margin: 0 2%;
   padding: 0; }
-  .event-block .outer {
-    border-bottom: 2px solid #F5F5F5; }
-    .event-block .outer .inner {
-      padding: 20px; }
-    .event-block .outer .invites .invitation-detail {
-      color: #8BC8DB;
-      font-weight: 400; }
-    .event-block .outer .invites .adding-friends-hidden {
-      display: none; }
-  .event-block .event-buttons {
-    padding: 0;
-    margin-top: 25px; }
-  .event-block .page-title {
-    margin-bottom: 0.8em; }
-  .event-block .page-title-large {
-    height: 55px;
-    margin-bottom: 0; }
-  .event-block #update-event {
-    display: none; }
-    .event-block #update-event #update-event-form h1 input[type='text'] {
-      padding: 0;
-      border: none;
-      border-bottom: 1px solid #E2E2E2; }
-  .event-block .add-friends {
-    margin-top: 15px;
-    color: #8BC8DB; }
-  .event-block .add-friends:hover {
-    cursor: pointer; }
-  .event-block .add-invite-form {
-    display: none;
-    margin-top: 30px; }
-    .event-block .add-invite-form input[type='text'] {
-      border: 1px solid #aaa; }
-    .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'] {
-      display: inline-block; }
-    .event-block .add-invite-form input[type='submit'] {
-      margin-left: 10px; }
-  .event-block ul li.invited-user {
-    margin: 0.5em 0; }
+  .event-block .outer .inner {
+    padding: 20px; }
 
-.invitations ul, .event-block ul {
+.calendar .outer .inner {
+  padding: 20px 30px; }
+.calendar .outer:last-of-type {
+  border-bottom: none; }
+
+.event-block .outer, .calendar .outer {
+  border-bottom: 2px solid #F5F5F5; }
+  .event-block .outer .invites .invitation-detail, .calendar .outer .invites .invitation-detail {
+    color: #8BC8DB;
+    font-weight: 400; }
+  .event-block .outer .invites .adding-friends-hidden, .calendar .outer .invites .adding-friends-hidden {
+    display: none; }
+.event-block .event-buttons, .calendar .event-buttons {
+  padding: 0;
+  margin-top: 25px; }
+.event-block .page-title, .calendar .page-title {
+  margin-bottom: 0.8em; }
+.event-block .page-title-large, .calendar .page-title-large {
+  height: 55px;
+  margin-bottom: 0; }
+.event-block #update-event, .calendar #update-event {
+  display: none; }
+  .event-block #update-event #update-event-form h1 input[type='text'], .calendar #update-event #update-event-form h1 input[type='text'] {
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #E2E2E2; }
+.event-block .add-friends, .calendar .add-friends {
+  margin-top: 15px;
+  color: #8BC8DB; }
+.event-block .add-friends:hover, .calendar .add-friends:hover {
+  cursor: pointer; }
+.event-block .add-invite-form, .calendar .add-invite-form {
+  display: none;
+  margin-top: 30px; }
+  .event-block .add-invite-form input[type='text'], .calendar .add-invite-form input[type='text'] {
+    border: 1px solid #aaa; }
+  .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form .form-field, .calendar .add-invite-form input[type='submit'] {
+    display: inline-block; }
+  .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form input[type='submit'] {
+    margin-left: 10px; }
+.event-block ul li.invited-user, .calendar ul li.invited-user {
+  margin: 0.5em 0; }
+
+.invitations ul, .event-block ul, .calendar ul {
   list-style: none;
   padding: 0; }
 
