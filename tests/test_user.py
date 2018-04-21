@@ -51,7 +51,7 @@ class FlaskTestUser(unittest.TestCase):
 		self.assertIn("<button class='button button-2 disabled'>Friends</button>", result)
 		result = user(6)
 		self.assertIn('Katie Wolf', result)
-		self.assertIn('<a href="/create_conversation/6">', result)
+		self.assertIn('<a href="/create_conversation/6/">', result)
 		self.assertIn('<button class="button button-2">Message</button>', result)
 		self.assertIn('<button type="submit" class=\'button button-2\'>Connect</button>', result)
 		logout_user()
