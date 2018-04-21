@@ -10,18 +10,16 @@ $(document).ready( function() {
 		$('#flash-container').html("<ul class='flash-list'><li class='flash-item'>" + result + "</li></ul>");
 		$('.flash-list').delay(1500).slideUp();
 	}
-	var clicked = 0;
 
 	// Profile edit
 	$('#info-edit-button').click(function(){
 		$('#profile-box').fadeIn();
 		$('#main-profile-info').hide();
-		// $('#edit-info-overlay').hide();
-		// $('#info-edit-button').hide();
+		$('#edit-info-overlay').hide();
+		$('#info-edit-button').hide();
 		$('#edit-profile-info').hide();
-		clicked = 1;
 	});
-
+// isEditingForm = false
 	$('.edit-profile-info').hover(function(){
 		$('#edit-info-overlay').toggle();
 		$('#info-edit-button').toggle();
