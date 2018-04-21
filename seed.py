@@ -19,7 +19,7 @@ def example_data():
     dan.set_password('dan')
     dan2 = User(username='dan2', email='dan2@example.com', fname='Dan', lname='Smith', birthday=datetime.date(2000, 10, 9))
     dan2.set_password('dan2')
-    dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 04, 12))
+    dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 4, 12))
     dan3.set_password('dan3')
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
@@ -33,7 +33,7 @@ def example_data():
 
     conversation1 = Conversation(user_id_1=1, user_id_2=2)
     conversation2 = Conversation(user_id_1=4, user_id_2=1)
-    message1 = Message(sender=1, conversation_id=1, body='hello', read=True, timestamp=datetime.datetime(2017, 02, 22, 19, 53, 42))
+    message1 = Message(sender=1, conversation_id=1, body='hello', read=True, timestamp=datetime.datetime(2017, 2, 22, 19, 53, 42))
     message2 = Message(sender=2, conversation_id=1, body='hey')
     message3 = Message(sender=2, conversation_id=1, body='how are you?')
 
