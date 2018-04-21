@@ -16,13 +16,13 @@ def example_data():
     dan = User(username='dan', email='dan@example.com', fname='Dan', lname='Kay')
     dan.set_password('dan')
 
-    profilekaren = Profile(user_id = 1, about = "Yoga | CS ", location="NYC" )
-    profiledale = Profile(user_id = 2)
-    profilematt = Profile(user_id = 3)
-    profilejake = Profile(user_id = 4)
+    profilekaren = Profile(user_id = 1, about = "Yoga | CS ", location="NYC", interests="Running")
+    profiledale  = Profile(user_id = 2)
+    profilematt  = Profile(user_id = 3)
+    profilejake  = Profile(user_id = 4)
     profileellen = Profile(user_id = 5)
     profilekatie = Profile(user_id = 6)
-    profiledan = Profile(user_id = 7, about = "" )
+    profiledan   = Profile(user_id = 7, about = "" )
 
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)

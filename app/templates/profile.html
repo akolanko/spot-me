@@ -2,13 +2,13 @@
 
 {% block right %}
 <div class='col profile-right-col'>
-	<div class='block profile-info'>
+	<div class='block edit-profile-info'>
 		{% if user == current_user %}
 		<div class='overlay' id='edit-info-overlay'></div>
 		<button class='button button-1' id='info-edit-button'>Edit</button>
 		<div id='profile-box'>
-			<h1>Edit Profile</h1>
-			<form action="{{ url_for('edit_profile') }}" method="post">
+			<h3>Edit Profile</h3>
+			<form id ='edit-profile-form' action="{{ url_for('edit_profile') }}" method="post">
 			{{ form.hidden_tag() }}
 			{{ form.profile }}
 				<div class='.col'>
@@ -16,7 +16,7 @@
 						<span>
 							<div class='field-input select-box'>
 							{{ form.skills.label }}
-							{{ form.skills(cols=30, rows=1) }}
+							{{ form.skills(cols=10, rows=1) }}
 							{% for error in form.skills.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
@@ -26,20 +26,31 @@
 					<div class='profile-location'>
 						<p>
 							{{ form.location.label }}
-							{{ form.location(cols=30, rows=1) }}
+							{{ form.location(cols=40, rows=1) }}
 							{% for error in form.location.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
-						</p>					</div>
+						</p>
+					</div>
 					<div class='profile-work'>
 						<p>
 							{{ form.work.label }}
-							{{ form.work(cols=50, rows=1) }}
+							{{ form.work(cols=30, rows=1) }}
 							{% for error in form.work.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
-						</p>					</div>
-					<div class='profile-interests'> </div>
+						</p>
+					</div>
+					<div class='profile-interests'>
+						<p>
+							Interests
+							<!-- {{ form.interests.label }}  TODO: returns work, should return Interests -->
+							{{ form.interests(cols=30, rows=1) }}
+							{% for error in form.interests.errors %}
+							<span style="color: red;">[{{ error }}]</span>
+							{% endfor %}
+						</p>
+					</div>
 				</div>
 				<div class='.col'>
 					<div class='profile-about'>
@@ -49,7 +60,8 @@
 							{% for error in form.about.errors %}
 							<span style="color: red;">[{{ error }}]</span>
 							{% endfor %}
-						</p>					</div>
+						</p>
+					</div>
 					<div class='profile-meet'>
 						<p>
 							{{ form.meet.label }}<br>
@@ -80,15 +92,15 @@
 				</div>
 				<div class='profile-location'>
 					<div class='profile-label'>Location</div>
-					<div class='profile-text-top-leftt'>{{ profile.location }}</div>
+					<div class='profile-text-top-left'>{{ profile.location }}</div>
 				</div>
-
 				<div class='profile-work'>
 					<div class='profile-label'>Work</div>
 					<div class='profile-text-top-left'>{{ profile.work }}</div>
 				</div>
 				<div class='profile-interests'>
 					<div class='profile-label'>Interests</div>
+					<div class='profile-text-top-left'>{{ profile.interests }}</div>
 				</div>
 			</div>
 			<div class='col'>

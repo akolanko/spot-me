@@ -105,6 +105,9 @@ def user(user_id):
         if current_user.profile.skills is not None :
             form.skills.data = current_user.profile.skills
 
+        if current_user.profile.interests is not None :
+            form.interests.data = current_user.profile.interests
+
         if current_user.profile.location is not None :
             form.location.data = current_user.profile.location
 
@@ -126,15 +129,16 @@ def edit_profile():
     notifications = get_notifications(user.id)
 
     form = EditProfileForm()
-    user.profile.location = form.location.data
     user.profile.about = form.about.data
     user.profile.meet = form.meet.data
     user.profile.skills = form.skills.data
     user.profile.work = form.work.data
-    # current_user.profile.interests = form.interests.data
+    user.profile.interests = form.interests.data
+    user.profile.location = form.location.data
+
     db.session.commit()
-        #flash('Your changes have been saved.')
-        #return redirect(url_for('/user/<user.id>'))
+    #flash('Your changes have been saved.')
+    #return redirect(url_for('/user/<user.id>'))
     return render_template('profile.html', user=user, profile=profile,
     notifications = notifications,form=form)
 
