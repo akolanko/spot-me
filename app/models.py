@@ -137,6 +137,17 @@ class Event(db.Model):
     location = db.Column(db.String(32))
     notes = db.Column(db.Text)
 
+    def serialize(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'title': self.title,
+            'location': self.location,
+            'notes': self.notes
+        }
+
 
 class UserEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
