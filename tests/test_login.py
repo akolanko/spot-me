@@ -7,7 +7,7 @@ from app.models import *
 from sample_db import example_data
 from app import connect_to_db
 from flask_login import login_user, current_user
-from app.routes import logout, register
+from app.routes import login, logout, register
 
 
 class FlaskTestLogin(unittest.TestCase):
@@ -38,12 +38,9 @@ class FlaskTestLogin(unittest.TestCase):
 
 	"""Test login"""
 
-	# def test_login(self):
-	# 	with self.client:
-	# 		result = self.client.post("/login", data={"email": "karen@example.com", "password": "karen"}, follow_redirects=True)
-	# 		self.assertEquals(current_user.username, 'dale')
-	# 		self.assertEqual(result.status_code, 200)
-	# 		self.assertIn("Discover", result.data)
+	def test_login(self):
+		result = login()
+		self.assertIn("Log In", result)
 
 	def test_logout(self):
 		login_user(User.query.get(1))
@@ -55,10 +52,6 @@ class FlaskTestLogin(unittest.TestCase):
 	def test_register_page(self):
 		result = register()
 		self.assertIn("Sign Up", result)
-		# u = User.query.get(1)
-		# login_user(u)
-		# result = self.client.get("/register", follow_redirects=True)
-		# self.assertIn('Discover', result.data)
 
 
 if __name__ == '__main__':

@@ -8,7 +8,8 @@ from sample_db import example_data
 from app.accounts import *
 from app import connect_to_db
 import datetime
-from app.routes import account, delete_account
+# from app.routes import account, delete_account
+from app.routes import *
 from flask_login import login_user
 
 
@@ -20,6 +21,7 @@ class FlaskTestAccounts(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		app.config['WTF_CSRF_ENABLED'] = False
 		self._ctx = app.test_request_context()
 		self._ctx.push()
 
