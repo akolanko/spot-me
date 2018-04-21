@@ -6,7 +6,7 @@
 # Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
 
 Flask==0.12.2
-Flask-SQLAlchemy==2.3.2
+Flask-SQLAlchemy==2.1
 gunicorn==19.7.1
 PyMySQL==0.8.0
 
