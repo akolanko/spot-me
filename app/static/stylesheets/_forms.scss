@@ -82,12 +82,6 @@ form.login .form-field{
 	.field{
 		color: $grey1;
 		display: inline-block;
-
-		input, textarea{
-			padding: 0;
-			border: none;
-			border-bottom: 1px solid $grey4;
-		}
 	}
 
 	.field-wide{
@@ -101,5 +95,53 @@ form.login .form-field{
 
 	.validation-error{
 		font-size: .8em;
+	}
+}
+
+.account-field, .event-info .event-field, #edit-profile-form{
+
+	.validation-error{
+		font-size: .8em;
+	}
+
+	input[type="text"], input[type="date"], input[type="time"], textarea, select{
+		padding: 0;
+		border: none;
+		border-bottom: 1px solid $grey4;
+		width: 100%;
+	}
+
+	.select-box{
+		width: 100%;
+		background: url("down_arrow.png") no-repeat 95% center;
+		background-color: $white;
+	}
+
+	.select-box select{
+		background: transparent;
+		font-family: inherit;
+		font-size: inherit;
+		border-radius: 0;
+		-webkit-appearance: none;
+	}
+}
+
+#edit-profile-form{
+
+	input[type="submit"]{
+		display: inline-block;
+		width: inherit;
+		padding: 5px 10px;
+	}
+	
+	textarea{
+		height: 100%;
+		resize: none;
+	}
+
+	.select-box select{
+		font-size: 1em;
+		font-weight: 300;
+		color: $grey3;
 	}
 }

@@ -50,11 +50,11 @@ class Profile(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
     about     = db.Column(db.Text)
-    work      = db.Column(db.Text)
-    skills    = db.Column(db.Text)
-    location  = db.Column(db.Text)
+    work      = db.Column(db.String(30))
+    skills    = db.Column(db.Integer)
+    location  = db.Column(db.String(40))
+    meet      = db.Column(db.String(50))
     interests = db.Column(db.Text)
-    meet      = db.Column(db.Text)
 
 
 class Interest(db.Model):

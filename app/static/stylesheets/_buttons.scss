@@ -73,6 +73,12 @@ button{
 	border: 1px solid $grey2;
 }
 
+.button-6{
+	background-color: $grey6;
+	color: $grey4;
+	border: 1px solid $grey6;
+}
+
 .disabled:hover{
 	cursor: auto;
 }

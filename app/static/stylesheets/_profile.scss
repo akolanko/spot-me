@@ -2,9 +2,11 @@
 	display: inline-block;
 	vertical-align: top;
 }
+
 .profile-text-top-left {
 	display: inline;
 }
+
 .profile-left-col{
 	width: 29%;
 	padding-right: 5%;
@@ -12,6 +14,94 @@
 
 .profile-right-col{
 	width: 70%;
+	background-color: $white;
+
+	.block{
+		margin-bottom: 0;
+	}
+
+	#profile-box{
+		display: none;
+		width: 100%;
+		height: 100%;
+		background-color: $white;
+
+		.inline-buttons{
+			padding: 0;
+
+			#cancel-edit{
+				display: inline-block;
+				font-weight: 400;
+			}
+		}
+	}
+
+	#main-profile-info{
+		background-color: $white;
+
+	}
+
+	.col{
+
+		vertical-align: top;
+
+		.profile-field{
+			display: inline-block;
+			vertical-align: top;
+			color: $grey3;
+		}
+
+		.profile-skills, .profile-location, .profile-work{
+
+			.profile-label{
+				display: inline-block;
+				width: 100px;
+				vertical-align: top;
+			}
+
+		}
+
+		.profile-skills{
+
+			.profile-field{
+				width: 60%;
+			}
+		}
+
+		.profile-interests, .profile-about, .profile-meet{
+
+			.profile-label{
+				margin-bottom: 0.5em;
+			}
+
+			.profile-field{
+				height: 80px;
+				width: 100%;
+			}
+		}
+	}
+
+	.left{
+		width: 39%;
+	}
+
+	.right{
+		width: 55%;
+		margin-left: 4%;
+		text-align: left;
+	}
+}
+
+#info-edit-button{
+	display: none;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+}
+
+#info-edit-button{
+	z-index: 900;
 }
 
 .profile-cover{
@@ -60,35 +150,11 @@
 	color: $black;
 }
 
-.profile-info {
-
-	.left-col {
-		width: 50% ;
-	}
-
-	.right-col {
-		width: 50% ;
-
-	}
-
-}
-
-.profile-about{
-
-}
-.profile-meet{
-}
-.profile-skill{
-
-}
-.profile-location{
-
-}
-.profile-work{
-
-}
-.profile-interests{
-
+.edit-profile-info {
+	position: relative;
+	height: 290px;
+	padding: 20px;
+	overflow: hidden;
 }
 
 .profile-buttons{
@@ -115,7 +181,6 @@
 	ul{
 		list-style: none;
 		padding: 0;
-		// text-align: center;
 		margin-top: 1em;
 	}
 
