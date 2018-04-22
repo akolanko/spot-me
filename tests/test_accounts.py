@@ -8,6 +8,9 @@ from sample_db import example_data
 from app.accounts import *
 from app import connect_to_db
 import datetime
+# from app.routes import account, delete_account
+from app.routes import *
+from flask_login import login_user
 
 
 class FlaskTestAccounts(unittest.TestCase):
@@ -18,6 +21,9 @@ class FlaskTestAccounts(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		app.config['WTF_CSRF_ENABLED'] = False
+		self._ctx = app.test_request_context()
+		self._ctx.push()
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -28,6 +34,8 @@ class FlaskTestAccounts(unittest.TestCase):
 
 	def tearDown(self):
 		"""Do at end of every test"""
+		if self._ctx is not None:
+			self._ctx.pop()
 
 		db.session.close()
 		db.drop_all()
@@ -64,6 +72,21 @@ class FlaskTestAccounts(unittest.TestCase):
 		born = datetime.date(1990, 10, 1)
 		age = calculate_age(born)
 		self.assertEqual(age, 27)
+
+	"""Test account routes"""
+
+	def test_account_page(self):
+		login_user(User.query.get(1))
+		result = account()
+		self.assertIn('<div class=\'block account\'>', result)
+		self.assertIn('<span id=\'username-main\'>karen</span>', result)
+
+	def test_delete_account(self):
+		login_user(User.query.get(1))
+		self.assertIsNotNone(User.query.get(1))
+		result = delete_account()
+		self.assertEqual(result.status_code, 302)
+		self.assertIsNone(User.query.get(1))
 
 
 if __name__ == '__main__':

@@ -60,7 +60,7 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@app.route('/user/<user_id>')
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
@@ -76,39 +76,102 @@ def user(user_id):
     conversation = conversation_exists(user.id, current_user.id)
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
+    conversation = conversation_exists(user.id, user_id_1)
 
-@app.route('/edit_profile', methods=['GET', 'POST'])
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        if current_user.profile.about is not None :
+            form.about.data = current_user.profile.about
+
+        if current_user.profile.meet is not None :
+            form.meet.data = current_user.profile.meet
+
+        if current_user.profile.skills is not None :
+            form.skills.data = current_user.profile.skills
+
+        if current_user.profile.interests is not None :
+            form.interests.data = current_user.profile.interests
+
+        if current_user.profile.location is not None :
+            form.location.data = current_user.profile.location
+
+        if current_user.profile.work is not None :
+            form.work.data = current_user.profile.work
+
+    return render_template('profile.html', user=user, profile=profile,
+    total_friends=total_friends, are_friends=are_friends,
+    is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved,
+    friends=friends, notifications=notifications, limited_friends=limited_friends,
+    conversation=conversation, form=form)
+
+def check_and_update_interests(prof_interests, user_id):
+    """check the db for exisitng interest, otherwise update if non existent"""
+    # session.bulk_update_mappings(Interest, raw_interests_arr)
+
+    # parse interests
+    arr = prof_interests.lower().split(' ')
+
+    # search each interest in the array in the database
+    for i in arr:
+        print (i)
+        interest_1 = db.session.query(Interest).filter(Interest.name == i ).first()
+        if interest_1 is not None:
+            interest_id = interest_1.id
+            new_user_interest = User_Interest(user_id=user_id, interest_id=interest_id)
+
+        else:
+            # count = db.session.query(Interest).distinct(User_Interest.user_id).count()
+            # interest_id = count + 1
+            # add new interest to interest table
+            new_interest = Interest(name= i)
+            new_interest_id = db.session.query(Interest).filter(Interest.name == i ).first()
+
+            db.session.add(new_interest)
+            db.session.commit()
+
+            # update user interests table too
+            new_user_interest = User_Interest(user_id=user_id, interest_id=new_interest.id)
+            db.session.add(new_user_interest)
+            db.session.commit()
+
+@app.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile():
     # enable editing
     user = current_user
     profile = user.profile
+    notifications = get_notifications(user.id)
 
     form = EditProfileForm()
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        notifications = get_notifications(current_user.username)
-        current_user.profile.about = form.about.data
-        current_user.profile.meet = form.meet.data
-        current_user.profile.skills = form.skills.data
-        current_user.profile.location = form.location.data
-        current_user.profile.work = form.work.data
-        current_user.profile.interests = form.interests.data
+    user.profile.about = form.about.data
+    user.profile.meet = form.meet.data
+    user.profile.skills = form.skills.data
+    user.profile.work = form.work.data
+    user.profile.location = form.location.data
+    passed_interests = form.interests.data
+
+    # locate and delete all previous user interests to prepare for update
+    prev_interest = db.session.query(User_Interest).join(Interest).filter(User_Interest.user_id == user.id, Interest.id == User_Interest.interest_id).all()
+
+    for i in prev_interest:
+        db.session.delete(i)
         db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        notifications = get_notifications(form.username.data)
-        form.about.data = current_user.profile.about
-        form.meet.data = current_user.profile.meet
-        form.skills.data = current_user.profile.skills
-        form.location.data = current_user.profile.location
-        form.work.data = current_user.profile.work
-        form.interests.data = current_user.profile.interests
 
-    return render_template('edit_profile.html', title='Edit Profile', user=user, profile=profile, notifications=notifications, form=form)
+    # update user interests based on form submission
+    check_and_update_interests(passed_interests, user.id)
 
+    # print(new_interests_arr)
+    user.profile.interests = passed_interests
+
+    db.session.commit()
+    #flash('Your changes have been saved.')
+    #return redirect(url_for('/user/<user.id>'))
+    return render_template('profile.html', user=user, profile=profile,
+    notifications = notifications,form=form)
 
 @app.route("/friends/<user_id>")
 @login_required
@@ -124,12 +187,11 @@ def friends(user_id):
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 
-@app.route("/add_friend/", methods=["POST"])
+@app.route("/add_friend/<friend_id>/", methods=["POST"])
 @login_required
-def add_friend():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
-    if current_user.id == user_id_2:
+def add_friend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
+    if current_user.id == friend_id:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
@@ -138,53 +200,50 @@ def add_friend():
     elif is_pending_received:
         return "You have already received a request from this user."
     else:
-        friend_request = Friends(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.requested)
+        friend_request = Friends(user_id_1=current_user.id, user_id_2=friend_id, status=FriendStatus.requested)
         db.session.add(friend_request)
         db.session.commit()
         return "Request sent."
 
 
-@app.route("/accept_friend/", methods=["POST"])
+@app.route("/accept_friend/<friend_id>/", methods=["POST"])
 @login_required
-def accept_friend():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
-    if current_user.id == user_id_2:
+def accept_friend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
+    if current_user.id == friend_id:
         return "You cannot add yourself as a friend."
     elif are_friends:
         return "You are already friends."
     elif is_pending_received:
-        friend_request = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
+        friend_request = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.requested).first()
         friend_request.status = FriendStatus.accepted
         db.session.commit()
-        return "Request accepted."
+        return jsonify({"status": "Request accepted.", "user": current_user.serialize()})
     else:
         return "An error occured."
 
 
-@app.route("/unfriend/", methods=["POST"])
+@app.route("/unfriend/<friend_id>/", methods=["POST"])
 @login_required
-def unfriend():
-    user_id_2 = request.form.get("friend_id")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
+def unfriend(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
     if are_friends:
-        relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=user_id_2, status=FriendStatus.accepted).first()
+        relationship = Friends.query.filter_by(user_id_1=current_user.id, user_id_2=friend_id, status=FriendStatus.accepted).first()
         if relationship is None:
-            relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.accepted).first()
+            relationship = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.accepted).first()
         db.session.delete(relationship)
         db.session.commit()
-        return "Unfriend"
+        return jsonify({"status": "Sucessfully unfriended.", "user": current_user.serialize()})
     else:
         return "You cannot unfriend this user."
 
 
-@app.route("/delete_friend_request/", methods=["POST"])
+@app.route("/delete_friend_request/<friend_id>/", methods=["POST"])
 @login_required
-def delete_friend_request():
-    user_id_2 = request.form.get("user_id_2")
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id_2)
+def delete_friend_request(friend_id):
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, friend_id)
     if is_pending_received:
-        relationship = Friends.query.filter_by(user_id_1=user_id_2, user_id_2=current_user.id, status=FriendStatus.requested).first()
+        relationship = Friends.query.filter_by(user_id_1=friend_id, user_id_2=current_user.id, status=FriendStatus.requested).first()
         db.session.delete(relationship)
         db.session.commit()
         return "Request removed."
@@ -192,7 +251,7 @@ def delete_friend_request():
         return "You cannot remove this request."
 
 
-@app.route("/conversation/<id>", methods=['GET', "POST"])
+@app.route("/conversation/<id>", methods=['GET'])
 @login_required
 def conversation(id):
     conversation = Conversation.query.filter_by(id=id).first_or_404()
@@ -230,7 +289,7 @@ def new_conversation():
     return render_template("new_conversation.html", conversations=conversations, notifications=notifications, eventform=eventform)
 
 
-@app.route("/create_conversation/<user_id>", methods=['GET', "POST"])
+@app.route("/create_conversation/<user_id>/", methods=["POST"])
 @login_required
 def create_conversation(user_id):
     conversation_id = build_conversation(current_user.id, user_id)
@@ -272,7 +331,7 @@ def search_discover():
         return jsonify([[u.serialize(), [i.serialize() for i in get_interests(u.id)]] for u in users])
 
 
-@app.route("/account", methods=['GET', 'POST'])
+@app.route("/account", methods=['GET'])
 @login_required
 def account():
     notifications = get_notifications(current_user.id)
@@ -327,10 +386,9 @@ def delete_account():
     return redirect(url_for('login'))
 
 
-@app.route("/view_notification/", methods=['POST'])
+@app.route("/view_notification/<notification_id>/", methods=['POST'])
 @login_required
-def view_notification():
-    notification_id = request.form.get("notification_id")
+def view_notification(notification_id):
     notification = get_notification(notification_id)
     db.session.delete(notification)
     db.session.commit()

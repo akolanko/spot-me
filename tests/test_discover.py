@@ -7,6 +7,8 @@ from app.models import *
 from sample_db import example_data
 from app.discover import *
 from app import connect_to_db
+from app.routes import discover
+from flask_login import login_user
 
 
 def convert_list(list):
@@ -31,6 +33,8 @@ class FlaskTestDiscover(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		self._ctx = app.test_request_context()
+		self._ctx.push()
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -41,6 +45,8 @@ class FlaskTestDiscover(unittest.TestCase):
 
 	def tearDown(self):
 		"""Do at end of every test"""
+		if self._ctx is not None:
+			self._ctx.pop()
 
 		db.session.close()
 		db.drop_all()
@@ -86,6 +92,21 @@ class FlaskTestDiscover(unittest.TestCase):
 		self.assertEqual(convert_list(interests), [3])
 		interests = get_interests(10)
 		self.assertEqual(interests, [])
+
+	"""Test discover routes"""
+
+	def test_discover_page(self):
+		login_user(User.query.get(1))
+		result = discover()
+		self.assertIn("<h2 class='page-block-title left-page-title'>Discover</h2>", result)
+		self.assertIn("Matt Anderson", result)
+		self.assertIn("Ellen James", result)
+		self.assertIn("Katie Wolf", result)
+		self.assertIn("Jake Brown", result)
+		self.assertIn("Dan Kay", result)
+		self.assertNotIn("Dale Sue", result)
+		self.assertNotIn("Dylan Parker", result)
+		self.assertNotIn("Karen Smith", result)
 
 
 if __name__ == '__main__':

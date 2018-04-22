@@ -183,8 +183,8 @@
 						<span class='empty-list'>You have not invited anyone to this event.</span>
 					{% else %}
 						{% for user_event in event.user_events %}
-							<li class='invited-user'>
 							{% if user_event.user.id != current_user.id %}
+							<li class='invited-user'>
 								<a href="{{ url_for('user', user_id=user_event.user.id) }}">
 									{{ user_event.user.fname }} {{ user_event.user.lname }} -
 									{% if user_event.accepted == 0 %}
@@ -193,8 +193,8 @@
 										Accepted
 									{% endif %}
 								</a>
-							{% endif %}
 							</li>
+							{% endif %}
 						{% endfor %}
 					{% endif %}
 				</ul>

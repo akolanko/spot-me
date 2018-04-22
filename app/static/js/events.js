@@ -24,16 +24,10 @@ $(document).ready( function() {
 
 	$(".view-notification-form").submit(function(e) {
 		e.preventDefault();
-
-		var notification_id = $(this).find(".notification-id").data("notificationid");
+		var url = $(this).attr("action");
 		var event_id = $(this).find(".event-id").data("eventid");
 
-		var formInput = {
-			"notification_id": notification_id
-		};
-
-		$.post("/view_notification/",
-			formInput,
+		$.post(url,
 			function() {
 				window.location.replace("/event/" + event_id);
 			}

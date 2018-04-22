@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
-from app.models import User
+from app.models import *
 from wtforms.fields.html5 import DateField
 from wtforms_components import TimeField
 
@@ -74,14 +74,14 @@ class UpdateEventForm(FlaskForm):
 class EditProfileForm(FlaskForm):
 	username  = StringField('Username', validators=[DataRequired()])
 	# left col
-	skills    = TextAreaField('Skill Level', validators=[Length(min=0, max=140)])
-	location  = TextAreaField('Location', validators=[Length(min=0, max=140)])
-	work      = TextAreaField('Work', validators=[Length(min=0, max=140)])
-	interests = TextAreaField('Interests', validators=[Length(min=0, max=140)])
-
+	skills    = SelectField('Skill Level', choices=[(0, 'Beginner'),
+	(1,'Intermediate'), (2, 'Advanced')])
+	location  = TextAreaField('Location', validators=[Length(min=0, max=40)])
+	work      = TextAreaField('Work', validators=[Length(min=0, max=30)])
+	interests = TextAreaField('Interests', validators=[Length(min=0, max=30)])
 	# right col
 	about     = TextAreaField('About', validators=[Length(min=0, max=140)])
-	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=140)])
+	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=50)])
 
 	submit    = SubmitField('Submit')
 

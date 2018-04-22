@@ -4,12 +4,9 @@ $(document).ready( function() {
 	$("#add-friend-form").submit(function(e) {
 		e.preventDefault();
 
-		var formInput = {
-			"user_id_2": $("#user-info").data("userid")
-		};
+		var action = $(this).attr("action");
 
-		$.post("/add_friend/",
-			formInput,
+		$.post(action,
 			function() {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Pending</button>");
 			}
@@ -32,10 +29,17 @@ $(document).ready( function() {
 
 	//Update connection count on profile page when unfriending
 
-	function updateConnectionCount(){
+	function updateConnectionCount(increment, user_id, avatar){
 		arr = $('.connections-count a').html().split(' ');
 		count = parseInt(arr[0]);
-		count -= 1;
+		if (increment === true) {
+			count += 1;
+			if (count < 6) {
+				$(".profile-friends ul").append("<li><a href= '/user/" + user_id + "'<div class='friend-thumb' data-userid='" + user_id + "'><img src='" + avatar + "'/></div></a></li>");
+			}
+		} else {
+			count -= 1;
+		}
 		if (count == 1){
 			$('.connections-count a').html(count + " connection");
 		} else {
@@ -49,20 +53,15 @@ $(document).ready( function() {
 	$(".unfriend-form").submit(function(e) {
 
 		if (window.confirm("Are you sure you want to unfriend this user?")) {
-
+			var action = $(this).attr("action");
 			var friend = $(this).closest("li");
 			var friend_id = $(this).find('input[name="user_id"]').data("friend");
 			var friend_thumb = $(".friend-thumb[data-userid='" + friend_id + "']");
 
-			formInput = {
-				"friend_id": friend_id
-			};
-
-			$.post("/unfriend/",
-				formInput,
-				function() {
+			$.post(action,
+				function(data) {
 					friend.hide();
-					updateConnectionCount();
+					updateConnectionCount(false, data["user"]["id"], data["user"]["avatar"]);
 					friend_thumb.parent().hide();
 				}
 			);
@@ -77,14 +76,12 @@ $(document).ready( function() {
 	$("#accept-friend-form").submit(function(e) {
 		e.preventDefault();
 
-		var formInput = {
-			"user_id_2": $("#user-info").data("userid")
-		};
+		var action = $(this).attr("action");
 
-		$.post("/accept_friend/",
-			formInput,
-			function() {
+		$.post(action,
+			function(data) {
 				$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
+				updateConnectionCount(true, data["user"]["id"], data["user"]["avatar"]);
 				updateFriendRequestCount();
 			}
 		);
@@ -93,15 +90,17 @@ $(document).ready( function() {
 
 	$(".accept-friend-notification").submit(function(e) {
 		var friend = $(this).closest("li");
+		var friend_id = $(this).find('input[name="friend_id"]').data("friend");
+		var action = $(this).attr("action");
+		var pathname = window.location.pathname;
 
-		formInput = {
-			"user_id_2": $(this).find('input[name="friend_id"]').data("friend")
-		};
-
-		$.post("/accept_friend/",
-			formInput,
-			function() {
+		$.post(action,
+			function(data) {
 				friend.hide();
+				if (pathname == "/user/" + friend_id) {
+					$("#connect-btn").html("<button class='button button-2 disabled'>Friends</button>");
+					updateConnectionCount(true, data["user"]["id"], data["user"]["avatar"]);
+				}
 				updateFriendRequestCount();
 			}
 		);
@@ -114,13 +113,9 @@ $(document).ready( function() {
 
 	$(".delete-friend-request-form").submit(function(e) {
 		var friend = $(this).closest("li");
+		var action = $(this).attr("action");
 
-		formInput = {
-			"user_id_2": $(this).find('input[name="friend_id"]').data("friend")
-		};
-
-		$.post("/delete_friend_request/",
-			formInput,
+		$.post(action,
 			function() {
 				friend.hide();
 				updateFriendRequestCount();

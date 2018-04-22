@@ -7,6 +7,8 @@ from app.models import *
 from sample_db import example_data
 from app.notifications import *
 from app import connect_to_db
+from app.routes import view_notification
+from flask_login import login_user
 
 
 def convert_list(list):
@@ -14,6 +16,10 @@ def convert_list(list):
 	for item in list:
 		id_list.append(item.id)
 	return id_list
+
+
+def ntfn_exists(event_id, receiver_id, notification_type):
+	return db.session.query(Notification).filter(Notification.event_id == event_id, Notification.receiver_id == receiver_id, Notification.type == notification_type).first()
 
 
 class FlaskTestNotifications(unittest.TestCase):
@@ -24,6 +30,8 @@ class FlaskTestNotifications(unittest.TestCase):
 		# Get the Flask test client
 		self.client = app.test_client()
 		app.config['TESTING'] = True
+		self._ctx = app.test_request_context()
+		self._ctx.push()
 
 		# Connect to test database
 		connect_to_db(app, 'sqlite:////tmp/test.db')
@@ -34,10 +42,11 @@ class FlaskTestNotifications(unittest.TestCase):
 
 	def tearDown(self):
 		"""Do at end of every test"""
+		if self._ctx is not None:
+			self._ctx.pop()
 
 		db.session.close()
 		db.drop_all()
-
 
 	"""Test notification functions"""
 
@@ -109,10 +118,10 @@ class FlaskTestNotifications(unittest.TestCase):
 
 	def test_create_invite_notification(self):
 		sender = User.query.get(1)
-		notification_exists = db.session.query(Notification).filter(Notification.event_id == 4, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
+		notification_exists = db.session.query(Notification).filter(Notification.event_id == 1, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
 		self.assertIsNone(notification_exists)
-		create_invite_notification(4, sender, 3)
-		notification_exists = db.session.query(Notification).filter(Notification.event_id == 4, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
+		create_invite_notification(1, sender, 3)
+		notification_exists = db.session.query(Notification).filter(Notification.event_id == 1, Notification.receiver_id == 3, Notification.type == NotificationType.event_invite).first()
 		self.assertIsNotNone(notification_exists)
 
 	def test_create_update_notification(self):
@@ -147,6 +156,15 @@ class FlaskTestNotifications(unittest.TestCase):
 		create_remove_event_notification(user_event, 1)
 		notification_exists = db.session.query(Notification).filter(Notification.event_id == user_event.event.id, Notification.receiver_id == 1, Notification.type == NotificationType.event_removed).first()
 		self.assertIsNotNone(notification_exists)
+
+	"""Test notification routes"""
+
+	def test_view_notification(self):
+		login_user(User.query.get(2))
+		self.assertIsNotNone(Notification.query.get(1))
+		response = view_notification(1)
+		self.assertIsNone(Notification.query.get(1))
+		self.assertEqual(response, "Notification deleted.")
 
 
 if __name__ == '__main__':
