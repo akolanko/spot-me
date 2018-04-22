@@ -341,31 +341,31 @@ nav {
         font-weight: 400; }
   .profile-right-col #main-profile-info {
     background-color: #fff; }
-  .profile-right-col .col {
-    vertical-align: top; }
-    .profile-right-col .col .profile-field {
-      display: inline-block;
-      vertical-align: top;
-      color: #aaa; }
-    .profile-right-col .col .profile-skills .profile-label, .profile-right-col .col .profile-location .profile-label, .profile-right-col .col .profile-work .profile-label {
-      display: inline-block;
-      width: 100px;
-      vertical-align: top; }
-    .profile-right-col .col .profile-skills .profile-field {
-      width: 60%; }
-    .profile-right-col .col .profile-interests .profile-field {
-      text-transform: capitalize; }
-    .profile-right-col .col .profile-interests .profile-label, .profile-right-col .col .profile-about .profile-label, .profile-right-col .col .profile-meet .profile-label {
-      margin-bottom: 0.5em; }
-    .profile-right-col .col .profile-interests .profile-field, .profile-right-col .col .profile-about .profile-field, .profile-right-col .col .profile-meet .profile-field {
-      height: 80px;
-      width: 100%; }
-  .profile-right-col .left {
+  .profile-right-col #main-profile-info .left, .profile-right-col #profile-box .left {
     width: 39%; }
-  .profile-right-col .right {
+  .profile-right-col #main-profile-info .right, .profile-right-col #profile-box .right {
     width: 55%;
     margin-left: 4%;
     text-align: left; }
+  .profile-right-col #main-profile-info .col, .profile-right-col #profile-box .col {
+    vertical-align: top; }
+    .profile-right-col #main-profile-info .col .profile-field, .profile-right-col #profile-box .col .profile-field {
+      display: inline-block;
+      vertical-align: top;
+      color: #aaa; }
+    .profile-right-col #main-profile-info .col .profile-skills .profile-label, .profile-right-col #main-profile-info .col .profile-location .profile-label, .profile-right-col #main-profile-info .col .profile-work .profile-label, .profile-right-col #profile-box .col .profile-skills .profile-label, .profile-right-col #profile-box .col .profile-location .profile-label, .profile-right-col #profile-box .col .profile-work .profile-label {
+      display: inline-block;
+      width: 100px;
+      vertical-align: top; }
+    .profile-right-col #main-profile-info .col .profile-skills .profile-field, .profile-right-col #profile-box .col .profile-skills .profile-field {
+      width: 60%; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-field, .profile-right-col #profile-box .col .profile-interests .profile-field {
+      text-transform: capitalize; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-label, .profile-right-col #main-profile-info .col .profile-about .profile-label, .profile-right-col #main-profile-info .col .profile-meet .profile-label, .profile-right-col #profile-box .col .profile-interests .profile-label, .profile-right-col #profile-box .col .profile-about .profile-label, .profile-right-col #profile-box .col .profile-meet .profile-label {
+      margin-bottom: 0.5em; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-field, .profile-right-col #main-profile-info .col .profile-about .profile-field, .profile-right-col #main-profile-info .col .profile-meet .profile-field, .profile-right-col #profile-box .col .profile-interests .profile-field, .profile-right-col #profile-box .col .profile-about .profile-field, .profile-right-col #profile-box .col .profile-meet .profile-field {
+      height: 80px;
+      width: 100%; }
 
 #info-edit-button {
   display: none;

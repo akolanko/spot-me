@@ -38,63 +38,65 @@
 
 	#main-profile-info{
 		background-color: $white;
-
 	}
 
-	.col{
+	#main-profile-info, #profile-box{
 
-		vertical-align: top;
+		.left{
+			width: 39%;
+		}
 
-		.profile-field{
-			display: inline-block;
+		.right{
+			width: 55%;
+			margin-left: 4%;
+			text-align: left;
+		}
+
+		.col{
+
 			vertical-align: top;
-			color: $grey3;
-		}
 
-		.profile-skills, .profile-location, .profile-work{
-
-			.profile-label{
+			.profile-field{
 				display: inline-block;
-				width: 100px;
 				vertical-align: top;
+				color: $grey3;
 			}
 
+			.profile-skills, .profile-location, .profile-work{
+
+				.profile-label{
+					display: inline-block;
+					width: 100px;
+					vertical-align: top;
+				}
+
+			}
+
+			.profile-skills{
+
+				.profile-field{
+					width: 60%;
+				}
+			}
+
+			.profile-interests{
+				.profile-field{
+					text-transform: capitalize;
+				}
+			}
+
+			.profile-interests, .profile-about, .profile-meet{
+
+				.profile-label{
+					margin-bottom: 0.5em;
+				}
+
+				.profile-field{
+					height: 80px;
+					width: 100%;
+				}
+			}
 		}
-
-		.profile-skills{
-
-			.profile-field{
-				width: 60%;
-			}
-		}
-
-		.profile-interests{
-			.profile-field{
-				text-transform: capitalize;
-			}
-		}
-
-		.profile-interests, .profile-about, .profile-meet{
-
-			.profile-label{
-				margin-bottom: 0.5em;
-			}
-
-			.profile-field{
-				height: 80px;
-				width: 100%;
-			}
-		}
-	}
-
-	.left{
-		width: 39%;
-	}
-
-	.right{
-		width: 55%;
-		margin-left: 4%;
-		text-align: left;
 	}
 }
 
