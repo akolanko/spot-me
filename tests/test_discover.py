@@ -6,7 +6,7 @@ from main import app
 from app.models import *
 from sample_db import example_data
 from app.discover import *
-from app import connect_to_db
+from connect import connect_to_db
 from app.routes import discover
 from flask_login import login_user
 

@@ -7,7 +7,7 @@ from app.models import *
 from sample_db import example_data
 from app.events import *
 from app.notifications import notification_exists
-from app import connect_to_db
+from connect import connect_to_db
 from json import loads
 from app.routes import event, event_new, accept_invitation, decline_invitation, remove_event, add_invite_single
 from flask_login import login_user, logout_user

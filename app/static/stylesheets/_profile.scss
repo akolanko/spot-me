@@ -1,8 +1,6 @@
 .col{
 	display: inline-block;
 	vertical-align: top;
-	width: 50% ;
-	float: left;
 }
 
 .profile-text-top-left {
@@ -14,7 +12,7 @@
 	padding-right: 5%;
 }
 
-.profile-right-col, #profile-box{
+.profile-right-col{
 	width: 70%;
 	background-color: $white;
 
@@ -64,7 +62,7 @@
 				color: $grey3;
 			}
 
-			.profile-interests, .profile-skills, .profile-location, .profile-work{
+			.profile-skills, .profile-location, .profile-work{
 
 				.profile-label{
 					display: inline-block;
@@ -87,7 +85,7 @@
 				}
 			}
 
-		.profile-about, .profile-meet{
+			.profile-interests, .profile-about, .profile-meet{
 
 				.profile-label{
 					margin-bottom: 0.5em;
@@ -108,6 +106,9 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: absolute;
+}
+
+#info-edit-button{
 	z-index: 900;
 }
 
@@ -149,11 +150,6 @@
 .connections-count{
 	color: $blue-main;
 	font-size: 0.9em;
-}
-
-#block-profile-info{
-	overflow: hidden;
-	background-color:$white
 }
 
 .profile-label{

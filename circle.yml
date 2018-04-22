@@ -36,15 +36,15 @@ dependencies:
 test:
   override:
     # run local unit tests
-    # - python -m tests.test_friends
-    # - python -m tests.test_messages
+    - python -m tests.test_friends
+    - python -m tests.test_messages
     - python -m tests.test_accounts
-    # - python -m tests.test_discover
-    # - python -m tests.test_notifications
-    # - python -m tests.test_events
-    # - python -m tests.test_login
-    # - python -m tests.test_user
-    # - python -m tests.test_search
+    - python -m tests.test_discover
+    - python -m tests.test_notifications
+    - python -m tests.test_events
+    - python -m tests.test_login
+    - python -m tests.test_user
+    - python -m tests.test_search
 
 deployment:
     staging:

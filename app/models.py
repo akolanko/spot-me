@@ -64,6 +64,7 @@ class Interest(db.Model):
             'name': self.name
         }
 
+
 class User_Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), index=True, nullable=False)
