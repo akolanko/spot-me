@@ -59,7 +59,7 @@ class FlaskTestDiscover(unittest.TestCase):
 		users_interests = discover_friends(2)
 		self.assertEqual(convert_tuple_list(users_interests), [(3, [1]), (5, [1]), (6, [1])])
 		users_interests = discover_friends(10)
-		self.assertEqual(users_interests, [])
+		self.assertEqual(convert_tuple_list(users_interests), [(1, [1, 2, 3]), (2, [1]), (3, [1, 2, 4]), (4, [3]), (5, [1]), (6, [1]), (7, [5, 3]), (8, [6, 5]), (12, [5]), (15, [5, 6]), (16, [5])])
 		users_interests = discover_friends(15)
 		self.assertEqual(convert_tuple_list(users_interests), [(7, [5]), (8, [5, 6])])
 		users_interests = discover_friends(3)

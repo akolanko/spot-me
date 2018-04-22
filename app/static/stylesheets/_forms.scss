@@ -67,6 +67,10 @@ form.login .form-field{
 	padding-right: 5%;
 }
 
+.field-inline:last-of-type{
+	padding-right: 0;
+}
+
 
 .account-field, .event-info .event-field{
 	font-size: 1.1em;
@@ -143,5 +147,47 @@ form.login .form-field{
 		font-size: 1em;
 		font-weight: 300;
 		color: $grey3;
+	}
+}
+
+
+/* MEDIA QUERIES
+================================================== */
+
+@media only screen and (max-width: 490px) {
+
+	.account-field, .event-info .event-field{
+
+		.field-inline{
+			width: 35%;
+		}
+	}
+}
+
+@media only screen and (max-width: 375px) {
+
+	.account-field, .event-info .event-field{
+		height: 60px;
+
+		.label{
+			display: block;
+		}
+
+		.field{
+			display: block;
+		}
+
+		.field-wide{
+			width: 100%;
+		}
+
+		.field-textarea{
+			width: 100%;
+		}
+
+		.field-inline{
+			display: inline-block;
+			width: 45%;
+		}
 	}
 }

@@ -107,6 +107,9 @@ form.login .form-field {
   width: 40%;
   padding-right: 5%; }
 
+.field-inline:last-of-type {
+  padding-right: 0; }
+
 .account-field, .event-info .event-field {
   font-size: 1.1em;
   height: 40px; }
@@ -156,6 +159,25 @@ form.login .form-field {
   font-weight: 300;
   color: #aaa; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 490px) {
+  .account-field .field-inline, .event-info .event-field .field-inline {
+    width: 35%; } }
+@media only screen and (max-width: 375px) {
+  .account-field, .event-info .event-field {
+    height: 60px; }
+    .account-field .label, .event-info .event-field .label {
+      display: block; }
+    .account-field .field, .event-info .event-field .field {
+      display: block; }
+    .account-field .field-wide, .event-info .event-field .field-wide {
+      width: 100%; }
+    .account-field .field-textarea, .event-info .event-field .field-textarea {
+      width: 100%; }
+    .account-field .field-inline, .event-info .event-field .field-inline {
+      display: inline-block;
+      width: 45%; } }
 #home-title-block {
   float: left;
   width: 50%;
@@ -221,11 +243,11 @@ nav {
   padding: 1em 3%; }
 
 #nav-left {
-  width: 29%;
+  width: 34%;
   display: inline-block; }
 
 #nav-right {
-  width: 70%;
+  width: 65%;
   text-align: right;
   vertical-align: bottom;
   display: inline-block; }
@@ -285,7 +307,8 @@ nav {
   display: none;
   background-color: #fff;
   width: 200px;
-  right: 0;
+  right: 3%;
+  top: 76px;
   transform: translateX(0%);
   z-index: 500; }
   #drop-down-menu ul {
@@ -313,6 +336,49 @@ nav {
 .nav-item-alt:hover {
   cursor: pointer; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 736px) {
+  #drop-down-menu {
+    width: 100%;
+    right: 0; } }
+@media only screen and (max-width: 480px) {
+  .nav-item {
+    margin-left: 20px; }
+
+  .nav-icon {
+    height: 18px;
+    width: auto; }
+
+  #nav-right {
+    width: 64%; }
+
+  #nav-title {
+    font-size: 1.8em; }
+
+  .notification-count {
+    top: -70%;
+    right: -40%; } }
+@media only screen and (max-width: 375px) {
+  .nav-item {
+    margin-left: 15px; }
+
+  #nav-title {
+    font-size: 1.6em; } }
+@media only screen and (max-width: 355px) {
+  .nav-item {
+    margin-left: 20px; }
+
+  #nav-title {
+    font-size: 1.8em; }
+
+  #nav-left, #nav-right {
+    width: 100%;
+    display: block;
+    text-align: center; }
+
+  #nav-right {
+    margin-top: 25px; } }
 .col {
   display: inline-block;
   vertical-align: top; }
@@ -457,6 +523,17 @@ nav {
   text-align: right;
   vertical-align: middle; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 667px) {
+  .content {
+    margin: 30px; } }
+@media only screen and (max-width: 568px) {
+  .content {
+    margin: 20px; } }
+@media only screen and (max-width: 480px) {
+  .content {
+    margin: 20px 10px; } }
 button {
   background: transparent;
   border: none; }
@@ -741,6 +818,16 @@ button {
     transform: rotate(-45deg);
     top: 50%; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 480px) {
+  #menu-btn {
+    height: 18px;
+    width: 24px; }
+    #menu-btn #menu-line-2 {
+      top: 8px; }
+    #menu-btn #menu-line-3 {
+      top: 16px; } }
 .conversations {
   display: inline-block;
   vertical-align: top;
@@ -981,6 +1068,27 @@ button {
   display: block;
   font-weight: 400; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 900px) {
+  .account .left, .account .right {
+    display: block;
+    width: 100%; }
+  .account .right {
+    padding: 40px 30px;
+    border: none;
+    border-top: 2px solid #F5F5F5; }
+    .account .right .update-password {
+      width: 80%; }
+  .account .inline-buttons {
+    padding: 0 30px 40px 30px; } }
+@media only screen and (max-width: 667px) {
+  .account .right .update-password {
+    width: 100%; } }
+@media only screen and (max-width: 375px) {
+  .account .inline-buttons form {
+    display: block;
+    margin-top: 15px; } }
 .overlay {
   width: 100%;
   height: 100%;

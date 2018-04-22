@@ -13,3 +13,28 @@
 	text-align: right;
 	vertical-align: middle;
 }
+
+
+/* MEDIA QUERIES
+================================================== */
+
+@media only screen and (max-width: 667px) {
+
+	.content{
+		margin: 30px;
+	}
+}
+
+@media only screen and (max-width: 568px) {
+
+	.content{
+		margin: 20px;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+
+	.content{
+		margin: 20px 10px;
+	}
+}

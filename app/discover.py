@@ -2,24 +2,29 @@ from app.models import *
 from app.models import db
 from app.friends import get_non_friends, are_connected
 
+
 def discover_friends(user_id_1):
 	non_friends = get_non_friends(user_id_1)
-	interests_1 = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_id_1, Interest.id == User_Interest.interest_id)
+	interests_1 = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_id_1, Interest.id == User_Interest.interest_id).all()
 
 	users_interests = []
 
 	for user_2 in non_friends:
 		added = False
 		shared_interests = []
-		interests_2 = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_2.id, Interest.id == User_Interest.interest_id)
-		for interest_1 in interests_1:
-			for interest_2 in interests_2:
-				if interest_1.name == interest_2.name:
-					if added is False:
-						added = True
-					shared_interests.append(interest_1)
-		if added is True:
-			users_interests.append((user_2, shared_interests))
+		interests_2 = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_2.id, Interest.id == User_Interest.interest_id).all()
+		if len(interests_1) > 0:
+			for interest_1 in interests_1:
+				for interest_2 in interests_2:
+					if interest_1.name == interest_2.name:
+						if added is False:
+							added = True
+						shared_interests.append(interest_1)
+			if added is True:
+				users_interests.append((user_2, shared_interests))
+		else:
+			if len(interests_2) > 0:
+				users_interests.append((user_2, interests_2))
 
 	return users_interests
 

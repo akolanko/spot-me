@@ -4,12 +4,12 @@ nav{
 }
 
 #nav-left{
-	width: 29%;
+	width: 34%;
 	display: inline-block;
 }
 
 #nav-right{
-	width: 70%;
+	width: 65%;
 	text-align: right;
 	vertical-align: bottom;
 	display: inline-block;
@@ -79,7 +79,8 @@ nav{
 	display: none;
 	background-color: $white;
 	width: 200px;
-	right: 0;
+	right: 3%;
+	top: 76px;
 	transform: translateX(0%);
 	z-index: 500;
 
@@ -116,4 +117,73 @@ nav{
 
 .nav-item-alt:hover{
 	cursor: pointer;
+}
+
+
+/* MEDIA QUERIES
+================================================== */
+
+@media only screen and (max-width: 736px) {
+
+	#drop-down-menu{
+		width: 100%;
+		right: 0;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+
+	.nav-item{
+		margin-left: 20px;
+	}
+
+	.nav-icon{
+		height: 18px;
+		width: auto;
+	}
+
+	#nav-right{
+		width: 64%;
+	}
+
+	#nav-title{
+		font-size: 1.8em;
+	}
+
+	.notification-count{
+		top: -70%;
+		right: -40%;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+
+	.nav-item{
+		margin-left: 15px;
+	}
+
+	#nav-title{
+		font-size: 1.6em;
+	}
+}
+
+@media only screen and (max-width: 355px) {
+
+	.nav-item{
+		margin-left: 20px;
+	}
+
+	#nav-title{
+		font-size: 1.8em;
+	}
+
+	#nav-left, #nav-right{
+		width: 100%;
+		display: block;
+		text-align: center;
+	}
+
+	#nav-right{
+		margin-top: 25px;
+	}
 }

@@ -45,10 +45,6 @@
 					margin-top: 1.2em;
 				}
 
-				.form-field:last-of-type{
-					// margin-bottom: 1.2em;
-				}
-
 				margin-bottom: 10px;
 			}
 		}
@@ -69,5 +65,60 @@
 		margin-bottom: 0.5em;
 		display: block;
 		font-weight: 400;
+	}
+}
+
+
+/* MEDIA QUERIES
+================================================== */
+
+@media only screen and (max-width: 900px) {
+
+	.account{
+		.left, .right{
+			display: block;
+			width: 100%;
+		}
+
+		.right{
+			padding: 40px 30px;
+			border: none;
+			border-top: 2px solid $background;
+
+			.update-password{
+				width: 80%;
+			}
+		}
+
+		.inline-buttons{
+			padding: 0 30px 40px 30px;
+		}
+	}
+}
+
+@media only screen and (max-width: 667px) {
+
+	.account{
+
+		.right{
+
+			.update-password{
+				width: 100%;
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 375px) {
+
+	.account{
+
+		.inline-buttons{
+
+			form{
+				display: block;
+				margin-top: 15px;
+			}
+		}
 	}
 }

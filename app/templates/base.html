@@ -166,32 +166,6 @@
 								<div class='menu-line' id='menu-line-3'>
 								</div>
 							</div>
-							<div class='drop-down' id='drop-down-menu'>
-								<ul>
-									<li>
-										<a href="{{ url_for('event_new') }}">Events</a>
-									</li>
-									<li>
-										{% if notifications['recent_conversation'] %}
-											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
-										{% else %}
-											<a href="{{ url_for('new_conversation') }}">Messages</a>
-										{% endif %}
-									</li>
-									<li>
-										<a href="{{ url_for('discover') }}">Discover</a>
-									</li>
-									<li>
-										<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
-									</li>
-									<li>
-										<a href="{{ url_for('account') }}">Account</a>
-									</li>
-									<li>
-										<a href="{{ url_for('logout') }}">Logout</a>
-									</li>
-								</ul>
-							</div>
 						</li>
 						{% else %}
 						<li class='nav-item-alt'>
@@ -204,6 +178,32 @@
 					</ul>
 				</div>
 			</nav>
+			<div class='drop-down' id='drop-down-menu'>
+				<ul>
+					<li>
+						<a href="{{ url_for('event_new') }}">Events</a>
+					</li>
+					<li>
+						{% if notifications['recent_conversation'] %}
+							<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
+						{% else %}
+							<a href="{{ url_for('new_conversation') }}">Messages</a>
+						{% endif %}
+					</li>
+					<li>
+						<a href="{{ url_for('discover') }}">Discover</a>
+					</li>
+					<li>
+						<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
+					</li>
+					<li>
+						<a href="{{ url_for('account') }}">Account</a>
+					</li>
+					<li>
+						<a href="{{ url_for('logout') }}">Logout</a>
+					</li>
+				</ul>
+			</div>
 		{% endif %}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
