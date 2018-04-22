@@ -78,6 +78,7 @@ class EditProfileForm(FlaskForm):
 	(1,'Intermediate'), (2, 'Advanced')])
 	location  = TextAreaField('Location', validators=[Length(min=0, max=40)])
 	work      = TextAreaField('Work', validators=[Length(min=0, max=30)])
+	interests = TextAreaField('Interests', validators=[Length(min=0, max=30)])
 	# right col
 	about     = TextAreaField('About', validators=[Length(min=0, max=140)])
 	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=50)])

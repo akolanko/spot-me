@@ -289,7 +289,9 @@ nav {
 
 .col {
   display: inline-block;
-  vertical-align: top; }
+  vertical-align: top;
+  width: 50%;
+  float: left; }
 
 .profile-text-top-left {
   display: inline; }
@@ -298,8 +300,9 @@ nav {
   width: 29%;
   padding-right: 5%; }
 
-.profile-right-col {
-  width: 70%; }
+.profile-right-col, #profile-box {
+  width: 70%;
+  background-color: #fff; }
 
 #profile-overlay {
   display: none; }
@@ -312,6 +315,9 @@ nav {
   position: absolute;
   width: 100%;
   height: 100%;
+  background-color: #fff; }
+
+#main-profile-info {
   background-color: #fff; }
 
 #edit-info-overlay, #info-edit-button {
@@ -356,27 +362,24 @@ nav {
   font-size: 0.9em; }
 
 #block-profile-info {
-  overflow: hidden; }
-
-.col {
-  width: 50%;
-  float: left; }
+  overflow: hidden;
+  background-color: #fff; }
 
 .profile-label {
   font-weight: 400;
   text-transform: uppercase;
   color: #000; }
 
-.profile-info {
+.edit-profile-info {
   position: relative;
   height: 280px; }
-  .profile-info .left-col {
+  .edit-profile-info .left-col {
     width: 50%; }
-  .profile-info .right-col {
+  .edit-profile-info .right-col {
     width: 50%; }
 
 .select-box {
-  width: 400px;
+  width: 50%;
   background: image-url("down_arrow.png") no-repeat 95% center;
   background-color: #fff; }
 

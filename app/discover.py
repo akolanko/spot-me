@@ -2,13 +2,12 @@ from app.models import *
 from app.models import db
 from app.friends import get_non_friends, are_connected
 
-
 def discover_friends(user_id_1):
 	non_friends = get_non_friends(user_id_1)
 	interests_1 = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_id_1, Interest.id == User_Interest.interest_id)
 
 	users_interests = []
-	
+
 	for user_2 in non_friends:
 		added = False
 		shared_interests = []
@@ -39,4 +38,3 @@ def search_interests(interest, user_id):
 def get_interests(user_id):
 	interests = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user_id, Interest.id == User_Interest.interest_id).all()
 	return interests
-

@@ -21,7 +21,11 @@ def example_data():
     dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 4, 12))
     dan3.set_password('dan3')
 
+<<<<<<< HEAD
     profilekaren = Profile(user_id = 1, about = "Yoga | CS ", location="NYC" )
+=======
+    profilekaren = Profile(user_id = 1, about = "Yoga | CS ", location="NYC", interests="Running")
+>>>>>>> ana
     profiledale  = Profile(user_id = 2)
     profilematt  = Profile(user_id = 3)
     profilejake  = Profile(user_id = 4)
