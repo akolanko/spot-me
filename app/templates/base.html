@@ -23,7 +23,11 @@
 		{% if (request.path != "/" and request.path != "/login" and request.path != "/register") %}
 			<nav>
 				<div id='nav-left'>
-					<a href="{{ url_for('discover') }}">
+					{% if current_user.is_authenticated %}
+						<a href="{{ url_for('discover') }}">
+					{% else %}
+						<a href="{{ url_for('login') }}">
+					{% endif %}
 						<h1 id='nav-title'>
 							<span id='nav-title-1'>Spot</span>
 							<span id='nav-title-2'>Me</span>
@@ -68,14 +72,14 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='friend-notifications'>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 							<div id='friend-request-count' class='notification-count'>
-								{{ notifications['total_pending_recieved'] }}
+								{{ notifications['total_pending_received'] }}
 							</div>
 							{% endif %}
 							<img class='nav-icon' src="../static/img/person.png" />
 							<div class='notification-overlay' id='friend-notification-overlay'></div>
-							{% if notifications['pending_recieved'] %}
+							{% if notifications['pending_received'] %}
 								<div class='drop-down' id='drop-down-friends'>
 									<ul>
 										{% for friend in notifications['received_friend_requests'] %}
@@ -91,7 +95,7 @@
 													</div>
 												</a>
 												<div class='right'>
-													<form class="accept-friend-notification" action="/accept_friend" method="post">
+													<form class="accept-friend-notification" action="{{ url_for('accept_friend', friend_id= friend.id) }}" method="post">
 														<input type="hidden" name="friend_id" class='accept-hidden' value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon accept'>
@@ -100,7 +104,7 @@
 															</div>
 														</button>
 													</form>
-													<form class="delete-friend-request-form" action="/delete_friend_request" method="post">
+													<form class="delete-friend-request-form" action="{{ url_for('delete_friend_request', friend_id= friend.id) }}" method="post">
 														<input type="hidden" name="friend_id" value="{{ friend.id }}" data-friend="{{ friend.id }}">
 														<button type="submit">
 															<div class='action-icon reject'>
@@ -117,10 +121,41 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='notifications'>
+							{% if notifications['ntfs_count'] %}
+							<div id='unread-ntfs-count' class='notification-count'>
+								{{ notifications['ntfs_count'] }}
+							</div>
+							{% endif %}
 							<img class='nav-icon' src="../static/img/notifications.png" />
+							<div class='notification-overlay' id='ntf-notification-overlay'></div>
+							{% if notifications['notifications'] %}
+								<div class='drop-down' id='drop-down-notification'>
+									<ul>
+										{% for notification in notifications['notifications'] %}
+											<li>
+												<form class="view-notification-form" action="{{ url_for('view_notification', notification_id=notification.id) }}" method="post">
+													<input type="hidden" class='event-id' data-eventid="{{ notification.event_id }}">
+													<button type="submit" class='non-btn notification-body'>
+														{{ notification.body }}
+													</button>
+												</form>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
 						</li>
-						<li class='nav-item' id='search-icon'>
+						<li class='nav-item' id='search'>
 							<img class='nav-icon' src="../static/img/search.png" />
+							<div class='notification-overlay'></div>
+							<div class='drop-down' id='drop-down-search'>
+								<form id='search-form' action="/search/" method="post">
+									<input type="text" name='name' id="search-input" placeholder='Search for a user'>
+									<button type="submit" class='hidden'></button>
+								</form>
+								<div class='search-drop-down'>
+								</div>
+							</div>
 						</li>
 						<li class='nav-item' id='menu'>
 							<div id='menu-btn'>
@@ -133,6 +168,9 @@
 							</div>
 							<div class='drop-down' id='drop-down-menu'>
 								<ul>
+									<li>
+										<a href="{{ url_for('event_new') }}">Events</a>
+									</li>
 									<li>
 										{% if notifications['recent_conversation'] %}
 											<a href="{{ url_for('conversation', id=notifications['recent_conversation']) }}">Messages</a>
@@ -155,6 +193,13 @@
 								</ul>
 							</div>
 						</li>
+						{% else %}
+						<li class='nav-item-alt'>
+							<a href"url_for(login)">Sign In</a>
+						</li>
+						<li class='nav-item-alt'>
+							<a href"url_for(register)">Sign Up</a>
+						</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -162,7 +207,10 @@
 		{% endif %}
 		{% block content %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-		<script src="/static/js/main.js"></script>
+		<script type='text/javascript' src="/static/js/global_functions.js"></script>
+		<script type='text/javascript' src="/static/js/main.js"></script>
+		<script type='text/javascript' src="/static/js/friends.js"></script>
+		<script type='text/javascript' src="/static/js/events.js"></script>
 		{% block javascript %}{% endblock %}
 	</body>
 </html>

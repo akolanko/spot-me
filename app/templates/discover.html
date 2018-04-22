@@ -4,9 +4,9 @@
 	<div class='content'>
 		<div class='discover block'>
 			<div class='heading-columns'>
-				<h1 class='page-block-title left-page-title'>Discover</h2>
+				<h2 class='page-block-title left-page-title'>Discover</h2>
 				<div class='search-bar inline-search'>
-					<form id='search-discover' action="/search_discover" method="post">
+					<form id='search-discover' action="/search_discover/" method="post">
 						<input type="text" name='interest' id="search-discover-input" placeholder='Search by interest'>
 						<button type="submit" class='hidden'></button>
 					</form>
@@ -32,9 +32,9 @@
 							</a>
 							<div class='interests'>
 								Interests:
-								{% set ns = namespace(len = user_interests[1]|length) %}
+								{% set len = user_interests[1]|length %}
 								{% for interest in user_interests[1] %}
-									{% if ns.len - 1 == user_interests[1].index(interest) %}
+									{% if len - 1 == user_interests[1].index(interest) %}
 										<span class='lowercase'>{{ interest.name }}</span>
 									{% else %}
 										<span class='lowercase'>{{ interest.name }}, </span>
@@ -48,4 +48,7 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascript %}
+<script src="/static/js/discover.js"></script>
 {% endblock %}

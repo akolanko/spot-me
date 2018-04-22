@@ -1,0 +1,173 @@
+.invitations{
+	display: inline-block;
+	vertical-align: top;
+	width: 22%;
+	padding: 0;
+
+	ul{
+
+		.no-results{
+			padding: 15px;
+		}
+
+		li{
+
+			border-bottom: 2px solid $background;
+			padding: 15px;
+
+			.title{
+				font-weight: 400;
+				color: $blue-main;
+				font-size: 1.2em;
+			}
+
+			.detail{
+				margin: 0.3em 0;
+			}
+
+			.detail:last-of-type{
+				margin-bottom: 0;
+			}
+
+			.link-2{
+				font-weight: 300;
+			}
+
+		}
+	}
+}
+
+.event-block{
+	display: inline-block;
+	vertical-align: top;
+	width: 50%;
+	margin: 0 2%;
+	padding: 0;
+
+	.outer{
+		border-bottom: 2px solid $background;
+
+		.inner{
+			padding: 20px;
+		}
+
+		.invites{
+
+			.invitation-detail{
+				color: $blue-main;
+				font-weight: 400;
+			}
+
+			.adding-friends-hidden{
+				display: none;
+			}
+		}
+	}
+
+	.event-details{
+	}
+
+	.event-buttons{
+		padding: 0;
+		margin-top: 25px;
+	}
+
+	.page-title{
+		margin-bottom: 0.8em;
+	}
+
+	.page-title-large{
+		height: 55px;
+		margin-bottom: 0;
+	}
+
+	#update-event{
+
+		display: none;
+
+		#update-event-form{
+			h1{
+				input[type='text']{
+					padding: 0;
+					border: none;
+					border-bottom: 1px solid $grey4;
+				}
+			}
+		}
+	}
+
+	.add-friends{
+		margin-top: 15px;
+		color: $blue-main;
+	}
+
+	.add-friends:hover{
+		cursor: pointer;
+	}
+
+	.add-invite-form{
+		display: none;
+		margin-top: 30px;
+
+		input[type='text']{
+			// width: 60%;
+			// border: none;
+			// border-bottom: 1px solid $grey4;
+			// padding-left: 0;
+			border: 1px solid $grey3;
+		}
+
+		.form-field, input[type='submit']{
+			display: inline-block;
+		}
+
+		input[type='submit']{
+			margin-left: 10px;
+		}
+	}
+
+	ul{
+
+		li{
+
+		}
+
+		li.invited-user{
+			margin: 0.5em 0;
+		}
+	}
+}
+
+.invitations, .event-block{
+
+	ul{
+		list-style: none;
+		padding: 0;
+	}
+}
+
+.invite-id, #event-id{
+	display: none;
+}
+
+.search-result{
+	margin: 0.5em 0;
+
+	a.link-2{
+		font-weight: 300;
+	}
+
+	.add-invite-form-single{
+		display: inline-block;
+		margin-left: 18px;
+
+		button{
+			color: $blue-main;
+			padding: 0;
+		}
+
+		button:hover{
+			cursor: pointer;
+		}
+	}
+}

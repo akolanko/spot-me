@@ -25,44 +25,7 @@
 		}
 
 		.account-info{
-
 			padding: 0 30px 10px;
-
-			.account-field{
-				font-size: 1.1em;
-				height: 40px;
-
-				.label{
-					font-weight: 400;
-					text-transform: uppercase;
-					display: inline-block;
-					margin-right: 1em;
-				}
-
-				.field{
-					color: $grey1;
-					display: inline-block;
-
-					input{
-						padding: 0;
-						border: none;
-						border-bottom: 1px solid $grey4;
-					}
-				}
-
-				.validation-error{
-					font-size: .8em;
-				}
-			}
-		}
-
-		.account-buttons{
-			padding: 0 30px 30px;
-
-			.button:first-of-type{
-				margin-right: 20px;
-			}
-
 		}
 	}
 

@@ -5,6 +5,7 @@ $black: #000;
 $grey3: #aaa;
 $grey1: #8D8D8D;
 $background: #F5F5F5;
+$slight-background: #f1f1f1;
 $grey2: #555555;
 $grey4: #E2E2E2;
 $grey5: #D8D8D8;
@@ -14,4 +15,8 @@ $red: #ff6150;
 
 .grey{
 	color: $grey;
+}
+
+.blue{
+	color: $blue-main;
 }

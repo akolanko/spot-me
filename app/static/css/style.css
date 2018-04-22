@@ -1,6 +1,9 @@
 .grey {
   color: #C6C6C6; }
 
+.blue {
+  color: #8BC8DB; }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -103,6 +106,29 @@ form.login .form-field {
   display: inline-block;
   width: 40%;
   padding-right: 5%; }
+
+.account-field, .event-info .event-field {
+  font-size: 1.1em;
+  height: 40px; }
+  .account-field .label, .event-info .event-field .label {
+    font-weight: 400;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-right: 1em; }
+  .account-field .field, .event-info .event-field .field {
+    color: #8D8D8D;
+    display: inline-block; }
+    .account-field .field input, .account-field .field textarea, .event-info .event-field .field input, .event-info .event-field .field textarea {
+      padding: 0;
+      border: none;
+      border-bottom: 1px solid #E2E2E2; }
+  .account-field .field-wide, .event-info .event-field .field-wide {
+    width: 80%; }
+  .account-field .field-textarea, .event-info .event-field .field-textarea {
+    width: 80%;
+    vertical-align: top; }
+  .account-field .validation-error, .event-info .event-field .validation-error {
+    font-size: .8em; }
 
 #home-title-block {
   float: left;
@@ -249,6 +275,17 @@ nav {
       padding: 1em;
       text-transform: uppercase;
       font-size: 1.1em; }
+
+.nav-item-alt {
+  display: inline-block;
+  margin-left: 30px;
+  font-weight: 400;
+  color: #8BC8DB;
+  text-transform: uppercase;
+  font-size: 1.05em; }
+
+.nav-item-alt:hover {
+  cursor: pointer; }
 
 .col {
   display: inline-block;
@@ -445,8 +482,45 @@ button {
   background-color: #fff;
   color: #ff6150; }
 
+.button-5 {
+  background-color: #fff;
+  color: #aaa;
+  border: 1px solid #aaa; }
+
+.button-5:hover {
+  color: #555555;
+  border: 1px solid #555555; }
+
 .disabled:hover {
   cursor: auto; }
+
+.non-btn {
+  font-size: 1em;
+  font-family: inherit;
+  text-align: left; }
+
+.inline-buttons {
+  padding: 0 30px 30px; }
+  .inline-buttons .button:first-of-type {
+    margin-right: 20px; }
+  .inline-buttons form {
+    display: inline-block; }
+
+.add-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 2px solid #8BC8DB;
+  position: relative; }
+  .add-btn .plus-line {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+  .add-btn .plus-line-1 {
+    width: 60%; }
+  .add-btn .plus-line-2 {
+    width: 2px;
+    height: 60%; }
 
 .drop-down {
   position: absolute;
@@ -456,7 +530,8 @@ button {
   display: none;
   border-left: 1px solid #E2E2E2;
   border-right: 1px solid #E2E2E2;
-  width: 250px; }
+  width: 250px;
+  z-index: 500; }
   .drop-down ul {
     position: relative;
     text-align: left;
@@ -555,6 +630,12 @@ button {
         opacity: 0.7; }
   #drop-down-friends .delete-friend-request-form, #drop-down-friends .accept-friend-notification {
     float: left; }
+
+.notification-body {
+  color: #717171; }
+
+.notification-body:hover {
+  cursor: pointer; }
 
 .friend-thumb {
   border-radius: 100%;
@@ -693,12 +774,33 @@ button {
       padding: 10px 20px;
       font-size: 0.95em;
       resize: none; }
+  .conversation .friend-search {
+    position: relative; }
+    .conversation .friend-search .search-drop-down {
+      position: absolute;
+      top: 40px;
+      width: 100%;
+      z-index: 500;
+      font-size: 0.95em; }
+      .conversation .friend-search .search-drop-down ul {
+        list-style: none;
+        padding: 0;
+        background-color: #fff; }
+        .conversation .friend-search .search-drop-down ul li {
+          margin: 0;
+          border-bottom: 2px solid #f1f1f1; }
+          .conversation .friend-search .search-drop-down ul li form button {
+            padding: 10px 20px;
+            width: 100%;
+            font-weight: 300; }
+          .conversation .friend-search .search-drop-down ul li form button:hover {
+            cursor: pointer; }
+          .conversation .friend-search .search-drop-down ul li form .non-btn:active {
+            color: #000; }
+        .conversation .friend-search .search-drop-down ul li:hover {
+          background-color: #f1f1f1; }
 
 .conversation-details {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  width: 22%;
   height: 600px; }
   .conversation-details .friend-details {
     height: 60px; }
@@ -714,22 +816,9 @@ button {
       .conversation-details .friend-details .right .name {
         font-weight: 400; }
   .conversation-details .compose-msg {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    border: 2px solid #8BC8DB;
     position: absolute;
     bottom: 10px;
     right: 10px; }
-    .conversation-details .compose-msg .plus-line {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%); }
-    .conversation-details .compose-msg .plus-line-1 {
-      width: 30px; }
-    .conversation-details .compose-msg .plus-line-2 {
-      width: 2px;
-      height: 30px; }
 
 #new-conversation-input {
   width: 100%;
@@ -787,6 +876,11 @@ button {
   margin-top: 0;
   margin-bottom: 1em; }
 
+.page-title-large {
+  font-size: 1.7em;
+  margin: 0 0 0.7em;
+  font-weight: 300; }
+
 .block-title {
   font-size: 1.2em;
   text-transform: uppercase; }
@@ -806,6 +900,11 @@ button {
   border-bottom: 2px solid #F5F5F5;
   padding: 0 10px 10px; }
 
+.section-title {
+  font-size: 1.1em;
+  font-weight: 300;
+  margin: 1.5em 0 1em; }
+
 .account {
   padding: 10px 0 0; }
   .account .heading-columns {
@@ -822,27 +921,6 @@ button {
         margin-top: 10px; }
     .account .left .account-info {
       padding: 0 30px 10px; }
-      .account .left .account-info .account-field {
-        font-size: 1.1em;
-        height: 40px; }
-        .account .left .account-info .account-field .label {
-          font-weight: 400;
-          text-transform: uppercase;
-          display: inline-block;
-          margin-right: 1em; }
-        .account .left .account-info .account-field .field {
-          color: #8D8D8D;
-          display: inline-block; }
-          .account .left .account-info .account-field .field input {
-            padding: 0;
-            border: none;
-            border-bottom: 1px solid #E2E2E2; }
-        .account .left .account-info .account-field .validation-error {
-          font-size: .8em; }
-    .account .left .account-buttons {
-      padding: 0 30px 30px; }
-      .account .left .account-buttons .button:first-of-type {
-        margin-right: 20px; }
   .account .right {
     vertical-align: top;
     padding: 40px 30px 30px 70px;

@@ -5,6 +5,12 @@
 	margin-bottom: 1em;
 }
 
+.page-title-large{
+	font-size: 1.7em;
+	margin: 0 0 0.7em;
+	font-weight: 300;
+}
+
 .block-title{
 	font-size: 1.2em;
 	text-transform: uppercase;
@@ -26,4 +32,10 @@
 	margin-bottom: 0.5em;
 	border-bottom: 2px solid $background;
 	padding: 0 10px 10px;
+}
+
+.section-title{
+	font-size: 1.1em;
+	font-weight: 300;
+	margin: 1.5em 0 1em;
 }

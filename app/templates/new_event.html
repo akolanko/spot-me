@@ -1,0 +1,97 @@
+{% extends 'event_base.html' %}
+
+{% block middle %}
+<div class='block event-block'>
+	<div class='outer'>
+		<div class='inner event-info'>
+			<h1 id='event-title' class='page-title-large'>New Event</h1>
+			<form id='create-event-form' action="{{ url_for('create_event') }}" method="post">
+				{{ eventform.hidden_tag() }}
+				<div class='event-details'>
+					<div class='event-field'>
+						<div class='label'>
+							Title
+						</div>
+						<div class='field field-wide'>
+							{{ eventform.title }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.title.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Date
+						</div>
+						<div class='field'>
+							{{ eventform.date }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.date.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Start Time
+						</div>
+						<div class='field'>
+							{{ eventform.start_time }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.start_time.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							End Time
+						</div>
+						<div class='field'>
+							{{ eventform.end_time }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.end_time.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Location
+						</div>
+						<div class='field'>
+							{{ eventform.location }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.location.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class='event-field'>
+						<div class='label'>
+							Notes
+						</div>
+						<div class='field field-textarea'>
+								{{ eventform.notes }}
+						</div>
+						<div class='error-container'>
+							{% for error in eventform.notes.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="event-buttons">
+						{{ eventform.submit(value="Create", class='button button-1', id='event-create-btn') }}
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

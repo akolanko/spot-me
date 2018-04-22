@@ -1,6 +1,6 @@
 from app.models import *
 from app.models import db
-from app.friends import get_non_friends
+from app.friends import get_non_friends, are_connected
 
 
 def discover_friends(user_id_1):
@@ -27,12 +27,13 @@ def discover_friends(user_id_1):
 
 def search_interests(interest, user_id):
 	interest_1 = db.session.query(Interest).filter(Interest.name == interest).first()
-	users = []
+	non_friends = []
 	if interest_1 is not None:
-		interest_id = interest_1.id
-		non_friends = get_non_friends(user_id)
-		users = non_friends.join(User_Interest).filter(User_Interest.user_id == User.id, User_Interest.interest_id == interest_id).all()
-	return users
+		users = db.session.query(User).join(User_Interest, User_Interest.user_id == User.id).filter(interest_1.id == User_Interest.interest_id).all()
+		for user in users:
+			if user_id != user.id and not are_connected(user_id, user.id):
+				non_friends.append(user)
+	return non_friends
 
 
 def get_interests(user_id):
