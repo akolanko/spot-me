@@ -114,14 +114,14 @@ def edit_profile():
     user.profile.location = form.location.data
     passed_interests = form.interests.data
     db.session.commit()
-
-    # delete all previous user interests to prepare for update
-    for i in user.user_interests:
-        db.session.delete(i)
-        db.session.commit()
+    #
+    # # delete all previous user interests to prepare for update
+    # for i in user.user_interests:
+    #     db.session.delete(i)
+    #     db.session.commit()
 
     check_and_update_interests(passed_interests, user.id)
-
+    
     flash('Your changes have been saved.')
     return redirect(url_for('user', user_id=current_user.id))
 
