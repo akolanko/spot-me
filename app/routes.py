@@ -73,79 +73,65 @@ def user(user_id):
     notifications = get_notifications(current_user.id)
     are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
 
-    conversation = conversation_exists(user.id, current_user.id)
-    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
-
-    conversation = conversation_exists(user.id, user_id_1)
+    interests = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == current_user.id, Interest.id == User_Interest.interest_id).all()
+    interests_str = ""
+    for interest in interests:
+        interests_str += interest.name.capitalize()
+        if (len(interests) - 1 != interests.index(interest)):
+            interests_str += ", "
 
     form = EditProfileForm()
     if form.validate_on_submit():
-        db.session.commit()
-        flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
-        if current_user.profile.about is not None :
+        if current_user.profile.about is not None:
             form.about.data = current_user.profile.about
 
-        if current_user.profile.meet is not None :
+        if current_user.profile.meet is not None:
             form.meet.data = current_user.profile.meet
 
-        if current_user.profile.skills is not None :
+        if current_user.profile.skills is not None:
             form.skills.data = current_user.profile.skills
 
-        if current_user.profile.interests is not None :
-            form.interests.data = current_user.profile.interests
+        form.interests.data = interests_str
 
-        if current_user.profile.location is not None :
+        if current_user.profile.location is not None:
             form.location.data = current_user.profile.location
 
-        if current_user.profile.work is not None :
+        if current_user.profile.work is not None:
             form.work.data = current_user.profile.work
 
-    return render_template('profile.html', user=user, profile=profile,
-    total_friends=total_friends, are_friends=are_friends,
-    is_pending_sent=is_pending_sent, is_pending_recieved=is_pending_recieved,
-    friends=friends, notifications=notifications, limited_friends=limited_friends,
-    conversation=conversation, form=form)
+    conversation = conversation_exists(user.id, current_user.id)
+    return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+
 
 def check_and_update_interests(prof_interests, user_id):
     """check the db for exisitng interest, otherwise update if non existent"""
-    # session.bulk_update_mappings(Interest, raw_interests_arr)
 
     # parse interests
-    arr = prof_interests.lower().split(' ')
+    arr = prof_interests.lower().split(', ')
 
     # search each interest in the array in the database
     for i in arr:
-        print (i)
-        interest_1 = db.session.query(Interest).filter(Interest.name == i ).first()
+        interest_1 = db.session.query(Interest).filter(Interest.name == i).first()
         if interest_1 is not None:
-            interest_id = interest_1.id
-            new_user_interest = User_Interest(user_id=user_id, interest_id=interest_id)
-
+            user_interest = User_Interest(user_id=user_id, interest_id=interest_1.id)
+            db.session.add(user_interest)
+            db.session.commit()
         else:
-            # count = db.session.query(Interest).distinct(User_Interest.user_id).count()
-            # interest_id = count + 1
-            # add new interest to interest table
-            new_interest = Interest(name= i)
-            new_interest_id = db.session.query(Interest).filter(Interest.name == i ).first()
-
-            db.session.add(new_interest)
+            interest = Interest(name=i)
+            db.session.add(interest)
+            db.session.commit()
+            user_interest = User_Interest(user_id=current_user.id, interest_id=interest.id)
+            db.session.add(user_interest)
             db.session.commit()
 
-            # update user interests table too
-            new_user_interest = User_Interest(user_id=user_id, interest_id=new_interest.id)
-            db.session.add(new_user_interest)
-            db.session.commit()
 
 @app.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile():
     # enable editing
     user = current_user
-    profile = user.profile
-    notifications = get_notifications(user.id)
-
     form = EditProfileForm()
     user.profile.about = form.about.data
     user.profile.meet = form.meet.data
@@ -153,25 +139,18 @@ def edit_profile():
     user.profile.work = form.work.data
     user.profile.location = form.location.data
     passed_interests = form.interests.data
+    db.session.commit()
 
-    # locate and delete all previous user interests to prepare for update
-    prev_interest = db.session.query(User_Interest).join(Interest).filter(User_Interest.user_id == user.id, Interest.id == User_Interest.interest_id).all()
-
-    for i in prev_interest:
+    # delete all previous user interests to prepare for update
+    for i in user.user_interests:
         db.session.delete(i)
         db.session.commit()
 
-    # update user interests based on form submission
     check_and_update_interests(passed_interests, user.id)
 
-    # print(new_interests_arr)
-    user.profile.interests = passed_interests
+    flash('Your changes have been saved.')
+    return redirect(url_for('user', user_id=current_user.id))
 
-    db.session.commit()
-    #flash('Your changes have been saved.')
-    #return redirect(url_for('/user/<user.id>'))
-    return render_template('profile.html', user=user, profile=profile,
-    notifications = notifications,form=form)
 
 @app.route("/friends/<user_id>")
 @login_required

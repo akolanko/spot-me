@@ -51,8 +51,9 @@ class Profile(db.Model):
     work      = db.Column(db.String(30))
     skills    = db.Column(db.Integer)
     location  = db.Column(db.String(40))
-    meet      = db.Column(db.String(50))
-    interests = db.Column(db.Text)
+    meet      = db.Column(db.Text)
+
+>>>>>>> leksi
 
 class Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -132,6 +133,17 @@ class Event(db.Model):
     title = db.Column(db.String(32), nullable=False)
     location = db.Column(db.String(32))
     notes = db.Column(db.Text)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'date': self.date,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+            'title': self.title,
+            'location': self.location,
+            'notes': self.notes
+        }
 
 
 class UserEvent(db.Model):

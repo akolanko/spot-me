@@ -4,9 +4,11 @@
 	width: 50% ;
 	float: left;
 }
+
 .profile-text-top-left {
 	display: inline;
 }
+
 .profile-left-col{
 	width: 29%;
 	padding-right: 5%;
@@ -15,39 +17,98 @@
 .profile-right-col, #profile-box{
 	width: 70%;
 	background-color: $white;
+
+	.block{
+		margin-bottom: 0;
+	}
+
+	#profile-box{
+		display: none;
+		width: 100%;
+		height: 100%;
+		background-color: $white;
+
+		.inline-buttons{
+			padding: 0;
+
+			#cancel-edit{
+				display: inline-block;
+				font-weight: 400;
+			}
+		}
+	}
+
+	#main-profile-info{
+		background-color: $white;
+	}
+
+	#main-profile-info, #profile-box{
+
+		.left{
+			width: 39%;
+		}
+
+		.right{
+			width: 55%;
+			margin-left: 4%;
+			text-align: left;
+		}
+
+		.col{
+
+			vertical-align: top;
+
+			.profile-field{
+				display: inline-block;
+				vertical-align: top;
+				color: $grey3;
+			}
+
+			.profile-skills, .profile-location, .profile-work{
+
+				.profile-label{
+					display: inline-block;
+					width: 100px;
+					vertical-align: top;
+				}
+
+			}
+
+			.profile-skills{
+
+				.profile-field{
+					width: 60%;
+				}
+			}
+
+			.profile-interests{
+				.profile-field{
+					text-transform: capitalize;
+				}
+			}
+
+			.profile-interests, .profile-about, .profile-meet{
+
+				.profile-label{
+					margin-bottom: 0.5em;
+				}
+
+				.profile-field{
+					height: 80px;
+					width: 100%;
+				}
+			}
+		}
+	}
 }
 
-#profile-overlay {
-	display: none;
-
-}
-#profile-overlay-form{
-	display: none;
-}
-#profile-box{
-	display:none;
-	position:absolute;
-	width:100%;
-	height:100%;
-	background-color: $white;
-}
-
-#main-profile-info{
-	background-color: $white;
-
-}
-
-#edit-info-overlay, #info-edit-button{
+#info-edit-button{
 	display: none;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	position: absolute;
-}
-
-#info-edit-button{
 	z-index: 900;
-
 }
 
 .profile-cover{
@@ -103,49 +164,9 @@
 
 .edit-profile-info {
 	position: relative;
-	height: 280px;
-
-	.left-col {
-		width: 50% ;
-	}
-
-	.right-col {
-		width: 50% ;
-
-	}
-}
-
-.select-box{
-	width: 50%;
-	background: image-url('down_arrow.png') no-repeat 95% center;
-	background-color: $white;
-}
-
-.select-box select{
-	background: transparent;
-	width: 400px;
-	padding: 8px 10px;
-	font-family: inherit;
-	font-size: inherit;
-	border: 2px solid $grey;
-	border-radius: 0;
-	-webkit-appearance: none;
-}
-.profile-about{
-
-}
-.profile-meet{
-}
-.profile-skill{
-}
-.profile-location{
-
-}
-.profile-work{
-
-}
-.profile-interests{
-
+	height: 290px;
+	padding: 20px;
+	overflow: hidden;
 }
 
 .profile-buttons{
@@ -172,7 +193,6 @@
 	ul{
 		list-style: none;
 		padding: 0;
-		// text-align: center;
 		margin-top: 1em;
 	}
 

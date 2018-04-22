@@ -7,15 +7,65 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	display: none;
+}
+
+.overlay:hover{
+	cursor: pointer;
 }
 
 .overlay-form{
 	background-color: $white;
 	position: absolute;
 	z-index: 900;
-	width: 600px;
+	width: 50%;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	padding: 30px;
+	display: none;
+
+	.page-title-large{
+		display: inline-block;
+		width: 90%;
+	}
+}
+
+.close-btn{
+	height: 22px;
+	width: 28px;
+	position: absolute;
+	right: 30px;
+	top: 30px;
+
+	.close-line{
+		width: 100%;
+		height: 2px;
+		background-color: $black;
+		position: absolute;
+	}
+
+	#close-line-1{
+		left: 0;
+		-moz-transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+		-o-transform: rotate(45deg);
+		-ms-transform: rotate(45deg);
+		transform: rotate(45deg);
+		top: 50%;
+	}
+
+	#close-line-2{
+		left: 0;
+		-moz-transform: rotate(-45deg);
+		-webkit-transform: rotate(-45deg);
+		-o-transform: rotate(-45deg);
+		-ms-transform: rotate(-45deg);
+		transform: rotate(-45deg);
+		top: 50%;
+	}
+}
+
+.close-btn:hover{
+	cursor: pointer;
 }
