@@ -120,28 +120,35 @@ def user(user_id):
     friends=friends, notifications=notifications, limited_friends=limited_friends,
     conversation=conversation, form=form)
 
-def check_and_update_interests(prof_interests):
+def check_and_update_interests(prof_interests, user_id):
     """check the db for exisitng interest, otherwise update if non existent"""
     # session.bulk_update_mappings(Interest, raw_interests_arr)
 
     # parse interests
     arr = prof_interests.lower().split(' ')
-    print("CHECKING " , arr)
 
     # search each interest in the array in the database
     for i in arr:
         print (i)
-        interest_1 = db.session.query(Interest).filter(Interest.name == i).first()
+        interest_1 = db.session.query(Interest).filter(Interest.name == i ).first()
         if interest_1 is not None:
-            print("WHAT", i)
             interest_id = interest_1.id
+            new_user_interest = User_Interest(user_id=user_id, interest_id=interest_id)
 
         else:
+            # count = db.session.query(Interest).distinct(User_Interest.user_id).count()
+            # interest_id = count + 1
+            # add new interest to interest table
+            new_interest = Interest(name= i)
+            new_interest_id = db.session.query(Interest).filter(Interest.name == i ).first()
 
+            db.session.add(new_interest)
+            db.session.commit()
 
-            pass
-
-    pass
+            # update user interests table too
+            new_user_interest = User_Interest(user_id=user_id, interest_id=new_interest.id)
+            db.session.add(new_user_interest)
+            db.session.commit()
 
 @app.route('/edit_profile', methods=['POST'])
 @login_required
@@ -159,17 +166,18 @@ def edit_profile():
     user.profile.location = form.location.data
     passed_interests = form.interests.data
 
-    # delete all previous user interests to prepare for update
-
+    # locate and delete all previous user interests to prepare for update
     prev_interest = db.session.query(User_Interest).join(Interest).filter(User_Interest.user_id == user.id, Interest.id == User_Interest.interest_id).all()
 
     for i in prev_interest:
         db.session.delete(i)
         db.session.commit()
 
-    updated_interests = check_and_update_interests(passed_interests)
+    # update user interests based on form submission
+    check_and_update_interests(passed_interests, user.id)
 
-    user.profile.interests = updated_interests
+    # print(new_interests_arr)
+    user.profile.interests = passed_interests
 
     db.session.commit()
     #flash('Your changes have been saved.')
