@@ -53,21 +53,6 @@
 						</div>
 					</div>
 				</div>
-				<div class='col right'>
-					<div class='profile-about'>
-						<div class='profile-label'>
-							{{ form.about.label }}
-						</div>
-						<div class="profile-field">
-							{{ form.about }}
-						</div>
-						<div class='error-container'>
-							{% for error in form.about.errors %}
-								<div class="validation-error">{{ error }}</div>
-							{% endfor %}
-						</div>
-					</div>
-				</div>
 				<div class='col left'>
 					<div class='profile-interests'>
 						<div class='profile-label'>
@@ -78,6 +63,21 @@
 						</div>
 						<div class='error-container'>
 							{% for error in form.interests.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class='col right'>
+					<div class='profile-about'>
+						<div class='profile-label'>
+							{{ form.about.label }}
+						</div>
+						<div class="profile-field">
+							{{ form.about }}
+						</div>
+						<div class='error-container'>
+							{% for error in form.about.errors %}
 								<div class="validation-error">{{ error }}</div>
 							{% endfor %}
 						</div>
@@ -202,5 +202,4 @@
 		</div>
 	</div>
 </div>
-
 {% endblock %}
