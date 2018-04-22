@@ -38,7 +38,7 @@ test:
     # run local unit tests
     # - python -m tests.test_friends
     # - python -m tests.test_messages
-    # - python -m tests.test_accounts
+    - python -m tests.test_accounts
     # - python -m tests.test_discover
     # - python -m tests.test_notifications
     # - python -m tests.test_events
