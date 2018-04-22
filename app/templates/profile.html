@@ -170,8 +170,15 @@
 						Interests
 					</div>
 					<div class="profile-field">
-						{% if profile.interests %}
-							{{ profile.interests }}
+						{% set len = interests|length %}
+						{% if len > 0 %}
+							{% for interest in interests %}
+								{% if len - 1 == interests.index(interest) %}
+									{{ interest.name }}
+								{% else %}
+									{{ interest.name }},
+								{% endif %}
+							{% endfor %}
 						{% endif %}
 					</div>
 					<div class='error-container'>

@@ -353,6 +353,8 @@ nav {
       vertical-align: top; }
     .profile-right-col .col .profile-skills .profile-field {
       width: 60%; }
+    .profile-right-col .col .profile-interests .profile-field {
+      text-transform: capitalize; }
     .profile-right-col .col .profile-interests .profile-label, .profile-right-col .col .profile-about .profile-label, .profile-right-col .col .profile-meet .profile-label {
       margin-bottom: 0.5em; }
     .profile-right-col .col .profile-interests .profile-field, .profile-right-col .col .profile-about .profile-field, .profile-right-col .col .profile-meet .profile-field {

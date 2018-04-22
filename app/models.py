@@ -54,7 +54,6 @@ class Profile(db.Model):
     skills    = db.Column(db.Integer)
     location  = db.Column(db.String(40))
     meet      = db.Column(db.String(50))
-    interests = db.Column(db.Text)
 
 
 class Interest(db.Model):

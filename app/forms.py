@@ -78,10 +78,10 @@ class EditProfileForm(FlaskForm):
 	(2, 'Intermediate'), (3, 'Advanced')])
 	location  = StringField('Location', validators=[Length(min=0, max=40)])
 	work      = StringField('Work', validators=[Length(min=0, max=30)])
-	interests = TextAreaField('Interests', validators=[Length(min=0, max=30)])
+	interests = TextAreaField('Interests', validators=[Length(min=0, max=100)])
 	# right col
 	about     = TextAreaField('About', validators=[Length(min=0, max=140)])
-	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=50)])
+	meet      = TextAreaField('Looking to Meet', validators=[Length(min=0, max=100)])
 	submit    = SubmitField('Update')
 
 
