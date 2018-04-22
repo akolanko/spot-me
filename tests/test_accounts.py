@@ -6,10 +6,19 @@ from main import app
 from app.models import *
 from sample_db import example_data
 from app.accounts import *
-from app import connect_to_db
+# from app import connect_to_db
+from app import db
 import datetime
 from app.routes import account, delete_account
 from flask_login import login_user
+
+
+def connect_to_db(app, db_uri=None):
+    """Connect the database to our Flask app."""
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or os.environ['SQLALCHEMY_DATABASE_URI']
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.app = app
+    db.init_app(app)
 
 
 class FlaskTestAccounts(unittest.TestCase):
