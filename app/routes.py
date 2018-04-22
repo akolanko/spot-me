@@ -14,6 +14,7 @@ from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
+from app.profile import get_user_interests, check_and_update_interests
 import datetime
 
 
@@ -73,12 +74,7 @@ def user(user_id):
     notifications = get_notifications(current_user.id)
     are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
 
-    interests = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == current_user.id, Interest.id == User_Interest.interest_id).all()
-    interests_str = ""
-    for interest in interests:
-        interests_str += interest.name.capitalize()
-        if (len(interests) - 1 != interests.index(interest)):
-            interests_str += ", "
+    interests, interests_str = get_user_interests(current_user)
 
     form = EditProfileForm()
     if form.validate_on_submit():
@@ -103,28 +99,6 @@ def user(user_id):
 
     conversation = conversation_exists(user.id, current_user.id)
     return render_template('profile.html', user=user, profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
-
-
-def check_and_update_interests(prof_interests, user_id):
-    """check the db for exisitng interest, otherwise update if non existent"""
-
-    # parse interests
-    arr = prof_interests.lower().split(', ')
-
-    # search each interest in the array in the database
-    for i in arr:
-        interest_1 = db.session.query(Interest).filter(Interest.name == i).first()
-        if interest_1 is not None:
-            user_interest = User_Interest(user_id=user_id, interest_id=interest_1.id)
-            db.session.add(user_interest)
-            db.session.commit()
-        else:
-            interest = Interest(name=i)
-            db.session.add(interest)
-            db.session.commit()
-            user_interest = User_Interest(user_id=current_user.id, interest_id=interest.id)
-            db.session.add(user_interest)
-            db.session.commit()
 
 
 @app.route('/edit_profile', methods=['POST'])
