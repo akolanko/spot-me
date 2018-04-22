@@ -53,7 +53,6 @@ class Profile(db.Model):
     location  = db.Column(db.String(40))
     meet      = db.Column(db.Text)
 
->>>>>>> leksi
 
 class Interest(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
