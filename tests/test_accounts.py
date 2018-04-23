@@ -6,10 +6,10 @@ from main import app
 from app.models import *
 from sample_db import example_data
 from app.accounts import *
-from app import connect_to_db
+from connect import connect_to_db
+from app import db
 import datetime
-# from app.routes import account, delete_account
-from app.routes import *
+from app.routes import account, delete_account
 from flask_login import login_user
 
 

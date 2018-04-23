@@ -5,7 +5,7 @@ import unittest
 from main import app
 from app.models import *
 from sample_db import example_data
-from app import connect_to_db
+from connect import connect_to_db
 from flask_login import login_user, current_user
 from app.routes import login, logout, register
 

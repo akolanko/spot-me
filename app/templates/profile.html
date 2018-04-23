@@ -5,119 +5,201 @@
 	<div class='block edit-profile-info'>
 		{% if user == current_user %}
 		<div class='overlay' id='edit-info-overlay'></div>
-		<button class='button button-1' id='info-edit-button'>Edit</button>
+		<button class='button button-6 active' id='info-edit-button'>Edit</button>
 		<div id='profile-box'>
-			<h3>Edit Profile</h3>
 			<form id ='edit-profile-form' action="{{ url_for('edit_profile') }}" method="post">
 			{{ form.hidden_tag() }}
 			{{ form.profile }}
-				<div class='.col'>
+				<div class='col left'>
 					<div class='profile-skills'>
-						<span>
-							<div class='field-input select-box'>
+						<div class='profile-label'>
 							{{ form.skills.label }}
-							{{ form.skills(cols=10, rows=1) }}
+						</div>
+						<div class="profile-field">
+							<div class='select-box'>
+								{{ form.skills }}
+							</div>
+						</div>
+						<div class='error-container'>
 							{% for error in form.skills.errors %}
-							<span style="color: red;">[{{ error }}]</span>
+								<div class="validation-error">{{ error }}</div>
 							{% endfor %}
 						</div>
-						</span>
 					</div>
 					<div class='profile-location'>
-						<p>
+						<div class='profile-label'>
 							{{ form.location.label }}
-							{{ form.location(cols=40, rows=1) }}
+						</div>
+						<div class="profile-field">
+							{{ form.location }}
+						</div>
+						<div class='error-container'>
 							{% for error in form.location.errors %}
-							<span style="color: red;">[{{ error }}]</span>
+								<div class="validation-error">{{ error }}</div>
 							{% endfor %}
-						</p>
+						</div>
 					</div>
 					<div class='profile-work'>
-						<p>
+						<div class='profile-label'>
 							{{ form.work.label }}
-							{{ form.work(cols=30, rows=1) }}
+						</div>
+						<div class="profile-field">
+							{{ form.work }}
+						</div>
+						<div class='error-container'>
 							{% for error in form.work.errors %}
-							<span style="color: red;">[{{ error }}]</span>
+								<div class="validation-error">{{ error }}</div>
 							{% endfor %}
-						</p>
-					</div>
-					<div class='profile-interests'>
-						<p>
-							Interests
-							<!-- {{ form.interests.label }}  TODO: returns work, should return Interests -->
-							{{ form.interests(cols=30, rows=1) }}
-							{% for error in form.interests.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-							{% endfor %}
-						</p>
+						</div>
 					</div>
 				</div>
-				<div class='.col'>
+				<div class='col right'>
 					<div class='profile-about'>
-						<p>
-							{{ form.about.label }}<br>
-							{{ form.about(cols=30, rows=4) }}<br>
+						<div class='profile-label'>
+							{{ form.about.label }}
+						</div>
+						<div class="profile-field">
+							{{ form.about }}
+						</div>
+						<div class='error-container'>
 							{% for error in form.about.errors %}
-							<span style="color: red;">[{{ error }}]</span>
+								<div class="validation-error">{{ error }}</div>
 							{% endfor %}
-						</p>
-					</div>
-					<div class='profile-meet'>
-						<p>
-							{{ form.meet.label }}<br>
-							{{ form.meet(cols=50, rows=1) }}<br>
-							{% for error in form.meet.errors %}
-							<span style="color: red;">[{{ error }}]</span>
-							{% endfor %}
-						</p>
+						</div>
 					</div>
 				</div>
-				<p>{{ form.submit() }}</p>
+				<div class='col left'>
+					<div class='profile-interests'>
+						<div class='profile-label'>
+							Interests
+						</div>
+						<div class="profile-field">
+							{{ form.interests }}
+						</div>
+						<div class='error-container'>
+							{% for error in form.interests.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class='col right'>
+					<div class='profile-meet'>
+						<div class='profile-label'>
+							{{ form.meet.label }}
+						</div>
+						<div class="profile-field">
+							{{ form.meet }}
+						</div>
+						<div class='error-container'>
+							{% for error in form.meet.errors %}
+								<div class="validation-error">{{ error }}</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class='inline-buttons'>
+					{{ form.submit(class='button button-1') }}
+					<div id='cancel-edit' class='button button-5'>Cancel</div>
+				</div>
 			</form>
-			{% endif %}
 		</div>
+		{% endif %}
 		<div id='main-profile-info' >
-			<div class='col'>
+			<div class='col left'>
 				<div class='profile-skills'>
-					<div class='profile-label'>Skill Level</div>
-					<div class='profile-text-top-left'>
-						{% if profile.skills == 0 %}
-							Beginner
-						{% elif profile.skills == 1 %}
-							Intermediate
-						{% else %}
-							Advanced
+					<div class='profile-label'>
+						Skill Level
+					</div>
+					<div class="profile-field">
+						{% if profile.skills %}
+							{% if profile.skills == 1 %}
+								Beginner
+							{% elif profile.skills == 2 %}
+								Intermediate
+							{% else %}
+								Advanced
+							{% endif %}
 						{% endif %}
+					</div>
+					<div class='error-container'>
 					</div>
 				</div>
 				<div class='profile-location'>
-					<div class='profile-label'>Location</div>
-					<div class='profile-text-top-left'>{{ profile.location }}</div>
+					<div class='profile-label'>
+						Location
+					</div>
+					<div class="profile-field">
+						{% if profile.location %}
+							{{ profile.location }}
+						{% endif %}
+					</div>
+					<div class='error-container'>
+					</div>
 				</div>
 				<div class='profile-work'>
-					<div class='profile-label'>Work</div>
-					<div class='profile-text-top-left'>{{ profile.work }}</div>
-				</div>
-				<div class='profile-interests'>
-					<div class='profile-label'>Interests</div>
-					<div class='profile-text-top-left'>{{ profile.interests }}</div>
+					<div class='profile-label'>
+						Work
+					</div>
+					<div class="profile-field">
+						{% if profile.work %}
+							{{ profile.work }}
+						{% endif %}
+					</div>
+					<div class='error-container'>
+					</div>
 				</div>
 			</div>
-			<div class='col'>
+			<div class='col right'>
 				<div class='profile-about'>
-					<div class='profile-label'>About</div>
-					<div class='profile-text'>{{ profile.about }}</div>
+					<div class='profile-label'>
+						About
+					</div>
+					<div class="profile-field">
+						{% if profile.about %}
+							{{ profile.about }}
+						{% endif %}
+					</div>
+					<div class='error-container'>
+					</div>
 				</div>
+			</div>
+			<div class='col left'>
+				<div class='profile-interests'>
+					<div class='profile-label'>
+						Interests
+					</div>
+					<div class="profile-field">
+						{% set len = interests|length %}
+						{% if len > 0 %}
+							{% for interest in interests %}
+								{% if len - 1 == interests.index(interest) %}
+									{{ interest.name }}
+								{% else %}
+									{{ interest.name }},
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					</div>
+					<div class='error-container'>
+					</div>
+				</div>
+			</div>
+			<div class='col right'>
 				<div class='profile-meet'>
-					<div class='profile-label'>Looking to Meet</div>
-					<div class='profile-text'>{{ profile.meet }}</div>
+					<div class='profile-label'>
+						Looking to Meet
+					</div>
+					<div class="profile-field">
+						{% if profile.meet %}
+							{{ profile.meet }}
+						{% endif %}
+					</div>
+					<div class='error-container'>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class='overlay' id='profile-overlay' ></div>
-<div class='overlay-form' id='profile-overlay-form'>
-</div>
-
 {% endblock %}

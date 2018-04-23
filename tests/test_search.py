@@ -5,7 +5,7 @@ import unittest
 from main import app
 from app.models import *
 from sample_db import example_data
-from app import connect_to_db
+from connect import connect_to_db
 from json import loads
 from app.search import search_user
 from app.routes import search

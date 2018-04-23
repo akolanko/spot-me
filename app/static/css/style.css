@@ -118,10 +118,6 @@ form.login .form-field {
   .account-field .field, .event-info .event-field .field {
     color: #8D8D8D;
     display: inline-block; }
-    .account-field .field input, .account-field .field textarea, .event-info .event-field .field input, .event-info .event-field .field textarea {
-      padding: 0;
-      border: none;
-      border-bottom: 1px solid #E2E2E2; }
   .account-field .field-wide, .event-info .event-field .field-wide {
     width: 80%; }
   .account-field .field-textarea, .event-info .event-field .field-textarea {
@@ -129,6 +125,36 @@ form.login .form-field {
     vertical-align: top; }
   .account-field .validation-error, .event-info .event-field .validation-error {
     font-size: .8em; }
+
+.account-field .validation-error, .event-info .event-field .validation-error, #edit-profile-form .validation-error {
+  font-size: .8em; }
+.account-field input[type="text"], .account-field input[type="date"], .account-field input[type="time"], .account-field textarea, .account-field select, .event-info .event-field input[type="text"], .event-info .event-field input[type="date"], .event-info .event-field input[type="time"], .event-info .event-field textarea, .event-info .event-field select, #edit-profile-form input[type="text"], #edit-profile-form input[type="date"], #edit-profile-form input[type="time"], #edit-profile-form textarea, #edit-profile-form select {
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid #E2E2E2;
+  width: 100%; }
+.account-field .select-box, .event-info .event-field .select-box, #edit-profile-form .select-box {
+  width: 100%;
+  background: url("down_arrow.png") no-repeat 95% center;
+  background-color: #fff; }
+.account-field .select-box select, .event-info .event-field .select-box select, #edit-profile-form .select-box select {
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  border-radius: 0;
+  -webkit-appearance: none; }
+
+#edit-profile-form input[type="submit"] {
+  display: inline-block;
+  width: inherit;
+  padding: 5px 10px; }
+#edit-profile-form textarea {
+  height: 100%;
+  resize: none; }
+#edit-profile-form .select-box select {
+  font-size: 1em;
+  font-weight: 300;
+  color: #aaa; }
 
 #home-title-block {
   float: left;
@@ -178,9 +204,9 @@ form.login .form-field {
   left: 0;
   width: 100%;
   text-align: center;
-  font-weight: 600;
+  font-weight: 400;
   color: #fff;
-  z-index: 600; }
+  z-index: 1000; }
 
 .flash-list {
   list-style: none;
@@ -289,9 +315,7 @@ nav {
 
 .col {
   display: inline-block;
-  vertical-align: top;
-  width: 50%;
-  float: left; }
+  vertical-align: top; }
 
 .profile-text-top-left {
   display: inline; }
@@ -300,27 +324,50 @@ nav {
   width: 29%;
   padding-right: 5%; }
 
-.profile-right-col, #profile-box {
+.profile-right-col {
   width: 70%;
   background-color: #fff; }
+  .profile-right-col .block {
+    margin-bottom: 0; }
+  .profile-right-col #profile-box {
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; }
+    .profile-right-col #profile-box .inline-buttons {
+      padding: 0; }
+      .profile-right-col #profile-box .inline-buttons #cancel-edit {
+        display: inline-block;
+        font-weight: 400; }
+  .profile-right-col #main-profile-info {
+    background-color: #fff; }
+  .profile-right-col #main-profile-info .left, .profile-right-col #profile-box .left {
+    width: 39%; }
+  .profile-right-col #main-profile-info .right, .profile-right-col #profile-box .right {
+    width: 55%;
+    margin-left: 4%;
+    text-align: left; }
+  .profile-right-col #main-profile-info .col, .profile-right-col #profile-box .col {
+    vertical-align: top; }
+    .profile-right-col #main-profile-info .col .profile-field, .profile-right-col #profile-box .col .profile-field {
+      display: inline-block;
+      vertical-align: top;
+      color: #aaa; }
+    .profile-right-col #main-profile-info .col .profile-skills .profile-label, .profile-right-col #main-profile-info .col .profile-location .profile-label, .profile-right-col #main-profile-info .col .profile-work .profile-label, .profile-right-col #profile-box .col .profile-skills .profile-label, .profile-right-col #profile-box .col .profile-location .profile-label, .profile-right-col #profile-box .col .profile-work .profile-label {
+      display: inline-block;
+      width: 100px;
+      vertical-align: top; }
+    .profile-right-col #main-profile-info .col .profile-skills .profile-field, .profile-right-col #profile-box .col .profile-skills .profile-field {
+      width: 60%; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-field, .profile-right-col #profile-box .col .profile-interests .profile-field {
+      text-transform: capitalize; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-label, .profile-right-col #main-profile-info .col .profile-about .profile-label, .profile-right-col #main-profile-info .col .profile-meet .profile-label, .profile-right-col #profile-box .col .profile-interests .profile-label, .profile-right-col #profile-box .col .profile-about .profile-label, .profile-right-col #profile-box .col .profile-meet .profile-label {
+      margin-bottom: 0.5em; }
+    .profile-right-col #main-profile-info .col .profile-interests .profile-field, .profile-right-col #main-profile-info .col .profile-about .profile-field, .profile-right-col #main-profile-info .col .profile-meet .profile-field, .profile-right-col #profile-box .col .profile-interests .profile-field, .profile-right-col #profile-box .col .profile-about .profile-field, .profile-right-col #profile-box .col .profile-meet .profile-field {
+      height: 80px;
+      width: 100%; }
 
-#profile-overlay {
-  display: none; }
-
-#profile-overlay-form {
-  display: none; }
-
-#profile-box {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #fff; }
-
-#main-profile-info {
-  background-color: #fff; }
-
-#edit-info-overlay, #info-edit-button {
+#info-edit-button {
   display: none;
   top: 50%;
   left: 50%;
@@ -361,10 +408,6 @@ nav {
   color: #8BC8DB;
   font-size: 0.9em; }
 
-#block-profile-info {
-  overflow: hidden;
-  background-color: #fff; }
-
 .profile-label {
   font-weight: 400;
   text-transform: uppercase;
@@ -372,26 +415,9 @@ nav {
 
 .edit-profile-info {
   position: relative;
-  height: 280px; }
-  .edit-profile-info .left-col {
-    width: 50%; }
-  .edit-profile-info .right-col {
-    width: 50%; }
-
-.select-box {
-  width: 50%;
-  background: image-url("down_arrow.png") no-repeat 95% center;
-  background-color: #fff; }
-
-.select-box select {
-  background: transparent;
-  width: 400px;
-  padding: 8px 10px;
-  font-family: inherit;
-  font-size: inherit;
-  border: 2px solid #C6C6C6;
-  border-radius: 0;
-  -webkit-appearance: none; }
+  height: 290px;
+  padding: 20px;
+  overflow: hidden; }
 
 .profile-buttons {
   margin-bottom: 1em; }
@@ -494,6 +520,11 @@ button {
   color: #555555;
   border: 1px solid #555555; }
 
+.button-6 {
+  background-color: #717171;
+  color: #E2E2E2;
+  border: 1px solid #717171; }
+
 .disabled:hover {
   cursor: auto; }
 
@@ -524,6 +555,9 @@ button {
   .add-btn .plus-line-2 {
     width: 2px;
     height: 60%; }
+
+.add-btn:hover {
+  cursor: pointer; }
 
 .drop-down {
   position: absolute;
@@ -763,7 +797,7 @@ button {
     .conversation .conversation-messages .message-outer .message-1 {
       background-color: #8BC8DB;
       color: #fff;
-      font-weight: 400;
+      font-weight: 300;
       float: right; }
     .conversation .conversation-messages .message-outer .message-2 {
       background-color: #E2E2E2;
@@ -955,16 +989,278 @@ button {
   opacity: 0.55;
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  display: none; }
+
+.overlay:hover {
+  cursor: pointer; }
 
 .overlay-form {
   background-color: #fff;
   position: absolute;
   z-index: 900;
-  width: 600px;
+  width: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 30px;
+  display: none; }
+  .overlay-form .page-title-large {
+    display: inline-block;
+    width: 90%; }
+
+.close-btn {
+  height: 22px;
+  width: 28px;
+  position: absolute;
+  right: 30px;
+  top: 30px; }
+  .close-btn .close-line {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    position: absolute; }
+  .close-btn #close-line-1 {
+    left: 0;
+    -moz-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    top: 50%; }
+  .close-btn #close-line-2 {
+    left: 0;
+    -moz-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    top: 50%; }
+
+.close-btn:hover {
+  cursor: pointer; }
+
+.sidebar {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 22%;
+  padding: 10px 0; }
+  .sidebar .outer {
+    padding-bottom: 20px;
+    border-bottom: 2px solid #F5F5F5; }
+    .sidebar .outer .inner {
+      padding: 0 10px; }
+      .sidebar .outer .inner h2 {
+        font-size: 1.2em; }
+    .sidebar .outer .user-details .friend-thumb {
+      width: 60px;
+      height: 60px; }
+    .sidebar .outer .user-details .right {
+      margin-left: 15px;
+      text-align: left;
+      width: 60%; }
+      .sidebar .outer .user-details .right .name {
+        font-weight: 400; }
+    .sidebar .outer .user-details .weekdays {
+      text-align: center;
+      margin-top: 30px; }
+    .sidebar .outer .coming-up h2 {
+      margin: 1em 0; }
+    .sidebar .outer .coming-up ul {
+      list-style: none;
+      padding: 0; }
+      .sidebar .outer .coming-up ul li {
+        margin: 0.5em 0;
+        font-size: 1.05em; }
+      .sidebar .outer .coming-up ul li:last-of-type {
+        margin-bottom: 0; }
+    .sidebar .outer .btns {
+      margin-top: 28px; }
+      .sidebar .outer .btns .button {
+        text-align: center;
+        margin-top: 15px; }
+    .sidebar .outer .new-event {
+      margin: 15px 0 0; }
+      .sidebar .outer .new-event h2 {
+        color: #aaa;
+        margin-bottom: 0.8em; }
+      .sidebar .outer .new-event #new-event-form .event-field .label {
+        display: inline-block;
+        color: #aaa;
+        font-weight: 400; }
+      .sidebar .outer .new-event #new-event-form .event-field .field {
+        display: inline-block;
+        width: 60%;
+        margin-left: 10px; }
+        .sidebar .outer .new-event #new-event-form .event-field .field input, .sidebar .outer .new-event #new-event-form .event-field .field textarea {
+          padding: 0;
+          border: none;
+          border-bottom: 1px solid transparent; }
+        .sidebar .outer .new-event #new-event-form .event-field .field input:focus, .sidebar .outer .new-event #new-event-form .event-field .field textarea:focus {
+          border-bottom: 1px solid #E2E2E2; }
+      .sidebar .outer .new-event #new-event-form .event-field .error-container {
+        height: 1.1em; }
+      .sidebar .outer .new-event #new-event-form .event-field .block-field {
+        display: block;
+        width: 100%;
+        margin: 0; }
+        .sidebar .outer .new-event #new-event-form .event-field .block-field textarea {
+          height: 60px;
+          width: 100%;
+          margin-top: 5px; }
+    .sidebar .outer .event-hidden {
+      display: none; }
+  .sidebar .outer:last-of-type {
+    border-bottom: none; }
+  .sidebar .no-border {
+    border: none; }
+
+.conversation-details .outer:last-of-type {
+  border-bottom: 2px solid #F5F5F5; }
+
+.conversation-details .no-border:last-of-type {
+  border: none; }
+
+.invitations {
+  display: inline-block;
+  vertical-align: top;
+  width: 22%;
+  padding: 0; }
+  .invitations ul .no-results {
+    padding: 15px; }
+  .invitations ul li {
+    border-bottom: 2px solid #F5F5F5;
+    padding: 15px; }
+    .invitations ul li .title {
+      font-weight: 300;
+      color: #8BC8DB;
+      font-size: 1.2em; }
+    .invitations ul li .detail {
+      margin: 0.3em 0; }
+    .invitations ul li .detail:last-of-type {
+      margin-bottom: 0; }
+    .invitations ul li .link-2 {
+      font-weight: 300; }
+
+.event-block {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  margin: 0 2%;
+  padding: 0; }
+  .event-block .outer .inner {
+    padding: 20px; }
+
+.calendar .outer .inner {
+  padding: 20px 30px; }
+.calendar .outer:last-of-type {
+  border-bottom: none; }
+
+.event-block .outer, .calendar .outer {
+  border-bottom: 2px solid #F5F5F5; }
+  .event-block .outer .invites .invitation-detail, .calendar .outer .invites .invitation-detail {
+    color: #8BC8DB;
+    font-weight: 400; }
+  .event-block .outer .invites .adding-friends-hidden, .calendar .outer .invites .adding-friends-hidden {
+    display: none; }
+.event-block .event-buttons, .calendar .event-buttons {
+  padding: 0;
+  margin-top: 25px; }
+.event-block .page-title, .calendar .page-title {
+  margin-bottom: 0.8em; }
+.event-block .page-title-large, .calendar .page-title-large {
+  height: 55px;
+  margin-bottom: 0; }
+.event-block #update-event, .calendar #update-event {
+  display: none; }
+  .event-block #update-event #update-event-form h1 input[type='text'], .calendar #update-event #update-event-form h1 input[type='text'] {
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #E2E2E2; }
+.event-block .add-friends, .calendar .add-friends {
+  margin-top: 15px;
+  color: #8BC8DB; }
+.event-block .add-friends:hover, .calendar .add-friends:hover {
+  cursor: pointer; }
+.event-block .add-invite-form, .calendar .add-invite-form {
+  display: none;
+  margin-top: 30px; }
+  .event-block .add-invite-form input[type='text'], .calendar .add-invite-form input[type='text'] {
+    border: 1px solid #aaa; }
+  .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form .form-field, .calendar .add-invite-form input[type='submit'] {
+    display: inline-block; }
+  .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form input[type='submit'] {
+    margin-left: 10px; }
+.event-block ul li.invited-user, .calendar ul li.invited-user {
+  margin: 0.5em 0; }
+
+.invitations ul, .event-block ul, .calendar ul {
+  list-style: none;
+  padding: 0; }
+
+.invite-id, #event-id {
+  display: none; }
+
+.search-result {
+  margin: 0.5em 0; }
+  .search-result a.link-2 {
+    font-weight: 300; }
+  .search-result .add-invite-form-single {
+    display: inline-block;
+    margin-left: 18px; }
+    .search-result .add-invite-form-single button {
+      color: #8BC8DB;
+      padding: 0; }
+    .search-result .add-invite-form-single button:hover {
+      cursor: pointer; }
+
+.day-box {
+  display: inline-block;
+  background-color: #C6C6C6;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  margin-right: 7px; }
+  .day-box .letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); }
+
+.day-box:last-of-type {
+  margin-right: 0; }
+
+#search .drop-down {
+  width: 250px;
+  transform: translateX(-85%); }
+  #search .drop-down #search-form {
+    border-bottom: 1px solid #E2E2E2; }
+    #search .drop-down #search-form input[type="text"] {
+      border: none;
+      padding: 10px 15px; }
+  #search .drop-down .search-drop-down ul li {
+    border: none;
+    padding: 10px 15px;
+    border-bottom: 1px solid #E2E2E2;
+    font-size: 1em;
+    font-weight: 300; }
+  #search .drop-down .search-drop-down ul li:hover {
+    background-color: #f1f1f1; }
+  #search .drop-down .search-drop-down ul li.no-hover:hover {
+    background-color: #fff; }
+
+.block-404 {
+  max-width: 600px;
+  margin: 0 auto;
   padding: 30px; }
+  .block-404 h2 {
+    font-size: 1.4em;
+    margin-bottom: 20px; }
+  .block-404 p {
+    font-size: 1.1em; }
 
 /*# sourceMappingURL=style.css.map */

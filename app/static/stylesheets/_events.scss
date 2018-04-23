@@ -16,7 +16,7 @@
 			padding: 15px;
 
 			.title{
-				font-weight: 400;
+				font-weight: 300;
 				color: $blue-main;
 				font-size: 1.2em;
 			}
@@ -32,7 +32,6 @@
 			.link-2{
 				font-weight: 300;
 			}
-
 		}
 	}
 }
@@ -45,11 +44,35 @@
 	padding: 0;
 
 	.outer{
-		border-bottom: 2px solid $background;
 
 		.inner{
 			padding: 20px;
 		}
+	}
+}
+
+
+.calendar{
+
+	.outer{
+
+		.inner{
+			padding: 20px 30px;
+		}
+	}
+
+	.outer:last-of-type{
+		border-bottom: none;
+	}
+}
+
+
+
+.event-block, .calendar{
+
+	.outer{
+
+		border-bottom: 2px solid $background;
 
 		.invites{
 
@@ -110,10 +133,6 @@
 		margin-top: 30px;
 
 		input[type='text']{
-			// width: 60%;
-			// border: none;
-			// border-bottom: 1px solid $grey4;
-			// padding-left: 0;
 			border: 1px solid $grey3;
 		}
 
@@ -138,7 +157,7 @@
 	}
 }
 
-.invitations, .event-block{
+.invitations, .event-block, .calendar{
 
 	ul{
 		list-style: none;

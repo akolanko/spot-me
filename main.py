@@ -1,4 +1,4 @@
-from app import app, connect_to_db, db
+from app import app, db
 from app.models import *
 from seed import example_data
 
@@ -11,8 +11,6 @@ if __name__ == '__main__':
     # This is used when running locally. Gunicorn is used to run the
     # application on Google App Engine. See entrypoint in app.yaml.
 
-    #connect_to_db(app, 'sqlite:////tmp/tst.db')
-    connect_to_db(app)
     db.drop_all()
     db.create_all()
     example_data()

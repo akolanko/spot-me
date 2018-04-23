@@ -13,10 +13,6 @@
 					<div class='profile-age'>{{ age }}</div>
 				</a>
 			</div>
-			{% if user == current_user %}
-				<p><a href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
-			{% endif %}
-
 			{% if current_user.id != user.id %}
 				<div class='profile-buttons'>
 					<div id ='connect-btn'>
@@ -72,4 +68,6 @@
 	</div>
 </div>
 {% endblock %}
-{% block javascript %}{% endblock %}
+{% block javascript %}
+<script src="/static/js/profile.js"></script>
+{% endblock %}
