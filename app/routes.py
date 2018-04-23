@@ -15,7 +15,9 @@ from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
 from app.profile import get_user_interests, check_and_update_interests
-import datetime
+from datetime import date
+from calendar import Calendar
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -326,10 +328,6 @@ def update_password():
         return jsonify("Password updated.")
     return jsonify(pswform.errors)
 
-@app.route("/cal")
-def cal():
-    return render_template("cal.html")
-
 
 @app.route("/delete_account/", methods=['POST'])
 @login_required
@@ -488,6 +486,21 @@ def add_invite_single(event_id, user_id):
 def search():
     name = request.form.get("name")
     return search_user(name, current_user.id)
+
+@app.route("/calendar/<int:year>/<int:month>")
+@login_required
+def cal(year, month):
+    notifications = get_notifications(current_user.id)
+    accform = UpdateAccountForm()
+    pswform = UpdatePasswordForm()
+    cal = Calendar(6)
+    if year == 0 and month == 0:
+        year = date.today().year
+        month = date.today().month
+        return redirect(url_for('cal', year=year, month=month))
+    weeks = cal.monthdatescalendar(year, month)
+    coming_up = get_recent_events(current_user.id)
+    return render_template("cal.html", notifications=notifications, user=current_user, pswform=pswform, accform=accform, year=year, mon=month, weeks=weeks, coming_up=coming_up)
 
 
 @app.errorhandler(500)
