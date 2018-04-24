@@ -1266,9 +1266,9 @@ button {
 .cal .outer:last-of-type, .cal-overlay .outer:last-of-type {
   border-bottom: none; }
 
-.cal-overlay #update-event {
+.cal-overlay #update-event, .event-block #update-event {
   display: none; }
-  .cal-overlay #update-event #update-event-form h1 input[type='text'] {
+  .cal-overlay #update-event #update-event-form h1 input[type='text'], .event-block #update-event #update-event-form h1 input[type='text'] {
     padding: 0;
     border: none;
     border-bottom: 1px solid #E2E2E2; }
@@ -1402,7 +1402,8 @@ button {
   border-left: 2px solid #ccc;
   padding: 10px;
   text-transform: uppercase;
-  color: #8BC8DB; }
+  color: #8BC8DB;
+  font-weight: 400; }
 
 .calendar th:first-of-type {
   border-left: none; }
