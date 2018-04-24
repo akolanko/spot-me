@@ -15,6 +15,7 @@ from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
 from app.profile import get_user_interests, check_and_update_interests
+from app.availabilities import get_availabilities
 from datetime import date
 from calendar import Calendar
 
@@ -68,15 +69,7 @@ def home():
     users_interests = discover_friends(current_user.id)
     notifications = get_notifications(current_user.id)
     coming_up = get_recent_events(current_user.id)
-    sunday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 1, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    monday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 2, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    tuesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 3, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    wednesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 4, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    thursday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 5, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    friday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 6, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    saturday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 7, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-
-    weekdays = [(1, "Sunday", sunday), (2, "Monday", monday), (3, "Tuesday", tuesday), (4, "Wednesday", wednesday), (5, "Thursday", thursday), (6, "Friday", friday), (7, "Saturday", saturday)]
+    weekdays = get_availabilities(current_user.id)
     today = datetime.date.today()
     return render_template('home.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays, today=today, users_interests=users_interests)
 
@@ -95,16 +88,7 @@ def user(user_id):
     are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
 
     interests, interests_str = get_user_interests(current_user)
-
-    sunday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 1, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    monday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 2, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    tuesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 3, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    wednesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 4, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    thursday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 5, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    friday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 6, User.id == user.id).order_by(asc(Availability.start_time)).all()
-    saturday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 7, User.id == user.id).order_by(asc(Availability.start_time)).all()
-
-    weekdays = [(1, "Sunday", sunday), (2, "Monday", monday), (3, "Tuesday", tuesday), (4, "Wednesday", wednesday), (5, "Thursday", thursday), (6, "Friday", friday),(7, "Saturday", saturday)]
+    weekdays = get_availabilities(user.id)
 
     form = EditProfileForm()
     if form.validate_on_submit():
@@ -132,7 +116,7 @@ def user(user_id):
         return redirect(url_for('edit_availability'))
 
     conversation = conversation_exists(user.id, current_user.id)
-    return render_template('profile.html', user=user, sunday=sunday, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
 
 
 @app.route('/edit_profile', methods=['POST'])
@@ -410,16 +394,7 @@ def event(event_id):
     sent_invitation, received_invitation = get_event_invitation(event_id, current_user.id)
     friendform = AddFriendForm()
     eventform = UpdateEventForm()
-
-    sunday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 1, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    monday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 2, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    tuesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 3, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    wednesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 4, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    thursday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 5, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    friday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 6, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    saturday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 7, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-
-    weekdays = [(1, "Sunday", sunday), (2, "Monday", monday), (3, "Tuesday", tuesday), (4, "Wednesday", wednesday), (5, "Thursday", thursday), (6, "Friday", friday),(7, "Saturday", saturday)]
+    weekdays = get_availabilities(current_user.id)
     today = datetime.date.today()
     return render_template('event.html', notifications=notifications, event=event, coming_up=coming_up, user_event=user_event, length=length, sent_invitation=sent_invitation, received_invitation=received_invitation, weekdays=weekdays, friendform=friendform, eventform=eventform, today=today)
 
@@ -448,15 +423,7 @@ def event_new():
     eventform = NewEventForm()
     notifications = get_notifications(current_user.id)
     coming_up = get_recent_events(current_user.id)
-    sunday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 1, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    monday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 2, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    tuesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 3, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    wednesday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 4, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    thursday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 5, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    friday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 6, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-    saturday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 7, User.id == current_user.id).order_by(asc(Availability.start_time)).all()
-
-    weekdays = [(1, "Sunday", sunday), (2, "Monday", monday), (3, "Tuesday", tuesday), (4, "Wednesday", wednesday), (5, "Thursday", thursday), (6, "Friday", friday),(7, "Saturday", saturday)]
+    weekdays = get_availabilities(current_user.id)
     return render_template('new_event.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays, eventform=eventform)
 
 
