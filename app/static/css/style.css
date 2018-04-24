@@ -18,7 +18,8 @@ html {
 body {
   font-family: "Open Sans", sans-serif;
   background-color: #F5F5F5;
-  font-weight: 300; }
+  font-weight: 300;
+  position: relative; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400; }
@@ -511,7 +512,7 @@ nav {
     margin: 3%; }
 
 .content {
-  margin: 50px; }
+  padding: 50px; }
 
 .left, .middle {
   display: inline-block;
@@ -1260,50 +1261,51 @@ button {
   .event-block .outer .inner {
     padding: 20px; }
 
-.calendar .outer .inner {
+.cal .outer .inner, .cal-overlay .outer .inner {
   padding: 20px 30px; }
-.calendar .outer:last-of-type {
+.cal .outer:last-of-type, .cal-overlay .outer:last-of-type {
   border-bottom: none; }
 
-.event-block .outer, .calendar .outer {
-  border-bottom: 2px solid #F5F5F5; }
-  .event-block .outer .invites .invitation-detail, .calendar .outer .invites .invitation-detail {
-    color: #8BC8DB;
-    font-weight: 400; }
-  .event-block .outer .invites .adding-friends-hidden, .calendar .outer .invites .adding-friends-hidden {
-    display: none; }
-.event-block .event-buttons, .calendar .event-buttons {
-  padding: 0;
-  margin-top: 25px; }
-.event-block .page-title, .calendar .page-title {
-  margin-bottom: 0.8em; }
-.event-block .page-title-large, .calendar .page-title-large {
-  height: 55px;
-  margin-bottom: 0; }
-.event-block #update-event, .calendar #update-event {
+.cal-overlay #update-event {
   display: none; }
-  .event-block #update-event #update-event-form h1 input[type='text'], .calendar #update-event #update-event-form h1 input[type='text'] {
+  .cal-overlay #update-event #update-event-form h1 input[type='text'] {
     padding: 0;
     border: none;
     border-bottom: 1px solid #E2E2E2; }
-.event-block .add-friends, .calendar .add-friends {
+
+.event-block .outer, .cal .outer, .cal-overlay .outer {
+  border-bottom: 2px solid #F5F5F5; }
+  .event-block .outer .invites .invitation-detail, .cal .outer .invites .invitation-detail, .cal-overlay .outer .invites .invitation-detail {
+    color: #8BC8DB;
+    font-weight: 400; }
+  .event-block .outer .invites .adding-friends-hidden, .cal .outer .invites .adding-friends-hidden, .cal-overlay .outer .invites .adding-friends-hidden {
+    display: none; }
+.event-block .event-buttons, .cal .event-buttons, .cal-overlay .event-buttons {
+  padding: 0;
+  margin-top: 25px; }
+.event-block .page-title, .cal .page-title, .cal-overlay .page-title {
+  margin-bottom: 0.8em; }
+.event-block .page-title-large, .cal .page-title-large, .cal-overlay .page-title-large {
+  height: 55px;
+  margin-bottom: 0; }
+.event-block .add-friends, .cal .add-friends, .cal-overlay .add-friends {
   margin-top: 15px;
   color: #8BC8DB; }
-.event-block .add-friends:hover, .calendar .add-friends:hover {
+.event-block .add-friends:hover, .cal .add-friends:hover, .cal-overlay .add-friends:hover {
   cursor: pointer; }
-.event-block .add-invite-form, .calendar .add-invite-form {
+.event-block .add-invite-form, .cal .add-invite-form, .cal-overlay .add-invite-form {
   display: none;
   margin-top: 30px; }
-  .event-block .add-invite-form input[type='text'], .calendar .add-invite-form input[type='text'] {
+  .event-block .add-invite-form input[type='text'], .cal .add-invite-form input[type='text'], .cal-overlay .add-invite-form input[type='text'] {
     border: 1px solid #aaa; }
-  .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form .form-field, .calendar .add-invite-form input[type='submit'] {
+  .event-block .add-invite-form .form-field, .event-block .add-invite-form input[type='submit'], .cal .add-invite-form .form-field, .cal .add-invite-form input[type='submit'], .cal-overlay .add-invite-form .form-field, .cal-overlay .add-invite-form input[type='submit'] {
     display: inline-block; }
-  .event-block .add-invite-form input[type='submit'], .calendar .add-invite-form input[type='submit'] {
+  .event-block .add-invite-form input[type='submit'], .cal .add-invite-form input[type='submit'], .cal-overlay .add-invite-form input[type='submit'] {
     margin-left: 10px; }
-.event-block ul li.invited-user, .calendar ul li.invited-user {
+.event-block ul li.invited-user, .cal ul li.invited-user, .cal-overlay ul li.invited-user {
   margin: 0.5em 0; }
 
-.invitations ul, .event-block ul, .calendar ul {
+.invitations ul, .event-block ul, .cal ul, .cal-overlay ul {
   list-style: none;
   padding: 0; }
 
@@ -1370,5 +1372,98 @@ button {
     margin-bottom: 20px; }
   .block-404 p {
     font-size: 1.1em; }
+
+.cal .event-buttons {
+  padding: 0;
+  margin-top: 25px; }
+.cal .cal-event:hover {
+  cursor: pointer; }
+
+#cal-event-overlay, #cal-event-overlay-form {
+  display: inherit; }
+
+.cal-overlay {
+  padding: 0;
+  top: 120px;
+  transform: translate(-50%, 0); }
+
+.calendar {
+  width: 84%;
+  height: 100%;
+  margin: 2.5% auto;
+  background-color: #fff;
+  border-collapse: collapse;
+  border: 2px solid #ccc; }
+
+.calendar th {
+  width: 12%;
+  height: 5%;
+  border-top: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  padding: 10px;
+  text-transform: uppercase;
+  color: #8BC8DB; }
+
+.calendar th:first-of-type {
+  border-left: none; }
+
+.calendar td {
+  border-top: 2px solid #ccc;
+  border-left: 2px solid #ccc;
+  width: 12%;
+  height: 19%;
+  text-align: left;
+  vertical-align: top; }
+  .calendar td div:first-of-type {
+    padding-top: 6px;
+    padding-left: 6px; }
+
+.calendar td:first-of-type {
+  border-left: none; }
+
+.calendar ul {
+  list-style: none;
+  padding: 0; }
+  .calendar ul li {
+    background-color: #8BC8DB;
+    padding: 5px;
+    font-size: 0.95em;
+    margin-top: 10px; }
+    .calendar ul li a:link, .calendar ul li a:hover, .calendar ul li a:active, .calendar ul li a:visited {
+      color: #000; }
+
+.calendar .other-month ul li {
+  opacity: 0.6; }
+
+.cal .event-block {
+  width: 20%;
+  text-align: right;
+  display: inline-block;
+  position: relative; }
+  .cal .event-block .add-event-btn {
+    position: absolute;
+    right: 15px;
+    width: 40px;
+    height: 40px; }
+
+.nextMonth-block {
+  width: 10%;
+  text-align: left;
+  display: inline-block; }
+
+.prevMonth-block {
+  width: 40%;
+  text-align: right;
+  display: inline-block; }
+
+.month-block {
+  width: 20%;
+  text-align: center;
+  display: inline-block; }
+  .month-block h1 {
+    font-weight: 300; }
+
+.other-month {
+  color: #C6C6C6; }
 
 /*# sourceMappingURL=style.css.map */

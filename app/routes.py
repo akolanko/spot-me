@@ -115,11 +115,6 @@ def edit_profile():
     user.profile.location = form.location.data
     passed_interests = form.interests.data
     db.session.commit()
-    #
-    # # delete all previous user interests to prepare for update
-    # for i in user.user_interests:
-    #     db.session.delete(i)
-    #     db.session.commit()
 
     check_and_update_interests(passed_interests, user.id)
     
@@ -243,7 +238,7 @@ def new_conversation():
     return render_template("new_conversation.html", conversations=conversations, notifications=notifications, eventform=eventform)
 
 
-@app.route("/create_conversation/<user_id>/", methods=["POST"])
+@app.route("/create_conversation/<user_id>/", methods=['GET', "POST"])
 @login_required
 def create_conversation(user_id):
     conversation_id = build_conversation(current_user.id, user_id)
@@ -486,20 +481,39 @@ def search():
     name = request.form.get("name")
     return search_user(name, current_user.id)
 
-@app.route("/calendar/<int:year>/<int:month>")
+
+@app.route("/calendar/<int:year>/<int:month>", methods=["GET", "POST"])
 @login_required
 def cal(year, month):
     notifications = get_notifications(current_user.id)
-    accform = UpdateAccountForm()
-    pswform = UpdatePasswordForm()
     cal = Calendar(6)
     if year == 0 and month == 0:
         year = date.today().year
         month = date.today().month
         return redirect(url_for('cal', year=year, month=month))
     weeks = cal.monthdatescalendar(year, month)
-    coming_up = get_recent_events(current_user.id)
-    return render_template("cal.html", notifications=notifications, user=current_user, pswform=pswform, accform=accform, year=year, mon=month, weeks=weeks, coming_up=coming_up)
+    coming_up = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == current_user.id, UserEvent.accepted == 1).all()
+    eventform = NewEventForm()
+    return render_template("cal.html", notifications=notifications, user=current_user, year=year, mon=month, weeks=weeks, coming_up=coming_up, eventform=eventform)
+
+
+@app.route("/calendar/<event_id>/<int:year>/<int:month>", methods=["GET", "POST"])
+@login_required
+def cal_event(event_id, year, month):
+    notifications = get_notifications(current_user.id)
+    cal = Calendar(6)
+    if year == 0 and month == 0:
+        year = date.today().year
+        month = date.today().month
+        return redirect(url_for('cal_event', year=year, month=month, event_id=event_id))
+    weeks = cal.monthdatescalendar(year, month)
+    coming_up = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == current_user.id, UserEvent.accepted == 1).all()
+    event = Event.query.get(event_id)
+    user_event = UserEvent.query.filter_by(event_id=event_id, user_id=current_user.id).first()
+    eventform = eventform = UpdateEventForm()
+    friendform = AddFriendForm()
+    today = datetime.date.today()
+    return render_template("cal_event.html", notifications=notifications, user=current_user, year=year, mon=month, weeks=weeks, coming_up=coming_up, event=event, user_event=user_event, eventform=eventform, friendform=friendform, today=today)
 
 
 @app.errorhandler(500)

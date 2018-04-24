@@ -52,7 +52,7 @@
 }
 
 
-.calendar{
+.cal, .cal-overlay{
 
 	.outer{
 
@@ -66,9 +66,25 @@
 	}
 }
 
+.cal-overlay{
 
+	#update-event{
 
-.event-block, .calendar{
+		display: none;
+
+		#update-event-form{
+			h1{
+				input[type='text']{
+					padding: 0;
+					border: none;
+					border-bottom: 1px solid $grey4;
+				}
+			}
+		}
+	}
+}
+
+.event-block, .cal, .cal-overlay{
 
 	.outer{
 
@@ -102,21 +118,6 @@
 	.page-title-large{
 		height: 55px;
 		margin-bottom: 0;
-	}
-
-	#update-event{
-
-		display: none;
-
-		#update-event-form{
-			h1{
-				input[type='text']{
-					padding: 0;
-					border: none;
-					border-bottom: 1px solid $grey4;
-				}
-			}
-		}
 	}
 
 	.add-friends{
@@ -157,7 +158,7 @@
 	}
 }
 
-.invitations, .event-block, .calendar{
+.invitations, .event-block, .cal, .cal-overlay{
 
 	ul{
 		list-style: none;

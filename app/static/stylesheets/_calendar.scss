@@ -1,0 +1,122 @@
+.cal{
+
+	.event-buttons{
+		padding: 0;
+		margin-top: 25px;
+	}
+
+	.cal-event:hover{
+		cursor: pointer;
+	}
+}
+
+#cal-event-overlay, #cal-event-overlay-form{
+	display: inherit;
+}
+
+.cal-overlay{
+	padding: 0;
+	top: 120px;
+	transform: translate(-50%, 0);
+}
+
+.calendar {
+	width: 84%;
+	height: 100%;
+	margin: 2.5% auto;
+	background-color: $white;
+	border-collapse: collapse;
+	border: 2px solid $grey7;
+}
+
+.calendar th { 
+	width: 12%;
+	height: 5%;
+	border-top: 2px solid $grey7;
+	border-left: 2px solid $grey7;
+	padding: 10px;
+	text-transform: uppercase;
+	color: $blue-main;
+}
+
+.calendar th:first-of-type{
+	border-left: none;
+}
+
+.calendar td {
+	border-top: 2px solid $grey7;
+	border-left: 2px solid $grey7;
+	width: 12%;
+	height: 19%;
+	text-align: left;
+	vertical-align: top;
+
+	div:first-of-type{
+		padding-top: 6px;
+		padding-left: 6px;
+	}
+}
+
+.calendar td:first-of-type{
+	border-left: none;
+}
+
+.calendar ul {
+	list-style: none;
+	padding: 0;
+
+	li{
+		background-color: $blue-main;
+		padding: 5px;
+		font-size: 0.95em;
+		margin-top: 10px;
+
+		a:link, a:hover, a:active, a:visited{
+			color: $black;
+		}
+	}
+}
+
+.calendar .other-month ul li{
+	opacity: 0.6;	
+}
+
+.cal .event-block {
+	width: 20%;
+	text-align: right;
+	display: inline-block;
+	position: relative;
+
+	.add-event-btn{
+		position: absolute;
+		right: 15px;
+		width: 40px;
+		height: 40px;
+	}
+}
+
+.nextMonth-block {
+	width: 10%;
+	text-align: left;
+	display: inline-block;
+}
+
+.prevMonth-block {
+	width: 40%;
+	text-align: right;
+	display: inline-block;
+}
+
+.month-block {
+	width: 20%;
+	text-align: center;
+	display: inline-block;
+
+	h1{
+		font-weight: 300;
+	}
+}
+
+.other-month{
+	color: $grey;
+}
