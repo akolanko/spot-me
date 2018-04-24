@@ -40,7 +40,7 @@ class FlaskTestEvents(unittest.TestCase):
 		result1 = cal(2018,5)
 		self.assertIn("May ",result1)
 		self.assertIn("2018",result1)
-		self.assertIn("<button class=\"add-btn\">", result1)
+		self.assertIn("<div class='add-event-btn add-btn'>", result1)
 		
 
 	def test_prev_next_month(self):
