@@ -22,14 +22,14 @@ def example_data():
     dan3.set_password('dan3')
 
     profile_karen = Profile(user_id=1, about="Yoga | CS ", location="NYC", skills=2)
-    profile_dale = Profile(user_id=2, about="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit. Curabitur at ligula maximus, laoreet est id, venenatis neque. Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit.", skills=1)
-    profile_matt = Profile(user_id=3)
-    profile_jake = Profile(user_id=4)
+    profile_dale  = Profile(user_id=2, about="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit. Curabitur at ligula maximus, laoreet est id, venenatis neque. Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit.", skills=1)
+    profile_matt  = Profile(user_id=3)
+    profile_jake  = Profile(user_id=4)
     profile_ellen = Profile(user_id=5)
     profile_katie = Profile(user_id=6)
-    profile_dan = Profile(user_id=7)
-    profile_dan2 = Profile(user_id=8)
-    profile_dan3 = Profile(user_id=9)
+    profile_dan   = Profile(user_id=7)
+    profile_dan2  = Profile(user_id=8)
+    profile_dan3  = Profile(user_id=9)
 
     friendship1 = Friends(user_id_1=1, user_id_2=2, status=FriendStatus.accepted)
     friendship2 = Friends(user_id_1=3, user_id_2=4, status=FriendStatus.requested)
@@ -42,6 +42,7 @@ def example_data():
 
     conversation1 = Conversation(user_id_1=1, user_id_2=2)
     conversation2 = Conversation(user_id_1=4, user_id_2=1)
+    
     message1 = Message(sender=1, conversation_id=1, body='hello', read=True, timestamp=datetime.datetime(2017, 2, 22, 19, 53, 42))
     message2 = Message(sender=2, conversation_id=1, body='hey')
     message3 = Message(sender=2, conversation_id=1, body='how are you?')
