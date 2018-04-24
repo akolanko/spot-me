@@ -21,3 +21,23 @@
 .day-box:last-of-type{
 	margin-right: 0;
 }
+
+
+/* MEDIA QUERIES
+================================================== */
+
+@media only screen and (max-width: 1310px) {
+
+	.day-box{
+		margin-right: 5px;
+	}
+}
+
+
+@media only screen and (max-width: 1260px) {
+
+	.day-box{
+		width: 22px;
+		height: 22px;
+	}
+}
