@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% set months = ['January', 'February', 'March', 'April', 'May', 'June',
+				 'July', 'August', 'September', 'October', 'November', 'December'] %}
+{% set days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+			   'Friday', 'Saturday'] %}
+
+{% block content %}
+
+	<style type="text/css">
+	.calendar {
+		border: 1px solid black;
+		width: 84%;
+		height: 100%;
+		margin: 2.5% auto;
+	}
+	.calendar th { 
+		border: 1px solid black;
+		width: 12%;
+		height: 5%;
+		color: #8BC8DB;
+ 	}
+ 	.calendar td {
+ 		border: 1px solid black;
+		width: 12%;
+		height: 19%;
+		text-align: left;
+		vertical-align: top;
+ 	}
+ 	.calendar ul {
+		list-style: none;
+		padding: 0;
+	}
+ 
+ 	.event-block {
+ 		width: 20%;
+ 		text-align: right;
+ 		display: inline-block;
+ 	}
+ 	.nextMonth-block {
+ 		width: 10%;
+ 		text-align: left;
+ 		display: inline-block;
+ 	}
+ 	.prevMonth-block {
+ 		width: 40%;
+ 		text-align: right;
+ 		display: inline-block;
+ 	}
+ 	.month-block {
+ 		width: 20%;
+ 		text-align: center;
+ 		display: inline-block;
+ 	}
+	.other-month{
+		color: #C6C6C6;
+	}
+	</style>
+
+	
+	<div>
+		<div class="prevMonth-block">
+			<a href="{{ url_for('cal', year=(year - 1 if mon == 1 else year), 
+									   month= (12 if mon == 1 else (mon - 1))) }}">
+				<button>PREV</button>
+			</a>
+		</div>
+		<div class="month-block">
+			<h1> {{ months[mon - 1] }} {{ year }} </h1>
+		</div>
+		<div class="nextMonth-block">
+			<a href="{{ url_for('cal', year=(year + 1 if mon == 12 else year), 
+									   month=(1 if mon == 12 else (mon + 1))) }}">
+				<button>NEXT</button>
+			</a>
+		</div>
+		<div class="event-block">
+			<a href="{{ url_for('event_new') }}">
+				<button class="add-btn">
+					<h1>+</h1>
+				</button>
+			</a>
+		</div>
+	</div>
+	<div>
+		<table class="calendar">
+			<tr>
+				{% for d in days %}
+				<th> {{ d }} </th>
+				{% endfor %}
+			</tr>
+			{% for w in weeks %}
+			<tr>
+				{% for date in w %}
+					{% if date.month == mon %}
+					<td class="current-month"> 
+					{% else %}
+					<td class="other-month">
+					{% endif %}
+					<div>
+						{{ date.day }} 
+					</div>
+					<div>
+					{% for event in coming_up %}
+						{% if event.date.month == date.month and
+							  event.date.year == date.year and 
+							  event.date.day == date.day %}
+						   <ul class='cal-events'>
+						   		<li>
+							   		<a href="{{ url_for('event', event_id=event.id) }}">
+							   		{{ event.start_time.strftime('%-I:%M %p') }} {{ event.title }}
+							   		</a>
+							   	</li>
+						   </ul>
+						 {%  endif %}
+					{% endfor %}
+					</div>
+					</td>
+				{% endfor %}
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+	
+
+{% endblock %}
