@@ -41,12 +41,14 @@
 					</div>
 				</div>
 				<div class='weekdays'>
-					{% for day in weekdays %}
-					<div class='day-box'>
-						<div class='letter'>
-							{{ day[0] }}
-						</div>
-					</div>
+					{% for day in weekdays%}
+						{% if day[2]|length == 0 %}
+							<div class='day-box daybox-grey'>
+						{% else %}
+							<div class='day-box daybox-blue'>
+						{% endif %}
+								<div class='letter'> {{ day[1][0:1] }}</div>
+							</div>
 					{% endfor %}
 				</div>
 			</div>

@@ -201,5 +201,81 @@
 			</div>
 		</div>
 	</div>
+
+	<div class='availability-info block'>
+		<div class='profile-label'>Availability</div>
+		<div class='profile-availability'>
+			<div class='weekdays'>
+				{% for day in weekdays%}
+					{% if day[2]|length == 0 %}
+						<div class='day-box daybox-grey'>
+					{% else %}
+						<div class='day-box daybox-blue'>
+					{% endif %}
+							<div class="avail_user">
+								<font id='label'>{{ day[1] }}</font> 
+								{% for availability in day[2] %}
+								<br> -------------------------- <br>
+								{{ availability.start_time }} - {{ availability.end_time }}
+								{% endfor %}
+							</div>
+							<div class='letter'> {{ day[1][0:1] }}</div>						
+						</div>
+				{% endfor %}
+			</div>
+
+			{% if user == current_user %}
+				<div class='overlay' id='edit-avail-overlay'></div>
+				<button class='button button-6 active' id='avail-edit-button'>Edit</button>
+				<div class='edit-day-box'>
+					<form  action="{{ url_for('edit_availability') }}" method="post">
+						<div class='profile-weekday'>
+							<div class='profile-label'>
+								Weekday
+							</div>
+							<div class="profile-field">
+								<div class='select-box'>
+									{{ availform.weekday }}
+								</div>
+							</div>
+							<div class='error-container'>
+								{% for error in availform.weekday.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='profile-start'>
+							<div class='profile-label'>
+								Start Time
+							</div>
+							<div class="profile-field">
+								{{ availform.start_time }}
+							</div>
+							<div class='error-container'>
+								{% for error in availform.start_time.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='profile-start'>
+							<div class='profile-label'>
+								Start Time
+							</div>
+							<div class="profile-field">
+								{{ availform.end_time }}
+							</div>
+							<div class='error-container'>
+								{% for error in availform.end_time.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						{{ form.submit(class='button button-1') }}
+						</div>
+					</form>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 </div>
 {% endblock %}

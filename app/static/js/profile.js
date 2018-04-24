@@ -9,7 +9,7 @@ $(document).ready( function() {
 		$('#info-edit-button').hide();
 		$('#edit-profile-info').hide();
 		$('#info-edit-button').removeClass("active");
-		$('.edit-profile-info').css('height', '340px');
+		$('.edit-profile-info').css('height', '380px');
 	});
 
 
@@ -29,4 +29,28 @@ $(document).ready( function() {
 		$('#info-edit-button').addClass("active");
 		$('.edit-profile-info').css('height', '290px');
 	});
+
+	$('#edit-box-button').click(function(){
+		$('#avail_user').hide();
+		$('#avail_form').show();
+	});
+
+	$('.daybox-blue').hover(function(){
+		$(this).find('.avail_user').toggle();
+	});
+
+	$('.availability-info').hover(function(){
+		if ($('#avail-edit-button').hasClass("active")) {
+			$('#edit-avail-overlay').toggle();
+			$('#avail-edit-button').toggle();
+		}
+	});
+
+	$('#avail-edit-button').click(function(){
+		$('.edit-day-box').show();
+		$('#avail-edit-button').removeClass("active");
+		$('#edit-avail-overlay').hide();
+		$('#avail-edit-button').hide();
+	});
+
 });

@@ -85,6 +85,13 @@ class EditProfileForm(FlaskForm):
 	submit    = SubmitField('Update')
 
 
+class UpdateAvailabilityForm(FlaskForm):
+	weekday = SelectField('Weekday', choices=[(1, "Sunday"), (2, "Monday"), (3, "Tuesday"), (4, "Wednesday"), (5, "Thursday"), (6, "Friday"),(7, "Saturday")])
+	start_time = TimeField('Start Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
+	end_time = TimeField('End Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
+	submit = SubmitField('Submit')
+
+
 class AddFriendForm(FlaskForm):
 	name = StringField('Name', validators=[DataRequired()])
 	submit = SubmitField('Submit')

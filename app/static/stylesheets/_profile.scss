@@ -1,6 +1,7 @@
 .col{
 	display: inline-block;
 	vertical-align: top;
+	padding: 10px;
 }
 
 .profile-text-top-left {
@@ -14,10 +15,9 @@
 
 .profile-right-col{
 	width: 70%;
-	background-color: $white;
 
 	.block{
-		margin-bottom: 0;
+		margin-bottom: 1em;
 	}
 
 	#profile-box{
@@ -100,7 +100,89 @@
 	}
 }
 
-#info-edit-button{
+.profile-availability{
+
+	.weekdays{
+		margin: 0 auto;
+	}
+
+  	.daybox-grey{
+  		background-color: $grey;
+  	}  	
+  	.daybox-blue{
+  		background-color: $blue-main;
+  	}
+
+	.day-box{
+
+		display: inline-block;
+		color: $white;
+		text-transform: uppercase;
+		position: relative;
+		width: 70px;
+		height: 70px;
+		margin-right: 14px;
+		margin-top: 10px;
+		cursor: pointer;
+		font-size: 20px;
+		z-index: 1;
+
+
+		.letter{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			text-align: center;
+			text-decoration: none;
+		}
+
+		#button{
+			background-color: $grey;
+			color: $grey3;
+		}
+
+		.avail_user{
+			width: 170px;
+			height: 120px;
+			background-color: $grey4;
+			color: $black;
+			text-align: center;
+			padding: 2px 0;
+			position: absolute;
+			z-index: 1000;
+			top: -120px;
+			left: 50%;
+			margin-left: -100px;
+			transition: opacity 0.3s;
+			font-size: 12px;
+			display: none;
+
+			#label{
+				font-size: 14px;
+			}
+		}
+
+
+		button {
+			padding: 2x 0px;
+
+		}
+
+	}
+	.edit-day-box{
+		display: none;
+		margin-top: 15px;
+	}
+}
+
+
+.day-box:last-of-type{
+	margin-right: 0;
+}
+
+
+#info-edit-button, #avail-edit-button{
 	display: none;
 	top: 50%;
 	left: 50%;
@@ -108,7 +190,7 @@
 	position: absolute;
 }
 
-#info-edit-button{
+#info-edit-button, #avail-edit-button{
 	z-index: 900;
 }
 
@@ -158,10 +240,16 @@
 	color: $black;
 }
 
+.availability-info {
+	position: relative;
+	background-color: $white;
+	margin-bottom: 1em;
+}
+
 .edit-profile-info {
 	position: relative;
 	height: 290px;
-	padding: 20px;
+	padding: 10px;
 	overflow: hidden;
 }
 

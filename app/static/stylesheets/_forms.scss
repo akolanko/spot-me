@@ -102,7 +102,7 @@ form.login .form-field{
 	}
 }
 
-.account-field, .event-info .event-field, #edit-profile-form{
+.account-field, .event-info .event-field, #edit-profile-form, .edit-day-box{
 
 	.validation-error{
 		font-size: .8em;
@@ -142,6 +142,9 @@ form.login .form-field{
 		height: 100%;
 		resize: none;
 	}
+}
+
+#edit-profile-form, .edit-day-box{
 
 	.select-box select{
 		font-size: 1em;

@@ -16,6 +16,7 @@ class User(UserMixin, db.Model):
     lname = db.Column(db.String(32))
     birthday = db.Column(db.Date, default=datetime.utcnow)
     profile = db.relationship('Profile', uselist=False, backref='owner', cascade="all, delete-orphan")
+    availability = db.relationship('Availability', backref='user', lazy='dynamic', cascade="all, delete")
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -190,3 +191,19 @@ class Notification(db.Model):
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     receiver = db.relationship("User", foreign_keys=[receiver_id], backref=db.backref("notifications", cascade="all,delete"))
     event = db.relationship("Event", foreign_keys=[event_id], backref=db.backref("notifications", cascade="all,delete"))
+
+
+class Availability(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
+    weekday = db.Column(db.Integer, index=True)
+    start_time = db.Column(db.Time)
+    end_time = db.Column(db.Time)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'weekday': self.weekday,
+            'start_time': self.start_time,
+            'end_time': self.end_time,
+        }

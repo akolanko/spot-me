@@ -130,18 +130,18 @@ form.login .form-field {
   .account-field .validation-error, .event-info .event-field .validation-error {
     font-size: .8em; }
 
-.account-field .validation-error, .event-info .event-field .validation-error, #edit-profile-form .validation-error {
+.account-field .validation-error, .event-info .event-field .validation-error, #edit-profile-form .validation-error, .edit-day-box .validation-error {
   font-size: .8em; }
-.account-field input[type="text"], .account-field input[type="date"], .account-field input[type="time"], .account-field textarea, .account-field select, .event-info .event-field input[type="text"], .event-info .event-field input[type="date"], .event-info .event-field input[type="time"], .event-info .event-field textarea, .event-info .event-field select, #edit-profile-form input[type="text"], #edit-profile-form input[type="date"], #edit-profile-form input[type="time"], #edit-profile-form textarea, #edit-profile-form select {
+.account-field input[type="text"], .account-field input[type="date"], .account-field input[type="time"], .account-field textarea, .account-field select, .event-info .event-field input[type="text"], .event-info .event-field input[type="date"], .event-info .event-field input[type="time"], .event-info .event-field textarea, .event-info .event-field select, #edit-profile-form input[type="text"], #edit-profile-form input[type="date"], #edit-profile-form input[type="time"], #edit-profile-form textarea, #edit-profile-form select, .edit-day-box input[type="text"], .edit-day-box input[type="date"], .edit-day-box input[type="time"], .edit-day-box textarea, .edit-day-box select {
   padding: 0;
   border: none;
   border-bottom: 1px solid #E2E2E2;
   width: 100%; }
-.account-field .select-box, .event-info .event-field .select-box, #edit-profile-form .select-box {
+.account-field .select-box, .event-info .event-field .select-box, #edit-profile-form .select-box, .edit-day-box .select-box {
   width: 100%;
   background: url("down_arrow.png") no-repeat 95% center;
   background-color: #fff; }
-.account-field .select-box select, .event-info .event-field .select-box select, #edit-profile-form .select-box select {
+.account-field .select-box select, .event-info .event-field .select-box select, #edit-profile-form .select-box select, .edit-day-box .select-box select {
   background: transparent;
   font-family: inherit;
   font-size: inherit;
@@ -155,7 +155,8 @@ form.login .form-field {
 #edit-profile-form textarea {
   height: 100%;
   resize: none; }
-#edit-profile-form .select-box select {
+
+#edit-profile-form .select-box select, .edit-day-box .select-box select {
   font-size: 1em;
   font-weight: 300;
   color: #aaa; }
@@ -311,7 +312,7 @@ nav {
   right: 3%;
   top: 76px;
   transform: translateX(0%);
-  z-index: 500; }
+  z-index: 10000; }
   #drop-down-menu ul {
     list-style: none;
     padding: 0; }
@@ -382,7 +383,8 @@ nav {
     margin-top: 25px; } }
 .col {
   display: inline-block;
-  vertical-align: top; }
+  vertical-align: top;
+  padding: 10px; }
 
 .profile-text-top-left {
   display: inline; }
@@ -392,10 +394,9 @@ nav {
   padding-right: 5%; }
 
 .profile-right-col {
-  width: 70%;
-  background-color: #fff; }
+  width: 70%; }
   .profile-right-col .block {
-    margin-bottom: 0; }
+    margin-bottom: 1em; }
   .profile-right-col #profile-box {
     display: none;
     width: 100%;
@@ -434,14 +435,68 @@ nav {
       height: 80px;
       width: 100%; }
 
-#info-edit-button {
+.profile-availability .weekdays {
+  margin: 0 auto; }
+.profile-availability .daybox-grey {
+  background-color: #C6C6C6; }
+.profile-availability .daybox-blue {
+  background-color: #8BC8DB; }
+.profile-availability .day-box {
+  display: inline-block;
+  color: #fff;
+  text-transform: uppercase;
+  position: relative;
+  width: 70px;
+  height: 70px;
+  margin-right: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  z-index: 1; }
+  .profile-availability .day-box .letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    text-decoration: none; }
+  .profile-availability .day-box #button {
+    background-color: #C6C6C6;
+    color: #aaa; }
+  .profile-availability .day-box .avail_user {
+    width: 170px;
+    height: 120px;
+    background-color: #E2E2E2;
+    color: #000;
+    text-align: center;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 1000;
+    top: -120px;
+    left: 50%;
+    margin-left: -100px;
+    transition: opacity 0.3s;
+    font-size: 12px;
+    display: none; }
+    .profile-availability .day-box .avail_user #label {
+      font-size: 14px; }
+  .profile-availability .day-box button {
+    padding: 2x 0px; }
+.profile-availability .edit-day-box {
+  display: none;
+  margin-top: 15px; }
+
+.day-box:last-of-type {
+  margin-right: 0; }
+
+#info-edit-button, #avail-edit-button {
   display: none;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   position: absolute; }
 
-#info-edit-button {
+#info-edit-button, #avail-edit-button {
   z-index: 900; }
 
 .profile-cover {
@@ -480,10 +535,15 @@ nav {
   text-transform: uppercase;
   color: #000; }
 
+.availability-info {
+  position: relative;
+  background-color: #fff;
+  margin-bottom: 1em; }
+
 .edit-profile-info {
   position: relative;
   height: 290px;
-  padding: 20px;
+  padding: 10px;
   overflow: hidden; }
 
 .profile-buttons {
@@ -646,7 +706,7 @@ button {
   border-left: 1px solid #E2E2E2;
   border-right: 1px solid #E2E2E2;
   width: 250px;
-  z-index: 500; }
+  z-index: 10000; }
   .drop-down ul {
     position: relative;
     text-align: left;
@@ -1401,6 +1461,12 @@ button {
 
 .day-box:last-of-type {
   margin-right: 0; }
+
+.daybox-grey {
+  background-color: #C6C6C6; }
+
+.daybox-blue {
+  background-color: #8BC8DB; }
 
 /* MEDIA QUERIES
 ================================================== */
