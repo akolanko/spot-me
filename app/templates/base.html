@@ -24,7 +24,7 @@
 			<nav>
 				<div id='nav-left'>
 					{% if current_user.is_authenticated %}
-						<a href="{{ url_for('discover') }}">
+						<a href="{{ url_for('home') }}">
 					{% else %}
 						<a href="{{ url_for('login') }}">
 					{% endif %}

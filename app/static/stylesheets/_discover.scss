@@ -31,6 +31,7 @@
 				display: inline-block;
 				width: 28%;
 				margin: 30px 20px;
+				vertical-align: top;
 
 				a:link, a:visted, a:hover, a:active{
 					color: $black;
@@ -68,6 +69,188 @@
 						font-weight: 300;
 					}
 
+				}
+			}
+		}
+	}
+}
+
+
+/* MEDIA QUERIES
+================================================== */
+
+
+@media only screen and (max-width: 1165px) {
+	.discover{
+
+		.users{
+
+			ul{
+
+				li{
+					width: 44%;
+				}
+			}
+		}
+	}
+}
+
+
+@media only screen and (max-width: 840px) {
+	.discover{
+
+		.users{
+
+			ul{
+
+				li{
+					width: 42%;
+
+					.left{
+
+						.friend-thumb{
+							width: 100px;
+							height: 100px;
+						}
+					}
+				}
+			}
+		}
+
+		.heading-columns{
+
+			.search-bar{
+
+				#search-discover-input{
+					width: 300px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 730px) {
+	.discover{
+
+		.users{
+
+			ul{
+
+				li{
+
+					margin: 20px;
+
+					.left{
+						display: block;
+					}
+
+					.right{
+						display: block;
+						width: 100%;
+						margin: 20px 0 0.5em 20px;
+					}
+				}
+			}
+		}
+
+		.heading-columns{
+
+			.search-bar{
+
+				#search-discover-input{
+					width: 250px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 690px) {
+	.discover{
+
+		.users{
+
+			ul{
+
+				li{
+					width: 100%;
+					display: block;
+
+					.left{
+						display: inline-block;
+					}
+
+					.right{
+						display: inline-block;
+						width: 50%;
+						margin: 0.5em 0 0.5em 30px;
+					}
+				}
+			}
+		}
+
+		.heading-columns{
+
+			.search-bar{
+
+				#search-discover-input{
+					width: 200px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 630px) {
+	.discover{
+
+		.heading-columns{
+			text-align: center;
+
+			.left-page-title{
+				float: none;
+				margin-left: 0;
+			}
+
+			.search-bar{
+				float: none;
+
+				#search-discover-input{
+					width: 250px;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	.discover{
+
+		.users{
+
+			ul{
+
+				li{
+					margin: 20px 20px 40px;
+
+					.left{
+						display: block;
+					}
+
+					.right{
+						display: block;
+						width: 100%;
+						margin: 20px 0 0.5em 20px;
+					}
+				}
+			}
+		}
+
+		.heading-columns{
+			.search-bar{
+
+				#search-discover-input{
+					width: 200px;
 				}
 			}
 		}

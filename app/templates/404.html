@@ -6,7 +6,7 @@
 			<h2>Sorry, that page could not be found.</h2>
 			<p>
 				{% if current_user.is_authenticated %}
-				<a href="{{ url_for('discover') }}">
+				<a href="{{ url_for('home') }}">
 				{% else %}
 				<a href="{{ url_for('login') }}">
 				{% endif %}

@@ -973,7 +973,8 @@ button {
       .discover .users ul li {
         display: inline-block;
         width: 28%;
-        margin: 30px 20px; }
+        margin: 30px 20px;
+        vertical-align: top; }
         .discover .users ul li a:link, .discover .users ul li a:visted, .discover .users ul li a:hover, .discover .users ul li a:active {
           color: #000; }
         .discover .users ul li .left {
@@ -995,6 +996,63 @@ button {
             color: #000;
             font-weight: 300; }
 
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 1165px) {
+  .discover .users ul li {
+    width: 44%; } }
+@media only screen and (max-width: 840px) {
+  .discover .users ul li {
+    width: 42%; }
+    .discover .users ul li .left .friend-thumb {
+      width: 100px;
+      height: 100px; }
+  .discover .heading-columns .search-bar #search-discover-input {
+    width: 300px; } }
+@media only screen and (max-width: 730px) {
+  .discover .users ul li {
+    margin: 20px; }
+    .discover .users ul li .left {
+      display: block; }
+    .discover .users ul li .right {
+      display: block;
+      width: 100%;
+      margin: 20px 0 0.5em 20px; }
+  .discover .heading-columns .search-bar #search-discover-input {
+    width: 250px; } }
+@media only screen and (max-width: 690px) {
+  .discover .users ul li {
+    width: 100%;
+    display: block; }
+    .discover .users ul li .left {
+      display: inline-block; }
+    .discover .users ul li .right {
+      display: inline-block;
+      width: 50%;
+      margin: 0.5em 0 0.5em 30px; }
+  .discover .heading-columns .search-bar #search-discover-input {
+    width: 200px; } }
+@media only screen and (max-width: 630px) {
+  .discover .heading-columns {
+    text-align: center; }
+    .discover .heading-columns .left-page-title {
+      float: none;
+      margin-left: 0; }
+    .discover .heading-columns .search-bar {
+      float: none; }
+      .discover .heading-columns .search-bar #search-discover-input {
+        width: 250px; } }
+@media only screen and (max-width: 480px) {
+  .discover .users ul li {
+    margin: 20px 20px 40px; }
+    .discover .users ul li .left {
+      display: block; }
+    .discover .users ul li .right {
+      display: block;
+      width: 100%;
+      margin: 20px 0 0.5em 20px; }
+  .discover .heading-columns .search-bar #search-discover-input {
+    width: 200px; } }
 .page-title {
   font-size: 1.4em;
   font-weight: 300;
@@ -1382,6 +1440,53 @@ button {
   .block-404 p {
     font-size: 1.1em; }
 
+#discover-home-block {
+  display: inline-block;
+  width: 74%;
+  margin-right: 2%; }
+
+/* MEDIA QUERIES
+================================================== */
+@media only screen and (max-width: 1560px) {
+  #discover-home-block .users ul li {
+    width: 44%; } }
+@media only screen and (max-width: 1100px) {
+  #discover-home-block .users ul li {
+    width: 42%; }
+    #discover-home-block .users ul li .left .friend-thumb {
+      width: 100px;
+      height: 100px; }
+  #discover-home-block .heading-columns .search-bar #search-discover-input {
+    width: 300px; } }
+@media only screen and (max-width: 940px) {
+  #discover-home-block .users ul li {
+    display: block;
+    width: 100%;
+    margin: 20px 20px 40px; }
+    #discover-home-block .users ul li .left {
+      display: inline-block; }
+      #discover-home-block .users ul li .left .friend-thumb {
+        width: 120px;
+        height: 120px; }
+    #discover-home-block .users ul li .right {
+      display: inline-block;
+      width: 60%;
+      margin: 0.5em 0 0.5em 20px; }
+  #discover-home-block .heading-columns .search-bar #search-discover-input {
+    width: 250px; } }
+@media only screen and (max-width: 800px) {
+  #discover-home-block .heading-columns .search-bar #search-discover-input {
+    width: 200px; } }
+@media only screen and (max-width: 720px) {
+  #discover-home-block .heading-columns {
+    text-align: center; }
+    #discover-home-block .heading-columns .left-page-title {
+      float: none;
+      margin-left: 0; }
+    #discover-home-block .heading-columns .search-bar {
+      float: none; }
+      #discover-home-block .heading-columns .search-bar #search-discover-input {
+        width: 250px; } }
 .cal .event-buttons {
   padding: 0;
   margin-top: 25px; }

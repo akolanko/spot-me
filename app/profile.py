@@ -22,7 +22,7 @@ def check_and_update_interests(prof_interests, user_id):
 		db.session.commit()
 
 	# parse interests
-	arr = prof_interests.lower().split(' ')
+	arr = prof_interests.lower().split(', ')
 
 	# search each interest in the array in the database
 	for i in arr:

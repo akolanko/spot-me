@@ -23,7 +23,7 @@ from calendar import Calendar
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('discover'))
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -33,7 +33,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('discover')
+            next_page = url_for('home')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -47,7 +47,7 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('discover'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data, birthday=form.birthday.data)
@@ -60,6 +60,17 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/home')
+@login_required
+def home():
+    users_interests = discover_friends(current_user.id)
+    notifications = get_notifications(current_user.id)
+    coming_up = get_recent_events(current_user.id)
+    weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    today = datetime.date.today()
+    return render_template('home.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays, today=today, users_interests=users_interests)
 
 
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
@@ -357,7 +368,7 @@ def event(event_id):
     event = Event.query.filter_by(id=event_id).first_or_404()
     user_event = user_event_exists(current_user.id, event.id)
     if user_event is None:
-        return redirect(url_for('discover'))
+        return redirect(url_for('home'))
     notifications = get_notifications(current_user.id)
     coming_up = get_recent_events(current_user.id)
     length = len(event.user_events)

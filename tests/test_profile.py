@@ -44,7 +44,7 @@ class FlaskTestProfile(unittest.TestCase):
         k_interests, k_string = get_user_interests(karen)
 
         # test Karen's interests -- intially running, tennis, and biking
-        k_str = "running reading programming hiking"
+        k_str = "running, reading, programming, hiking"
         check_and_update_interests(k_str , 1)
         k_interests, k_string = get_user_interests(karen)
         self.assertEqual(len(k_interests), 4)
@@ -77,7 +77,7 @@ class FlaskTestProfile(unittest.TestCase):
         self.assertEqual(len(j_intersts), 0)
 
         # insert completely new interests
-        jess_str = "kayaking painting origami"
+        jess_str = "kayaking, painting, origami"
         j_intersts, j_string = get_user_interests(jess)
 
         check_and_update_interests(jess_str , jess.id)

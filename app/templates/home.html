@@ -2,5 +2,100 @@
 
 {% block content %}
 	<div class='content'>
+		<div id='discover-home-block' class='discover block'>
+			<div class='heading-columns'>
+				<h2 class='page-block-title left-page-title'>Discover</h2>
+				<div class='search-bar inline-search'>
+					<form id='search-discover' action="/search_discover/" method="post">
+						<input type="text" name='interest' id="search-discover-input" placeholder='Search by interest'>
+						<button type="submit" class='hidden'></button>
+					</form>
+				</div>
+				<div class='clear'></div>
+			</div>
+			<div class='users'>
+				<ul>
+					{% for user_interests in users_interests %}
+					<li>
+						<a class='link-2' href="{{ url_for('user', user_id=user_interests[0].id) }}">
+							<div class='left'>
+								<div class='friend-thumb'>
+									<img src="{{ user_interests[0].avatar(75) }}" />
+								</div>
+							</div>
+						</a>
+						<div class='right'>
+							<a class='link-2' href="{{ url_for('user', user_id=user_interests[0].id) }}">
+								<div class='friends-name'>
+									{{ user_interests[0].fname }} {{ user_interests[0].lname }}
+								</div>
+							</a>
+							<div class='interests'>
+								Interests:
+								{% set len = user_interests[1]|length %}
+								{% for interest in user_interests[1] %}
+									{% if len - 1 == user_interests[1].index(interest) %}
+										<span class='lowercase'>{{ interest.name }}</span>
+									{% else %}
+										<span class='lowercase'>{{ interest.name }}, </span>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<div class='block sidebar'>
+		<div class='outer'>
+			<div class='user-details inner' data-userid='{{ current_user.id }}'>
+				<div class='left friend-thumb'>
+					<img src='{{ current_user.avatar(75) }}' />
+				</div>
+				<div class='right'>
+					<div class='name'>
+						{{ current_user.fname }}
+					</div>
+				</div>
+				<div class='weekdays'>
+					{% for day in weekdays %}
+					<div class='day-box'>
+						<div class='letter'>
+							{{ day[0] }}
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		<div class='outer'>
+			<div class='inner coming-up'>
+				<h2>Coming Up</h2>
+				{% if coming_up %}
+					<ul>
+						{% for event in coming_up %}
+						<li>
+							<a href="{{ url_for('event', event_id=event.id) }}">
+								{{ event.date.strftime('%m/%d/%y') }} - {{ event.start_time.strftime('%-I:%M %p') }} {{ event.title }}
+							</a>
+						</li>
+						{% endfor %}
+					</ul>
+				{% else %}
+				<span class='blue weight-med'>You do not have any events coming up.</span>
+				{% endif %}
+			</div>
+		</div>
+		<div class='outer'>
+			<div class='inner btns'>
+				<a href='{{ url_for('cal', year=0, month=0) }}'>
+					<div class='button button-1'>View Calendar</div>
+				</a>
+				<a href="{{ url_for('event_new') }}">
+					<div class='button button-5'>New Event</div>
+				</a>
+			</div>
+		</div>
 	</div>
 {% endblock %}
