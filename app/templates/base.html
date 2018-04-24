@@ -6,7 +6,7 @@
 		<title>Spot Me</title>
 		{% endif %}
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="../static/css/style.css">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 	</head>
 	<body>
 		<div id='flash-container'>
@@ -43,7 +43,7 @@
 								{{ notifications['unread_msgs_count'] }}
 							</div>
 							{% endif %}
-							<img class='nav-icon' src="../static/img/message.png" />
+							<img class='nav-icon' src="{{ url_for('static', filename='img/message.png') }}" />
 							<div class='notification-overlay' id='msg-notification-overlay'></div>
 							{% if notifications['unread_conversations'] %}
 								<div class='drop-down' id='drop-down-messages'>
@@ -77,7 +77,7 @@
 								{{ notifications['total_pending_received'] }}
 							</div>
 							{% endif %}
-							<img class='nav-icon' src="../static/img/person.png" />
+							<img class='nav-icon' src="{{ url_for('static', filename='img/person.png') }}" />
 							<div class='notification-overlay' id='friend-notification-overlay'></div>
 							{% if notifications['pending_received'] %}
 								<div class='drop-down' id='drop-down-friends'>
@@ -126,7 +126,7 @@
 								{{ notifications['ntfs_count'] }}
 							</div>
 							{% endif %}
-							<img class='nav-icon' src="../static/img/notifications.png" />
+							<img class='nav-icon' src="{{ url_for('static', filename='img/notifications.png') }}" />
 							<div class='notification-overlay' id='ntf-notification-overlay'></div>
 							{% if notifications['notifications'] %}
 								<div class='drop-down' id='drop-down-notification'>
@@ -146,7 +146,7 @@
 							{% endif %}
 						</li>
 						<li class='nav-item' id='search'>
-							<img class='nav-icon' src="../static/img/search.png" />
+							<img class='nav-icon' src="{{ url_for('static', filename='img/search.png') }}" />
 							<div class='notification-overlay'></div>
 							<div class='drop-down' id='drop-down-search'>
 								<form id='search-form' action="/search/" method="post">
@@ -185,6 +185,11 @@
 										<a href="{{ url_for('user', user_id=current_user.id) }}">Profile</a>
 									</li>
 									<li>
+										<a href="{{ url_for('cal', year=0, month=0) }}">
+											Calendar
+										</a>
+									</li>
+									<li>
 										<a href="{{ url_for('account') }}">Account</a>
 									</li>
 									<li>
@@ -206,6 +211,7 @@
 			</nav>
 		{% endif %}
 		{% block content %}{% endblock %}
+		{% block overlay %}{% endblock %}
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script type='text/javascript' src="/static/js/global_functions.js"></script>
 		<script type='text/javascript' src="/static/js/main.js"></script>

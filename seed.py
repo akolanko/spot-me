@@ -23,7 +23,7 @@ def example_data():
 
     profile_karen = Profile(user_id=1, about="Yoga | CS ", location="NYC", skills=2)
     profile_dale = Profile(user_id=2, about="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit. Curabitur at ligula maximus, laoreet est id, venenatis neque. Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit.", skills=1)
-    profile_matt = Profile(user_id=3)
+    profile_matt = Profile(user_id=3, about="Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse luctus eu lorem nec egestas.", skills=3)
     profile_jake = Profile(user_id=4)
     profile_ellen = Profile(user_id=5)
     profile_katie = Profile(user_id=6)
@@ -39,6 +39,8 @@ def example_data():
     friendship6 = Friends(user_id_1=2, user_id_2=6, status=FriendStatus.accepted)
     friendship7 = Friends(user_id_1=9, user_id_2=2, status=FriendStatus.accepted)
     friendship8 = Friends(user_id_1=2, user_id_2=8, status=FriendStatus.accepted)
+    friendship9 = Friends(user_id_1=1, user_id_2=5, status=FriendStatus.accepted)
+    friendship10 = Friends(user_id_1=1, user_id_2=6, status=FriendStatus.accepted)
 
     conversation1 = Conversation(user_id_1=1, user_id_2=2)
     conversation2 = Conversation(user_id_1=4, user_id_2=1)
@@ -67,6 +69,8 @@ def example_data():
     event2 = Event(date=datetime.date(2018, 5, 8), start_time=datetime.time(14, 30), end_time=datetime.time(15, 30), title='Event 2', location='Dodge')
     event3 = Event(date=datetime.date(2018, 5, 20), start_time=datetime.time(16, 00), end_time=datetime.time(18, 00), title='Event 3')
     event4 = Event(date=datetime.date(2018, 5, 18), start_time=datetime.time(9, 00), end_time=datetime.time(11, 30), title='Event 4')
+    event5 = Event(date=datetime.date(2018, 4, 3), start_time=datetime.time(12, 00), end_time=datetime.time(13, 30), title='Event 5', location='Campus')
+    event6 = Event(date=datetime.date(2018, 4, 26), start_time=datetime.time(13, 00), end_time=datetime.time(15, 00), title='Event 6')
 
     user_event1 = UserEvent(user_id=1, event_id=1, accepted=1)
     user_event2 = UserEvent(user_id=2, event_id=1, accepted=0)
@@ -79,6 +83,11 @@ def example_data():
     user_event9 = UserEvent(user_id=2, event_id=4, accepted=1)
     user_event10 = UserEvent(user_id=3, event_id=4, accepted=0)
     user_event11 = UserEvent(user_id=4, event_id=4, accepted=1)
+    user_event12 = UserEvent(user_id=1, event_id=5, accepted=1)
+    user_event13 = UserEvent(user_id=5, event_id=5, accepted=1)
+    user_event14 = UserEvent(user_id=6, event_id=5, accepted=1)
+    user_event15 = UserEvent(user_id=1, event_id=6, accepted=1)
+    user_event16 = UserEvent(user_id=5, event_id=6, accepted=1)
 
     event_invite1 = EventInvitation(sender_id=1, receiver_id=2, event_id=1)
     event_invite2 = EventInvitation(sender_id=2, receiver_id=1, event_id=2)
@@ -91,5 +100,5 @@ def example_data():
     notification4 = Notification(body="Karen updated the details of your event - Event 4", receiver_id=2, event_id=4, type=NotificationType.event_update)
     notification5 = Notification(body="New event invitation from Karen", receiver_id=3, event_id=4, type=NotificationType.event_invite)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, dan2, dan3, friendship1, friendship2, friendship3, friendship4, friendship5, friendship6, friendship7, friendship8, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, event_invite1, event_invite2, event_invite3, event_invite4, notification1, notification2, notification3, notification4, notification5, profile_karen, profile_dale, profile_matt, profile_jake, profile_ellen, profile_katie, profile_dan, profile_dan2, profile_dan3])
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, dan2, dan3, friendship1, friendship2, friendship3, friendship4, friendship5, friendship6, friendship7, friendship8, friendship9, friendship10, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, event5, event6, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, user_event14, user_event13, user_event14, user_event15, user_event16, event_invite1, event_invite2, event_invite3, event_invite4, notification1, notification2, notification3, notification4, notification5, profile_karen, profile_dale, profile_matt, profile_jake, profile_ellen, profile_katie, profile_dan, profile_dan2, profile_dan3])
     db.session.commit()

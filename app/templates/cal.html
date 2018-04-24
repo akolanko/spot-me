@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% set months = ['January', 'February', 'March', 'April', 'May', 'June',
+				 'July', 'August', 'September', 'October', 'November', 'December'] %}
+{% set days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+			   'Friday', 'Saturday'] %}
+
+{% block content %}
+	<div class='content'>
+		<div class='cal'>
+			<div class="prevMonth-block">
+				<a href="{{ url_for('cal', year=(year - 1 if mon == 1 else year), 
+										   month= (12 if mon == 1 else (mon - 1))) }}">
+					<img class='nav-icon' src="{{ url_for('static', filename='img/prev.png') }}" />
+				</a>
+			</div>
+			<div class="month-block">
+				<h1> {{ months[mon - 1] }} {{ year }} </h1>
+			</div>
+			<div class="nextMonth-block">
+				<a href="{{ url_for('cal', year=(year + 1 if mon == 12 else year), 
+										   month=(1 if mon == 12 else (mon + 1))) }}">
+					<img class='nav-icon' src="{{ url_for('static', filename='img/next.png') }}" />
+				</a>
+			</div>
+			<div class="event-block">
+				<div class='add-event-btn add-btn'>
+					<div class='line plus-line plus-line-1'></div>
+					<div class='line plus-line plus-line-2'></div>
+				</div>
+			</div>
+			<table class="calendar">
+				<tr>
+					{% for d in days %}
+					<th> {{ d }} </th>
+					{% endfor %}
+				</tr>
+				{% for w in weeks %}
+				<tr>
+					{% for date in w %}
+						{% if date.month == mon %}
+						<td class="current-month"> 
+						{% else %}
+						<td class="other-month">
+						{% endif %}
+						<div class='date-val'>
+							{{ date.day }} 
+						</div>
+						<div>
+						{% for event in coming_up %}
+							{% if event.date.month == date.month and
+								  event.date.year == date.year and 
+								  event.date.day == date.day %}
+							   <ul class='cal-events'>
+							   		<li>
+								   		<a href="{{ url_for('cal_event', event_id=event.id, year=year, month=mon) }}">
+								   		{{ event.start_time.strftime('%-I:%M %p') }} {{ event.title }}
+								   		</a>
+								   	</li>
+							   </ul>
+							 {%  endif %}
+						{% endfor %}
+						</div>
+						</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+{% endblock %}
+{% block overlay %}
+	<div class='overlay'>
+	</div>
+	<div class='overlay-form cal-overlay' id='new-event-overlay-form'>
+		<div class='outer'>
+			<div class='inner event-info'>
+				<div class='close-btn'>
+					<div class='close-line' id='close-line-1'>
+					</div>
+					<div class='close-line' id='close-line-2'>
+					</div>
+				</div>
+				<h1 id='event-title' class='page-title-large'>New Event</h1>
+				<form id='create-calendar-event-form' action="{{ url_for('create_event') }}" method="post">
+					{{ eventform.hidden_tag() }}
+					<div class='event-details'>
+						<div class='event-field'>
+							<div class='label'>
+								Title
+							</div>
+							<div class='field field-wide'>
+								{{ eventform.title }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.title.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='event-field'>
+							<div class='label'>
+								Date
+							</div>
+							<div class='field'>
+								{{ eventform.date }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.date.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='event-field'>
+							<div class='label'>
+								Start Time
+							</div>
+							<div class='field'>
+								{{ eventform.start_time }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.start_time.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='event-field'>
+							<div class='label'>
+								End Time
+							</div>
+							<div class='field'>
+								{{ eventform.end_time }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.end_time.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='event-field'>
+							<div class='label'>
+								Location
+							</div>
+							<div class='field'>
+								{{ eventform.location }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.location.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class='event-field'>
+							<div class='label'>
+								Notes
+							</div>
+							<div class='field field-textarea'>
+									{{ eventform.notes }}
+							</div>
+							<div class='error-container'>
+								{% for error in eventform.notes.errors %}
+									<div class="validation-error">{{ error }}</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="event-buttons">
+							{{ eventform.submit(value="Create", class='button button-1', id='event-create-btn') }}
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block javascript %}
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+{% endblock %}

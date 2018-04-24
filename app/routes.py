@@ -15,7 +15,8 @@ from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
 from app.profile import get_user_interests, check_and_update_interests
-import datetime
+from datetime import date
+from calendar import Calendar
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -484,6 +485,40 @@ def add_invite_single(event_id, user_id):
 def search():
     name = request.form.get("name")
     return search_user(name, current_user.id)
+
+
+@app.route("/calendar/<int:year>/<int:month>", methods=["GET", "POST"])
+@login_required
+def cal(year, month):
+    notifications = get_notifications(current_user.id)
+    cal = Calendar(6)
+    if year == 0 and month == 0:
+        year = date.today().year
+        month = date.today().month
+        return redirect(url_for('cal', year=year, month=month))
+    weeks = cal.monthdatescalendar(year, month)
+    coming_up = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == current_user.id, UserEvent.accepted == 1).all()
+    eventform = NewEventForm()
+    return render_template("cal.html", notifications=notifications, user=current_user, year=year, mon=month, weeks=weeks, coming_up=coming_up, eventform=eventform)
+
+
+@app.route("/calendar/<event_id>/<int:year>/<int:month>", methods=["GET", "POST"])
+@login_required
+def cal_event(event_id, year, month):
+    notifications = get_notifications(current_user.id)
+    cal = Calendar(6)
+    if year == 0 and month == 0:
+        year = date.today().year
+        month = date.today().month
+        return redirect(url_for('cal_event', year=year, month=month, event_id=event_id))
+    weeks = cal.monthdatescalendar(year, month)
+    coming_up = db.session.query(Event).join(UserEvent, UserEvent.event_id == Event.id).filter(UserEvent.user_id == current_user.id, UserEvent.accepted == 1).all()
+    event = Event.query.get(event_id)
+    user_event = UserEvent.query.filter_by(event_id=event_id, user_id=current_user.id).first()
+    eventform = eventform = UpdateEventForm()
+    friendform = AddFriendForm()
+    today = datetime.date.today()
+    return render_template("cal_event.html", notifications=notifications, user=current_user, year=year, mon=month, weeks=weeks, coming_up=coming_up, event=event, user_event=user_event, eventform=eventform, friendform=friendform, today=today)
 
 
 @app.errorhandler(500)

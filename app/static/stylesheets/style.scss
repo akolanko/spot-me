@@ -18,6 +18,7 @@ body{
 	font-family: "Open Sans", sans-serif;
 	background-color: $background;
 	font-weight: 300;
+	position: relative;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -65,3 +66,4 @@ h1,h2,h3,h4,h5,h6{
 @import 'availabilities';
 @import 'search';
 @import '404';
+@import 'calendar';
