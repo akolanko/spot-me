@@ -12,3 +12,9 @@ def get_availabilities(user_id):
 	saturday = db.session.query(Availability).join(User, Availability.user_id == User.id).filter(Availability.weekday == 7, User.id == user_id).order_by(asc(Availability.start_time)).all()
 	weekdays = [(1, "Sunday", sunday), (2, "Monday", monday), (3, "Tuesday", tuesday), (4, "Wednesday", wednesday), (5, "Thursday", thursday), (6, "Friday", friday), (7, "Saturday", saturday)]
 	return weekdays
+
+
+def add_availability(user_id, form):
+	availability = Availability(user_id=user_id, weekday=form.weekday.data, start_time=form.start_time.data, end_time=form.end_time.data)
+	db.session.add(availability)
+	db.session.commit()

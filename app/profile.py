@@ -40,3 +40,14 @@ def check_and_update_interests(prof_interests, user_id):
 				user_interest = User_Interest(user_id=user_id, interest_id=interest.id)
 				db.session.add(user_interest)
 				db.session.commit()
+
+
+def update_profile(user, form):
+	user.profile.about = form.about.data
+	user.profile.meet = form.meet.data
+	user.profile.skills = form.skills.data
+	user.profile.work = form.work.data
+	user.profile.location = form.location.data
+	passed_interests = form.interests.data
+	db.session.commit()
+	check_and_update_interests(passed_interests, user.id)

@@ -14,8 +14,8 @@ from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
-from app.profile import get_user_interests, check_and_update_interests
-from app.availabilities import get_availabilities
+from app.profile import get_user_interests, update_profile
+from app.availabilities import get_availabilities, add_availability
 from datetime import date
 from calendar import Calendar
 
@@ -83,58 +83,43 @@ def user(user_id):
     friends = get_friends(user.id)
     limited_friends = friends[:6]
     age = calculate_age(user.birthday)
-
+    conversation = conversation_exists(user.id, current_user.id)
     notifications = get_notifications(current_user.id)
     are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
 
-    interests, interests_str = get_user_interests(current_user)
     weekdays = get_availabilities(user.id)
+    availform = UpdateAvailabilityForm()
+    if availform.validate_on_submit():
+        add_availability(current_user.id, availform)
+        availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
+        db.session.add(availability)
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('user', user_id=current_user.id))
+    else:
+        print(availform.weekday.data)
 
+    interests, interests_str = get_user_interests(current_user)
     form = EditProfileForm()
     if form.validate_on_submit():
-        return redirect(url_for('edit_profile'))
-    elif request.method == 'GET':
+        update_profile(user, form)
+        flash('Your changes have been saved.')
+        return redirect(url_for('user', user_id=current_user.id))
+
+    if request.method == 'GET':
         if current_user.profile.about is not None:
             form.about.data = current_user.profile.about
-
         if current_user.profile.meet is not None:
             form.meet.data = current_user.profile.meet
-
         if current_user.profile.skills is not None:
             form.skills.data = current_user.profile.skills
-
         form.interests.data = interests_str
-
         if current_user.profile.location is not None:
             form.location.data = current_user.profile.location
-
         if current_user.profile.work is not None:
             form.work.data = current_user.profile.work
 
-    availform = UpdateAvailabilityForm()
-    if availform.validate_on_submit():
-        return redirect(url_for('edit_availability'))
-
-    conversation = conversation_exists(user.id, current_user.id)
     return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
-
-
-@app.route('/edit_profile', methods=['POST'])
-@login_required
-def edit_profile():
-    # enable editing
-    user = current_user
-    form = EditProfileForm()
-    user.profile.about = form.about.data
-    user.profile.meet = form.meet.data
-    user.profile.skills = form.skills.data
-    user.profile.work = form.work.data
-    user.profile.location = form.location.data
-    passed_interests = form.interests.data
-    db.session.commit()
-    check_and_update_interests(passed_interests, user.id)
-    flash('Your changes have been saved.')
-    return redirect(url_for('user', user_id=current_user.id))
 
 
 @app.route('/edit_availability', methods=['POST'])
