@@ -9,7 +9,6 @@ $(document).ready( function() {
 		$('#info-edit-button').hide();
 		$('#edit-profile-info').hide();
 		$('#info-edit-button').removeClass("active");
-		$('.edit-profile-info').css('height', '380px');
 	});
 
 
@@ -27,8 +26,10 @@ $(document).ready( function() {
 		$('#info-edit-button').show();
 		$('#edit-profile-info').show();
 		$('#info-edit-button').addClass("active");
-		$('.edit-profile-info').css('height', '290px');
 	});
+
+
+	//Availability editing
 
 	$('#edit-box-button').click(function(){
 		$('#avail_user').hide();
@@ -51,6 +52,25 @@ $(document).ready( function() {
 		$('#avail-edit-button').removeClass("active");
 		$('#edit-avail-overlay').hide();
 		$('#avail-edit-button').hide();
+	});
+
+	//Removing availability
+
+	$(".remove-availability-form").submit(function(e) {
+		e.preventDefault();
+		var url = $(this).attr("action");
+		var avail_id = $(this).data("availid");
+		var target = "#avail-container-" + avail_id;
+
+		$.post(url,
+			function(data) {
+				if (data["status"] == "success"){
+					$(target).fadeOut();
+				} else {
+					flashResult("An error occured.");
+				}
+			}
+		);
 	});
 
 });

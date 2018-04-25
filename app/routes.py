@@ -132,9 +132,7 @@ def edit_profile():
     user.profile.location = form.location.data
     passed_interests = form.interests.data
     db.session.commit()
-
     check_and_update_interests(passed_interests, user.id)
-    
     flash('Your changes have been saved.')
     return redirect(url_for('user', user_id=current_user.id))
 
@@ -142,14 +140,23 @@ def edit_profile():
 @app.route('/edit_availability', methods=['POST'])
 @login_required
 def edit_availability():
-    # enable editing
     availform = UpdateAvailabilityForm()
     availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
     db.session.add(availability)
     db.session.commit()
-
     flash('Your changes have been saved.')
     return redirect(url_for('user', user_id=current_user.id))
+
+
+@app.route('/remove_availability/<availability_id>/', methods=['POST'])
+@login_required
+def remove_availability(availability_id):
+    availability = Availability.query.get(availability_id)
+    if availability.user_id == current_user.id:
+        db.session.delete(availability)
+        db.session.commit()
+        return jsonify({"status": "success", "id": availability_id})
+    return jsonify({"status": "error"})
 
 
 @app.route("/friends/<user_id>")

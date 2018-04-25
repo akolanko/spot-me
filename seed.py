@@ -22,7 +22,7 @@ def example_data():
     dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 4, 12))
     dan3.set_password('dan3')
 
-    profile_karen = Profile(user_id=1, about="Yoga | CS ", location="NYC", skills=2)
+    profile_karen = Profile(user_id=1, about="Yoga | CS ", location="NYC", skills=2, work="Student")
     profile_dale = Profile(user_id=2, about="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit. Curabitur at ligula maximus, laoreet est id, venenatis neque. Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Phasellus in dui lobortis, condimentum sapien sed, imperdiet velit.", skills=1)
     profile_matt = Profile(user_id=3, about="Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse luctus eu lorem nec egestas.", skills=3)
     profile_jake = Profile(user_id=4)
@@ -102,5 +102,15 @@ def example_data():
     notification4 = Notification(body="Karen updated the details of your event - Event 4", receiver_id=2, event_id=4, type=NotificationType.event_update)
     notification5 = Notification(body="New event invitation from Karen", receiver_id=3, event_id=4, type=NotificationType.event_invite)
 
-    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, dan2, dan3, friendship1, friendship2, friendship3, friendship4, friendship5, friendship6, friendship7, friendship8, friendship9, friendship10, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, event5, event6, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, user_event12, user_event13, user_event14, user_event15, user_event16, event_invite1, event_invite2, event_invite3, event_invite4, notification1, notification2, notification3, notification4, notification5, profile_karen, profile_dale, profile_matt, profile_jake, profile_ellen, profile_katie, profile_dan, profile_dan2, profile_dan3])
+    avail1 = Availability(user_id=1, weekday=1, start_time=datetime.time(12, 00), end_time=datetime.time(15, 00))
+    avail2 = Availability(user_id=1, weekday=4, start_time=datetime.time(9, 00), end_time=datetime.time(10, 00))
+    avail3 = Availability(user_id=1, weekday=4, start_time=datetime.time(16, 00), end_time=datetime.time(18, 00))
+    avail4 = Availability(user_id=1, weekday=5, start_time=datetime.time(13, 00), end_time=datetime.time(16, 30))
+    avail5 = Availability(user_id=2, weekday=2, start_time=datetime.time(9, 30), end_time=datetime.time(11, 00))
+    avail6 = Availability(user_id=2, weekday=3, start_time=datetime.time(15, 00), end_time=datetime.time(17, 00))
+    avail7 = Availability(user_id=2, weekday=6, start_time=datetime.time(8, 00), end_time=datetime.time(11, 00))
+    avail8 = Availability(user_id=6, weekday=6, start_time=datetime.time(12, 00), end_time=datetime.time(16, 00))
+    avail9 = Availability(user_id=6, weekday=6, start_time=datetime.time(15, 30), end_time=datetime.time(17, 30))
+
+    db.session.add_all([karen, dale, matt, jake, ellen, katie, dan, dan2, dan3, friendship1, friendship2, friendship3, friendship4, friendship5, friendship6, friendship7, friendship8, friendship9, friendship10, conversation1, conversation2, message1, message2, message3, interest1, interest2, interest3, interest4, user_interest1, user_interest2, user_interest3, user_interest4, user_interest5, user_interest6, user_interest7, user_interest8, user_interest9, user_interest10, user_interest11, user_interest12, event1, event2, event3, event4, event5, event6, user_event1, user_event2, user_event3, user_event4, user_event5, user_event6, user_event7, user_event8, user_event9, user_event10, user_event11, user_event12, user_event13, user_event14, user_event15, user_event16, event_invite1, event_invite2, event_invite3, event_invite4, notification1, notification2, notification3, notification4, notification5, profile_karen, profile_dale, profile_matt, profile_jake, profile_ellen, profile_katie, profile_dan, profile_dan2, profile_dan3, avail1, avail2, avail3, avail4, avail5, avail6, avail7, avail8, avail9])
     db.session.commit()

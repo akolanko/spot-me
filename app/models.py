@@ -195,10 +195,10 @@ class Notification(db.Model):
 
 class Availability(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id   = db.Column(db.Integer, db.ForeignKey('user.id'))
-    weekday = db.Column(db.Integer, index=True)
-    start_time = db.Column(db.Time)
-    end_time = db.Column(db.Time)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    weekday = db.Column(db.Integer, index=True, nullable=False)
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
 
     def serialize(self):
         return {
