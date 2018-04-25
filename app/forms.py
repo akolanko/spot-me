@@ -72,9 +72,8 @@ class UpdateEventForm(FlaskForm):
 
 
 class EditProfileForm(FlaskForm):
-	username  = StringField('Username', validators=[DataRequired()])
 	# left col
-	skills    = SelectField('Skill Level', choices=[(1, 'Beginner'),
+	skills    = SelectField('Skill Level', coerce=int, choices=[(1, 'Beginner'),
 	(2, 'Intermediate'), (3, 'Advanced')], default=1)
 	location  = StringField('Location', validators=[Length(min=0, max=40)])
 	work      = StringField('Work', validators=[Length(min=0, max=30)])
@@ -86,7 +85,7 @@ class EditProfileForm(FlaskForm):
 
 
 class UpdateAvailabilityForm(FlaskForm):
-	weekday = SelectField('Weekday', choices=[(1, "Sunday"), (2, "Monday"), (3, "Tuesday"), (4, "Wednesday"), (5, "Thursday"), (6, "Friday"),(7, "Saturday")], default=1)
+	weekday = SelectField('Weekday', coerce=int, choices=[(1, "Sunday"), (2, "Monday"), (3, "Tuesday"), (4, "Wednesday"), (5, "Thursday"), (6, "Friday"),(7, "Saturday")], default=1)
 	start_time = TimeField('Start Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
 	end_time = TimeField('End Time', validators=[DataRequired()], render_kw={"placeholder": "hh:mm"})
 	submit = SubmitField('Submit')

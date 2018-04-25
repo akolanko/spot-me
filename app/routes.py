@@ -74,7 +74,7 @@ def home():
     return render_template('home.html', notifications=notifications, coming_up=coming_up, weekdays=weekdays, today=today, users_interests=users_interests)
 
 
-@app.route('/user/<user_id>', methods=['GET', 'POST'])
+@app.route('/user/<user_id>')
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
@@ -85,39 +85,52 @@ def user(user_id):
     age = calculate_age(user.birthday)
     conversation = conversation_exists(user.id, current_user.id)
     notifications = get_notifications(current_user.id)
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
-
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
     weekdays = get_availabilities(user.id)
     availform = UpdateAvailabilityForm()
-    if availform.validate_on_submit():
-        add_availability(current_user.id, availform)
-        availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
-        db.session.add(availability)
-        db.session.commit()
-        flash('Your changes have been saved.')
-        return redirect(url_for('user', user_id=current_user.id))
-    else:
-        print(availform.weekday.data)
-
     interests, interests_str = get_user_interests(current_user)
     form = EditProfileForm()
+
+    if current_user.profile.about is not None:
+        form.about.data = current_user.profile.about
+    if current_user.profile.meet is not None:
+        form.meet.data = current_user.profile.meet
+    if current_user.profile.skills is not None:
+        form.skills.data = current_user.profile.skills
+    form.interests.data = interests_str
+    if current_user.profile.location is not None:
+        form.location.data = current_user.profile.location
+    if current_user.profile.work is not None:
+        form.work.data = current_user.profile.work
+
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+
+
+@app.route('/edit_profile', methods=['POST'])
+@login_required
+def edit_profile():
+    print('editing')
+    user = current_user
+    profile = user.profile
+    total_friends = len(get_friends(user.id))
+    friends = get_friends(user.id)
+    limited_friends = friends[:6]
+    age = calculate_age(user.birthday)
+    conversation = conversation_exists(user.id, current_user.id)
+    notifications = get_notifications(current_user.id)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
+    weekdays = get_availabilities(user.id)
+    availform = UpdateAvailabilityForm()
+    interests, interests_str = get_user_interests(current_user)
+    form = EditProfileForm()
+
     if form.validate_on_submit():
-        update_profile(user, form)
+        print('updating')
+        update_profile(current_user, form)
         flash('Your changes have been saved.')
         return redirect(url_for('user', user_id=current_user.id))
-
-    if request.method == 'GET':
-        if current_user.profile.about is not None:
-            form.about.data = current_user.profile.about
-        if current_user.profile.meet is not None:
-            form.meet.data = current_user.profile.meet
-        if current_user.profile.skills is not None:
-            form.skills.data = current_user.profile.skills
-        form.interests.data = interests_str
-        if current_user.profile.location is not None:
-            form.location.data = current_user.profile.location
-        if current_user.profile.work is not None:
-            form.work.data = current_user.profile.work
+    print('not valid')
+    print(form.errors)
 
     return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
 
@@ -125,12 +138,29 @@ def user(user_id):
 @app.route('/edit_availability', methods=['POST'])
 @login_required
 def edit_availability():
+    user = current_user
+    profile = user.profile
+    total_friends = len(get_friends(user.id))
+    friends = get_friends(user.id)
+    limited_friends = friends[:6]
+    age = calculate_age(user.birthday)
+    conversation = conversation_exists(user.id, current_user.id)
+    notifications = get_notifications(current_user.id)
+    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
+    weekdays = get_availabilities(user.id)
     availform = UpdateAvailabilityForm()
-    availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
-    db.session.add(availability)
-    db.session.commit()
-    flash('Your changes have been saved.')
-    return redirect(url_for('user', user_id=current_user.id))
+    interests, interests_str = get_user_interests(current_user)
+    form = EditProfileForm()
+
+    if availform.validate_on_submit():
+        add_availability(current_user.id, availform)
+        availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
+        db.session.add(availability)
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('user', user_id=current_user.id))
+
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
 
 
 @app.route('/remove_availability/<availability_id>/', methods=['POST'])

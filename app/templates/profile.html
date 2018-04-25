@@ -7,7 +7,7 @@
 		<div class='overlay' id='edit-info-overlay'></div>
 		<button class='button button-6 active' id='info-edit-button'>Edit</button>
 		<div id='profile-box'>
-			<form id ='edit-profile-form' action="" method="post">
+			<form id ='edit-profile-form' action="{{ url_for('edit_profile') }}" method="post">
 				{{ form.hidden_tag() }}
 				<div class='col left'>
 					<div class='profile-skills'>
@@ -238,7 +238,7 @@
 				<div class='overlay' id='edit-avail-overlay'></div>
 				<button class='button button-6 active' id='avail-edit-button'>Edit</button>
 				<div class='edit-day-box'>
-					<form action="" method="post">
+					<form action="{{ url_for('edit_availability') }}" method="post">
 						{{ availform.hidden_tag() }}
 						<div class='profile-field-outer'>
 							<div class='profile-label'>
