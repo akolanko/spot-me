@@ -19,7 +19,7 @@ def convert_list(list):
         weekday_list.append(len(item[2]))
     return weekday_list
 
-class FlaskTestProfile(unittest.TestCase):
+class FlaskTestAvailabilities(unittest.TestCase):
     def setUp(self):
         """Do before every test"""
 

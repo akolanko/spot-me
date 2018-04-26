@@ -8,8 +8,6 @@ from sample_db import example_data
 from connect import connect_to_db
 from json import loads
 from app.search import search_user
-from app.routes import search
-from flask_login import login_user
 
 
 class FlaskTestSearch(unittest.TestCase):
@@ -75,10 +73,6 @@ class FlaskTestSearch(unittest.TestCase):
 		self.assertEqual(data[0]["lname"], "Smith")
 		self.assertEqual(data[1]["fname"], "Dan")
 		self.assertEqual(data[1]["lname"], "Allen")
-
-	"""Test search route"""
-
-	
 
 
 if __name__ == '__main__':

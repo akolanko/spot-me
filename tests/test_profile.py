@@ -6,9 +6,7 @@ from main import app
 from app.models import *
 from sample_db import example_data
 from connect import connect_to_db
-from app.routes import user, edit_profile
 from app.profile import check_and_update_interests, get_user_interests, update_profile
-from flask_login import login_user, logout_user
 import datetime
 from app.forms import EditProfileForm
 
