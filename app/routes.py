@@ -14,7 +14,7 @@ from sqlalchemy import asc
 from app.accounts import validate_account, calculate_age
 from app.events import *
 from app.search import search_user
-from app.profile import get_user_interests, update_profile
+from app.profile import get_user_interests, update_profile, get_profile_data
 from app.availabilities import get_availabilities, add_availability
 from datetime import date
 from calendar import Calendar
@@ -78,18 +78,8 @@ def home():
 @login_required
 def user(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    profile = user.profile
-    total_friends = len(get_friends(user.id))
-    friends = get_friends(user.id)
-    limited_friends = friends[:6]
-    age = calculate_age(user.birthday)
-    conversation = conversation_exists(user.id, current_user.id)
-    notifications = get_notifications(current_user.id)
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
-    weekdays = get_availabilities(user.id)
-    availform = UpdateAvailabilityForm()
-    interests, interests_str = get_user_interests(current_user)
-    form = EditProfileForm()
+    are_friends, is_pending_sent, is_pending_received, friends, limited_friends, total_friends, notifications, conversation, age = get_user_data(user, current_user)
+    profile, weekdays, availform, interests, interests_str, form = get_profile_data(user, current_user)
 
     if current_user.profile.about is not None:
         form.about.data = current_user.profile.about
@@ -109,29 +99,13 @@ def user(user_id):
 @app.route('/edit_profile', methods=['POST'])
 @login_required
 def edit_profile():
-    print('editing')
     user = current_user
-    profile = user.profile
-    total_friends = len(get_friends(user.id))
-    friends = get_friends(user.id)
-    limited_friends = friends[:6]
-    age = calculate_age(user.birthday)
-    conversation = conversation_exists(user.id, current_user.id)
-    notifications = get_notifications(current_user.id)
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
-    weekdays = get_availabilities(user.id)
-    availform = UpdateAvailabilityForm()
-    interests, interests_str = get_user_interests(current_user)
-    form = EditProfileForm()
-
+    are_friends, is_pending_sent, is_pending_received, friends, limited_friends, total_friends, notifications, conversation, age = get_user_data(user, current_user)
+    profile, weekdays, availform, interests, interests_str, form = get_profile_data(user, current_user)
     if form.validate_on_submit():
-        print('updating')
         update_profile(current_user, form)
         flash('Your changes have been saved.')
         return redirect(url_for('user', user_id=current_user.id))
-    print('not valid')
-    print(form.errors)
-
     return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
 
 
@@ -139,24 +113,11 @@ def edit_profile():
 @login_required
 def edit_availability():
     user = current_user
-    profile = user.profile
-    total_friends = len(get_friends(user.id))
-    friends = get_friends(user.id)
-    limited_friends = friends[:6]
-    age = calculate_age(user.birthday)
-    conversation = conversation_exists(user.id, current_user.id)
-    notifications = get_notifications(current_user.id)
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
-    weekdays = get_availabilities(user.id)
-    availform = UpdateAvailabilityForm()
-    interests, interests_str = get_user_interests(current_user)
-    form = EditProfileForm()
+    are_friends, is_pending_sent, is_pending_received, friends, limited_friends, total_friends, notifications, conversation, age = get_user_data(user, current_user)
+    profile, weekdays, availform, interests, interests_str, form = get_profile_data(user, current_user)
 
     if availform.validate_on_submit():
         add_availability(current_user.id, availform)
-        availability = Availability(user_id=current_user.id, weekday=availform.weekday.data, start_time=availform.start_time.data, end_time=availform.end_time.data)
-        db.session.add(availability)
-        db.session.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('user', user_id=current_user.id))
 
@@ -178,13 +139,7 @@ def remove_availability(availability_id):
 @login_required
 def friends(user_id):
     user = User.query.filter_by(id=user_id).first_or_404()
-    are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user_id)
-    friends = get_friends(user_id)
-    limited_friends = friends[:6]
-    total_friends = len(friends)
-    notifications = get_notifications(current_user.id)
-    conversation = conversation_exists(user.id, current_user.id)
-    age = calculate_age(user.birthday)
+    are_friends, is_pending_sent, is_pending_received, friends, limited_friends, total_friends, notifications, conversation, age = get_user_data(user, current_user)
     return render_template("friends.html", user=user, friends=friends, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age)
 
 

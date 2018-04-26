@@ -52,9 +52,9 @@ def example_data():
     dylan = User(username='dylan', email='dylan@example.com', fname='Dylan', lname='Parker', birthday=datetime.date(1993, 7, 3))
     dylan.set_password('dylan')
 
-    profile_karen = Profile(user_id=1)
-    profile_dale = Profile(user_id=2)
-    profile_matt = Profile(user_id=3)
+    profile_karen = Profile(user_id=1, about="Lorem ipsum dolor.", location="NYC", skills=2, work="Student")
+    profile_dale = Profile(user_id=2, about="Phasellus in dui lobortis.", location="NYC", work="Student", meet="Condimentum sapien sed, imperdiet velit.", skills=1)
+    profile_matt = Profile(user_id=3, about="Donec vitae nisi sit amet risus feugiat bibendum.", location="NYC", work="Student", meet="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse luctus eu lorem nec egestas.", skills=3)
     profile_jake = Profile(user_id=4)
     profile_ellen = Profile(user_id=5)
     profile_katie = Profile(user_id=6)

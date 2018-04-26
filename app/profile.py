@@ -1,5 +1,32 @@
 from app.models import *
 from app import db
+from app.forms import UpdateAvailabilityForm, EditProfileForm
+from app.availabilities import get_availabilities
+from app.friends import are_friends_or_pending, get_friends
+from app.notifications import get_notifications
+from app.messages import conversation_exists
+from app.accounts import calculate_age
+
+
+def get_user_data(user, current_user):
+	are_friends, is_pending_sent, is_pending_received = are_friends_or_pending(current_user.id, user.id)
+	friends = get_friends(user.id)
+	limited_friends = friends[:6]
+	total_friends = len(friends)
+	notifications = get_notifications(current_user.id)
+	conversation = conversation_exists(user.id, current_user.id)
+	age = calculate_age(user.birthday)
+	return are_friends, is_pending_sent, is_pending_received, friends, limited_friends, total_friends, notifications, conversation, age
+
+
+def get_profile_data(user, current_user):
+	profile = user.profile
+	weekdays = get_availabilities(user.id)
+	availform = UpdateAvailabilityForm()
+	interests, interests_str = get_user_interests(current_user)
+	form = EditProfileForm()
+	return profile, weekdays, availform, interests, interests_str, form
+
 
 def get_user_interests(user):
 	interests = db.session.query(Interest).join(User_Interest).filter(User_Interest.user_id == user.id, Interest.id == User_Interest.interest_id).all()
@@ -8,7 +35,6 @@ def get_user_interests(user):
 		interests_str += interest.name.capitalize()
 		if (len(interests) - 1 != interests.index(interest)):
 			interests_str += ", "
-
 	return interests, interests_str
 
 
