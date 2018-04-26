@@ -28,7 +28,7 @@ def example_data():
     dan2 = User(username='dan2', email='dan2@example.com', fname='Dan', lname='Smith', birthday=datetime.date(2000, 10, 9))
     dan2.set_password('dan2')
     #id=9
-    dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 04, 12))
+    dan3 = User(username='dan3', email='dan3@example.com', fname='Dan', lname='Allen', birthday=datetime.date(1995, 4, 12))
     dan3.set_password('dan3')
     #id=10
     brian = User(username='brian', email='brian@example.com', fname='Brian', lname='Jones', birthday=datetime.date(1994, 5, 20))

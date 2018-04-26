@@ -9,6 +9,7 @@ from connect import connect_to_db
 from flask_login import login_user
 from app.routes import cal
 
+
 class FlaskTestCalendar(unittest.TestCase):
 
 	def setUp(self):
