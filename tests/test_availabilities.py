@@ -11,7 +11,7 @@ from json import loads
 from flask_login import login_user, logout_user
 
 
-class FlaskTestProfile(unittest.TestCase):
+class FlaskTestAvailabilities(unittest.TestCase):
     def setUp(self):
         """Do before every test"""
 

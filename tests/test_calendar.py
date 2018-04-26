@@ -9,7 +9,7 @@ from connect import connect_to_db
 from flask_login import login_user
 from app.routes import cal
 
-class FlaskTestEvents(unittest.TestCase):
+class FlaskTestCalendar(unittest.TestCase):
 
 	def setUp(self):
 		"""Do before every test"""
@@ -57,6 +57,7 @@ class FlaskTestEvents(unittest.TestCase):
 		month = 12 
 		self.assertEqual((year + 1 if month == 12 else year), 2019)
 		self.assertEqual((1 if month == 12 else month - 1), 1)
+
 
 if __name__ =='__main__':
 	unittest.main()
