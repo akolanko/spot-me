@@ -14,7 +14,7 @@ from sqlalchemy import asc
 from app.accounts import validate_account, update_psw
 from app.events import *
 from app.search import search_user
-from app.profile import update_profile, get_profile_data
+from app.profile import update_profile, get_profile_data, get_user_data
 from app.availabilities import get_availabilities, add_availability
 from app.login import post_resistration
 from datetime import date
