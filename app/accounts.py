@@ -20,3 +20,9 @@ def validate_account(cur_user, form_username, form_email):
 def calculate_age(born):
 	today = date.today()
 	return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
+
+def update_psw(pswform, current_user):
+	current_user.set_password(pswform.password.data)
+	db.session.add(current_user)
+	db.session.commit()

@@ -47,6 +47,7 @@ test:
     - python -m tests.test_search
     - python -m tests.test_profile
     - python -m tests.test_calendar
+    - python -m tests.test_availabilities
 
 deployment:
     staging:

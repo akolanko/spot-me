@@ -11,6 +11,8 @@ from connect import connect_to_db
 from json import loads
 from app.routes import event, event_new, accept_invitation, decline_invitation, remove_event, add_invite_single
 from flask_login import login_user, logout_user
+import datetime
+from app.forms import UpdateEventForm
 
 
 def convert_list(list):
@@ -155,6 +157,35 @@ class FlaskTestEvents(unittest.TestCase):
 		self.assertEqual(data[0], "multiple results")
 		self.assertEqual(data[1][0]["id"], 9)
 		self.assertEqual(data[1][1]["id"], 8)
+
+	def test_post_event_update(self):
+		event = Event.query.get(1)
+		self.assertEqual(event.date, datetime.date(2018, 11, 30))
+		self.assertEqual(event.start_time, datetime.time(20, 15))
+		self.assertEqual(event.end_time, datetime.time(11, 15))
+		self.assertEqual(event.title, 'Event 1')
+		self.assertEqual(event.location, 'Campus')
+		self.assertEqual(event.notes, 'Lorem ipsum')
+		eventform = UpdateEventForm(title="Soccer", date=datetime.date(2018, 5, 10), start_time=datetime.time(13, 30), end_time=datetime.time(15, 30), location="Columbia", notes="Some notes")
+		post_event_update(eventform, event)
+		self.assertEqual(event.date, datetime.date(2018, 5, 10))
+		self.assertEqual(event.start_time, datetime.time(13, 30))
+		self.assertEqual(event.end_time, datetime.time(15, 30))
+		self.assertEqual(event.title, "Soccer")
+		self.assertEqual(event.location, "Columbia")
+		self.assertEqual(event.notes, "Some notes")
+
+	def test_add_event(self):
+		user = User.query.get(1)
+		login_user(User.query.get(1))
+		event = Event.query.filter_by(title="My Event").first()
+		self.assertIsNone(event)
+		new_event = Event(title="My Event", date=datetime.date(2018, 9, 30), start_time=datetime.time(10, 15), end_time=datetime.time(11, 15), location='Columbia', notes='Lorem ipsum')
+		add_event(new_event, user)
+		event = Event.query.filter_by(title="My Event").first()
+		self.assertIsNotNone(event)
+		user_event = UserEvent.query.filter_by(user_id=user.id, event_id=event.id, accepted=True).first()
+		self.assertIsNotNone(user_event)
 
 	"""Test event routes"""
 

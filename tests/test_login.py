@@ -7,7 +7,10 @@ from app.models import *
 from sample_db import example_data
 from connect import connect_to_db
 from flask_login import login_user, current_user
-from app.routes import login, logout, register
+from app.routes import login, logout, register, home
+from app.login import post_resistration
+from app.forms import RegistrationForm
+import datetime
 
 
 class FlaskTestLogin(unittest.TestCase):
@@ -52,6 +55,23 @@ class FlaskTestLogin(unittest.TestCase):
 	def test_register_page(self):
 		result = register()
 		self.assertIn("Sign Up", result)
+
+	def test_post_resistration(self):
+		user = User.query.filter_by(username="susan").first()
+		self.assertIsNone(user)
+		form = RegistrationForm(username="susan", email="susan@example.com", password="susan", password_repeat="susan", fname="Susan", lname="Smith", birthday=datetime.date(1993, 7, 3))
+		post_resistration(form)
+		user = User.query.filter_by(username="susan").first()
+		self.assertIsNotNone(user)
+
+
+	"""Test homepage"""
+
+	def test_home(self):
+		login_user(User.query.get(1))
+		result = home()
+		self.assertIn("Discover", result)
+		self.assertIn("<h2>Coming Up</h2>", result)
 
 
 if __name__ == '__main__':

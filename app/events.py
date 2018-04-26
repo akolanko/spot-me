@@ -78,3 +78,22 @@ def invite_search(users, event_id, sender_id):
 				not_ivited_users.append(user)
 		return check_results(not_ivited_users, event_id, sender_id)
 	return check_results(users, event_id, sender_id)
+
+
+def post_event_update(eventform, event):
+	event.title = eventform.title.data
+	event.date = eventform.date.data
+	event.start_time = eventform.start_time.data
+	event.end_time = eventform.end_time.data
+	event.location = eventform.location.data
+	event.notes = eventform.notes.data
+	db.session.add(event)
+	db.session.commit()
+
+
+def add_event(event, current_user):
+	db.session.add(event)
+	db.session.commit()
+	user_event = UserEvent(user_id=current_user.id, event_id=event.id, accepted=True)
+	db.session.add(user_event)
+	db.session.commit()

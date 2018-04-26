@@ -9,8 +9,9 @@ from app.accounts import *
 from connect import connect_to_db
 from app import db
 import datetime
-from app.routes import account, delete_account
+from app.routes import account, delete_account, update_psw
 from flask_login import login_user
+from app.forms import UpdatePasswordForm
 
 
 class FlaskTestAccounts(unittest.TestCase):
@@ -72,6 +73,16 @@ class FlaskTestAccounts(unittest.TestCase):
 		born = datetime.date(1990, 10, 1)
 		age = calculate_age(born)
 		self.assertEqual(age, 27)
+
+	def test_update_psw(self):
+		user = User.query.get(1)
+		check = user.check_password("karen")
+		self.assertTrue(check)
+		pswform = UpdatePasswordForm(password="pass", password_repeat="pass")
+		update_psw(pswform, user)
+		check = user.check_password("pass")
+		self.assertTrue(check)
+
 
 	"""Test account routes"""
 

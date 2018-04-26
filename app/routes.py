@@ -6,16 +6,17 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import *
 from flask import request
 from werkzeug.urls import url_parse
-from app.friends import are_friends_or_pending, get_friends
+from app.friends import are_friends_or_pending
 from app.notifications import *
 from app.messages import *
 from app.discover import discover_friends, search_interests, get_interests
 from sqlalchemy import asc
-from app.accounts import validate_account, calculate_age
+from app.accounts import validate_account, update_psw
 from app.events import *
 from app.search import search_user
-from app.profile import get_user_interests, update_profile, get_profile_data
+from app.profile import update_profile, get_profile_data
 from app.availabilities import get_availabilities, add_availability
+from app.login import post_resistration
 from datetime import date
 from calendar import Calendar
 
@@ -51,13 +52,7 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=(form.username.data).lower(), email=form.email.data, fname=form.fname.data, lname=form.lname.data, birthday=form.birthday.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        profile = Profile(user_id=user.id)
-        db.session.add(profile)
-        user.profile = profile
-        db.session.commit()
+        post_resistration(form)
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
@@ -323,9 +318,7 @@ def update_account():
 def update_password():
     pswform = UpdatePasswordForm()
     if pswform.validate_on_submit():
-        current_user.set_password(pswform.password.data)
-        db.session.add(current_user)
-        db.session.commit()
+        update_psw(pswform, current_user)
         return jsonify("Password updated.")
     return jsonify(pswform.errors)
 
@@ -382,14 +375,7 @@ def update_event(event_id):
     event = Event.query.filter_by(id=event_id).first()
     eventform = UpdateEventForm()
     if eventform.validate_on_submit():
-        event.title = eventform.title.data
-        event.date = eventform.date.data
-        event.start_time = eventform.start_time.data
-        event.end_time = eventform.end_time.data
-        event.location = eventform.location.data
-        event.notes = eventform.notes.data
-        db.session.add(event)
-        db.session.commit()
+        post_event_update(eventform, event)
         return jsonify(["success", {"title": eventform.title.data, "date": eventform.date.data, "start_time": str(event.start_time), "end_time": str(event.end_time), "location": eventform.location.data, "notes": eventform.notes.data}])
     return jsonify(["error", eventform.errors])
 
@@ -410,11 +396,7 @@ def create_event():
     eventform = NewEventForm()
     if eventform.validate_on_submit():
         event = Event(title=eventform.title.data, date=eventform.date.data, start_time=eventform.start_time.data, end_time=eventform.end_time.data, location=eventform.location.data, notes=eventform.notes.data)
-        db.session.add(event)
-        db.session.commit()
-        user_event = UserEvent(user_id=current_user.id, event_id=event.id, accepted=True)
-        db.session.add(user_event)
-        db.session.commit()
+        add_event(event, current_user)
         return jsonify(["success", event.id])
     return jsonify(["error", eventform.errors])
 
