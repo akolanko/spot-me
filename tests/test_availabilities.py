@@ -2,14 +2,22 @@ import sys
 import os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir, 'app')))
 import unittest
+import datetime
 from main import app
 from app.models import *
+from app.forms import UpdateAvailabilityForm
+from app.availabilities import *
 from sample_db import example_data
 from connect import connect_to_db
 from app.routes import remove_availability
 from json import loads
 from flask_login import login_user, logout_user
 
+def convert_list(list):
+    weekday_list = []
+    for item in list:
+        weekday_list.append(len(item[2]))
+    return weekday_list
 
 class FlaskTestProfile(unittest.TestCase):
     def setUp(self):
@@ -35,6 +43,23 @@ class FlaskTestProfile(unittest.TestCase):
 
         db.session.close()
         db.drop_all()
+
+    def test_add_availability(self):
+        user = User.query.get(9)
+        avail = Availability.query.get(10)
+        self.assertIsNone(avail)
+        form = UpdateAvailabilityForm(weekday=1, start_time=datetime.strptime('03:55', '%H:%M').time(), end_time=datetime.strptime('08:55', '%H:%M').time())
+        add_availability(user, form)
+        self.assertIsNotNone(form.start_time)
+
+
+    def test_get_availabilities(self):
+        user = User.query.get(1)
+        weekdays = get_availabilities(user.id)
+        self.assertEqual(convert_list(weekdays), [1, 0, 0, 2, 1, 0, 0])
+        user = User.query.get(9)
+        weekdays = get_availabilities(user.id)
+        self.assertEqual(convert_list(weekdays), [0, 0, 0, 0, 0, 0, 0])
 
     def test_remove_availability(self):
         user = User.query.get(1)
