@@ -21,7 +21,6 @@
 	}
 
 	#profile-box{
-		display: none;
 		width: 100%;
 		background-color: $white;
 
@@ -33,6 +32,14 @@
 				font-weight: 400;
 			}
 		}
+	}
+
+	#profile-box.hide{
+		display: none;
+	}
+
+	#profile-box.show{
+		display: block;
 	}
 
 	#main-profile-info{
@@ -96,6 +103,15 @@
 				}
 			}
 		}
+	}
+
+	
+	#main-profile-info.hide{
+		display: none;
+	}
+
+	#main-profile-info.show{
+		display: block;
 	}
 }
 
@@ -220,7 +236,6 @@
 	}
 
 	.edit-day-box{
-		display: none;
 		margin-top: 15px;
 
 		.profile-field-outer{
@@ -230,6 +245,14 @@
 				margin-top: 0.5em;
 			}
 		}
+	}
+
+	.edit-day-box.hide{
+		display: none;
+	}
+
+	.edit-day-box.show{
+		display: block;
 	}
 }
 

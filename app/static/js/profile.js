@@ -3,11 +3,10 @@ $(document).ready( function() {
 	// Profile edit
 
 	$('#info-edit-button').click(function(){
-		$('#profile-box').fadeIn();
-		$('#main-profile-info').hide();
+		$('#profile-box').removeClass("hide").addClass("show");
+		$('#main-profile-info').removeClass("show").addClass("hide");
 		$('#edit-info-overlay').hide();
 		$('#info-edit-button').hide();
-		$('#edit-profile-info').hide();
 		$('#info-edit-button').removeClass("active");
 	});
 
@@ -20,11 +19,10 @@ $(document).ready( function() {
 	});
 
 	$('#cancel-edit').click(function() {
-		$('#profile-box').hide();
-		$('#main-profile-info').show();
+		$('#profile-box').removeClass("show").addClass("hide");
+		$('#main-profile-info').removeClass("hide").addClass("show");
 		$('#edit-info-overlay').show();
 		$('#info-edit-button').show();
-		$('#edit-profile-info').show();
 		$('#info-edit-button').addClass("active");
 	});
 
@@ -48,7 +46,7 @@ $(document).ready( function() {
 	});
 
 	$('#avail-edit-button').click(function(){
-		$('.edit-day-box').show();
+		$('.edit-day-box').removeClass("hide").addClass("show");
 		$('#avail-edit-button').removeClass("active");
 		$('#edit-avail-overlay').hide();
 		$('#avail-edit-button').hide();

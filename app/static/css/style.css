@@ -398,7 +398,6 @@ nav {
   .profile-right-col .block {
     margin-bottom: 1em; }
   .profile-right-col #profile-box {
-    display: none;
     width: 100%;
     background-color: #fff; }
     .profile-right-col #profile-box .inline-buttons {
@@ -406,6 +405,10 @@ nav {
       .profile-right-col #profile-box .inline-buttons #cancel-edit {
         display: inline-block;
         font-weight: 400; }
+  .profile-right-col #profile-box.hide {
+    display: none; }
+  .profile-right-col #profile-box.show {
+    display: block; }
   .profile-right-col #main-profile-info {
     background-color: #fff; }
   .profile-right-col #main-profile-info .left, .profile-right-col #profile-box .left {
@@ -433,6 +436,10 @@ nav {
     .profile-right-col #main-profile-info .col .profile-interests .profile-field, .profile-right-col #main-profile-info .col .profile-about .profile-field, .profile-right-col #main-profile-info .col .profile-meet .profile-field, .profile-right-col #profile-box .col .profile-interests .profile-field, .profile-right-col #profile-box .col .profile-about .profile-field, .profile-right-col #profile-box .col .profile-meet .profile-field {
       height: 80px;
       width: 100%; }
+  .profile-right-col #main-profile-info.hide {
+    display: none; }
+  .profile-right-col #main-profile-info.show {
+    display: block; }
 
 .profile-availability {
   margin-top: 10px; }
@@ -519,12 +526,15 @@ nav {
             cursor: pointer;
             background-color: #000; }
   .profile-availability .edit-day-box {
-    display: none;
     margin-top: 15px; }
     .profile-availability .edit-day-box .profile-field-outer {
       width: 50%; }
       .profile-availability .edit-day-box .profile-field-outer .profile-field {
         margin-top: 0.5em; }
+  .profile-availability .edit-day-box.hide {
+    display: none; }
+  .profile-availability .edit-day-box.show {
+    display: block; }
 
 .day-box:last-of-type {
   margin-right: 0; }

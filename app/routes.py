@@ -88,7 +88,7 @@ def user(user_id):
     if current_user.profile.work is not None:
         form.work.data = current_user.profile.work
 
-    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests, profile_errors=False, avail_errors=False)
 
 
 @app.route('/edit_profile', methods=['POST'])
@@ -101,7 +101,7 @@ def edit_profile():
         update_profile(current_user, form)
         flash('Your changes have been saved.')
         return redirect(url_for('user', user_id=current_user.id))
-    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests, profile_errors=True, avail_errors=False)
 
 
 @app.route('/edit_availability', methods=['POST'])
@@ -116,7 +116,7 @@ def edit_availability():
         flash('Your changes have been saved.')
         return redirect(url_for('user', user_id=current_user.id))
 
-    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests)
+    return render_template('profile.html', user=user, weekdays=weekdays, availform=availform,  profile=profile, total_friends=total_friends, are_friends=are_friends, is_pending_sent=is_pending_sent, is_pending_received=is_pending_received, friends=friends, notifications=notifications, limited_friends=limited_friends, conversation=conversation, age=age, form=form, interests=interests, profile_errors=False, avail_errors=True)
 
 
 @app.route('/remove_availability/<availability_id>/', methods=['POST'])
